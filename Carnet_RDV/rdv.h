@@ -15,6 +15,8 @@ private:
 public:
     RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList);
 
+    operator QString(void) const;
+
     QString toQString(void) const;
 
     void afficher(ostream& ost = cout) const;

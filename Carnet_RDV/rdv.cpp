@@ -9,6 +9,18 @@ RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, 
     this->membersList = membersList;
 }
 
+RDV::operator QString(void) const{
+    QString str = QString::fromStdString(name + " - Le " + date[0] + date[1] + "/" + date[2] + date[3] + "/" + date[4] + date[5] + date[6] + date[7] + " - De " + timeStart + " à " + timeEnd + "\n");
+    str += "Participant";
+    str += membersList.size() == 1 ? "" : "s";
+    str += " (";
+    str += QString::number(membersList.size());
+    str += ") :\n";
+    for(auto p : membersList)
+        str += *p + "\n";
+    return str;
+}
+
 QString RDV::toQString(void) const{
     QString str = QString::fromStdString(name + " - Le " + date[0] + date[1] + "/" + date[2] + date[3] + "/" + date[4] + date[5] + date[6] + date[7] + " - De " + timeStart + " à " + timeEnd + "\n");
     str += "Participant";
@@ -17,7 +29,7 @@ QString RDV::toQString(void) const{
     str += QString::number(membersList.size());
     str += ") :\n";
     for(auto p : membersList)
-        str += p->toQString() + "\n";
+        str += *p + "\n";
     return str;
 }
 

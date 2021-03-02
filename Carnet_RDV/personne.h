@@ -14,6 +14,8 @@ private:
 public:
     Personne(const string& firstName, const string& lastName, const string& phone, const string& email);
 
+    operator QString(void) const;
+
     QString toQString(void) const;
 
     string getFirstName(void) const;

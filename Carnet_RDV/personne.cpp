@@ -7,6 +7,10 @@ Personne::Personne(const string& firstName, const string& lastName, const string
     this->email = email;
 }
 
+Personne::operator QString(void) const{
+    return QString::fromStdString(lastName + " " + firstName + " - " + phone + " - " + email);
+}
+
 QString Personne::toQString(void) const{
     return QString::fromStdString(lastName + " " + firstName + " - " + phone + " - " + email);
 }
