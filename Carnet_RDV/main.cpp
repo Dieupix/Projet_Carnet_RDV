@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
 
     allPersons.push_back(Personne(fN, lN, "0695152925", "alexandre.janon@yahoo.fr"));
 
-
     vector<char> date {'1', '0', '0', '4', '2', '0', '2', '1'};
     vector<Personne*> membersList;
     membersList.push_back(&allPersons[0]);

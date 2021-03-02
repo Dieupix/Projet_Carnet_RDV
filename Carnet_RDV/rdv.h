@@ -5,13 +5,13 @@
 
 #include "personne.h"
 
-
 class RDV
 {
 private:
     string name, timeStart, timeEnd;
     vector<char> date;
     vector<Personne*> membersList;
+
 public:
     RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList);
 

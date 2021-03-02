@@ -11,6 +11,7 @@ class Personne
 {
 private:
     string firstName, lastName, phone, email;
+
 public:
     Personne(const string& firstName, const string& lastName, const string& phone, const string& email);
 

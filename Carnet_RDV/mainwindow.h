@@ -9,13 +9,14 @@ class MainWindow : public QWidget
 {
     Q_OBJECT
 
+private:
+
+private slots:
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private:
-
-private slots:
 };
 
 #endif // MAINWINDOW_H
