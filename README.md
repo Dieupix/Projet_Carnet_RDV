@@ -28,4 +28,4 @@ L'équipe :
 - JANON Alexandre
 - POMMIER Logan
 
-Discord : `Dieupix#0340`
+Discord : ` Dieupix#0340 `
