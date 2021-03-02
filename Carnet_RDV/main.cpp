@@ -5,7 +5,6 @@
 int main(int argc, char *argv[])
 {
     cout << "Launching program" << endl << endl;
-
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
@@ -25,7 +24,6 @@ int main(int argc, char *argv[])
     RDV rdv {"Première réunion", date, "8h30", "10h", membersList};
 
     cout << rdv << endl;
-
     cout << "Closing program" << endl;
     return rtrn;
 }
