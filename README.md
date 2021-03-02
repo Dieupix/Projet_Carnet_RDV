@@ -23,7 +23,7 @@ Carnet_RDV
 
 ## Contribution
 
-The team:
+L'équipe :
 - BARRERE Manuel
 - JANON Alexandre
 - POMMIER Logan
