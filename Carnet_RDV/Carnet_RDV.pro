@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    manager.cpp \
     personne.cpp \
     rdv.cpp
 
 HEADERS += \
     mainwindow.h \
+    manager.h \
     personne.h \
     rdv.h
 
