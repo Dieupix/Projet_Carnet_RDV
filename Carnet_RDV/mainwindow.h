@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "rdv.h"
+#include "manager.h"
 
 class MainWindow : public QWidget
 {
@@ -11,11 +11,12 @@ class MainWindow : public QWidget
 
 private:
 
+    void setup(void);
+
 private slots:
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
 
 };
 

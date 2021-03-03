@@ -3,9 +3,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
+    setup();
 }
 
-MainWindow::~MainWindow()
-{
+void MainWindow::setup(void){
+    manager m;
 }
-
