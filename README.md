@@ -11,14 +11,15 @@ Carnet_RDV
 ├── Carnet_RDV.pro
 ├── Headers:
 |   ├── mainwindow.h
+|   ├── manager.h
 |   ├── personne.h
 |   └── rdv.h
-├── Sources:
-|   ├── main.cpp
-|   ├── mainwindow.cpp
-|   ├── personne.cpp
-|   └── rdv.cpp
-└──
+└── Sources:
+    ├── main.cpp
+    ├── mainwindow.cpp
+    ├── manager.cpp
+    ├── personne.cpp
+    └── rdv.cpp
 ```
 
 ## Contribution
