@@ -2,7 +2,7 @@
 
 - Ce projet concerne la gestion d'un carnet de Rendez-vous ainsi que leurs différents participants.
 - Il s'appuie de Qt Creator pour son interface graphique.
-- Il est réalisé dans le cadre d'un projet scolaire en L2 Informatique - Université de Haute Alsace [(UHA)](www.uha.fr).
+- Il est réalisé dans le cadre d'un projet scolaire en L2 Informatique - Université de Haute Alsace ([UHA](www.uha.fr)).
 
 ## Structure du projet
 
