@@ -19,10 +19,10 @@ public:
 
     QString toQString(void) const;
 
-    string getFirstName(void) const;
-    string getLastName(void) const;
-    string getPhone(void) const;
-    string getEmail(void) const;
+    const string& getFirstName(void) const;
+    const string& getLastName(void) const;
+    const string& getPhone(void) const;
+    const string& getEmail(void) const;
 
     void afficher(ostream&) const;
     void setFirstName(const string&);

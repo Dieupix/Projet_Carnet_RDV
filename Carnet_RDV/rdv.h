@@ -19,7 +19,18 @@ public:
 
     QString toQString(void) const;
 
+    const string& getName(void) const;
+    const string& getTimeStart(void) const;
+    const string& getTimeEnd(void) const;
+    const vector<char>& getDate(void) const;
+    vector<Personne*>& getMembersList(void);
+
     void afficher(ostream&) const;
+    void setName(const string&);
+    void setTimeStart(const string&);
+    void setTimeEnd(const string&);
+    void setDate(const vector<char>&);
+
 };
 
 ostream& operator<<(ostream&, const RDV&);
