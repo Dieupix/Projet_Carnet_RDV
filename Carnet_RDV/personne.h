@@ -13,7 +13,7 @@ private:
     string firstName, lastName, phone, email;
 
 public:
-    Personne(const string& firstName, const string& lastName, const string& phone, const string& email);
+    Personne(const string&, const string&, const string&, const string&);
 
     operator QString(void) const;
 
@@ -24,9 +24,13 @@ public:
     string getPhone(void) const;
     string getEmail(void) const;
 
-    void afficher(ostream& ost = cout) const;
+    void afficher(ostream&) const;
+    void setFirstName(const string&);
+    void setLastName(const string&);
+    void setPhone(const string&);
+    void setEmail(const string&);
 };
 
-ostream& operator<<(ostream& ost, const Personne& p);
+ostream& operator<<(ostream&, const Personne&);
 
 #endif // PERSONNE_H

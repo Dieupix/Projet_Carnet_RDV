@@ -33,7 +33,7 @@ QString RDV::toQString(void) const{
     return str;
 }
 
-void RDV::afficher(ostream& ost) const{
+void RDV::afficher(ostream& ost = cout) const{
     ost << name << " - Le " << date[0] << date[1] << "/" << date[2] << date[3] << "/" << date[4] << date[5] << date[6] << date[7] << " - De " << timeStart << " a " << timeEnd << endl;
     ost << "Participant" << (membersList.size() == 1 ? "" : "s") << " (" << membersList.size() << ") :" << endl;
     if(membersList.size() == 0) ost << "Aucun participant" << endl;

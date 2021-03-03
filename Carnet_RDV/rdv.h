@@ -13,15 +13,15 @@ private:
     vector<Personne*> membersList;
 
 public:
-    RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList);
+    RDV(const string&, const vector<char>&, const string&, const string&, const vector<Personne*>&);
 
     operator QString(void) const;
 
     QString toQString(void) const;
 
-    void afficher(ostream& ost = cout) const;
+    void afficher(ostream&) const;
 };
 
-ostream& operator<<(ostream& ost, const RDV& rdv);
+ostream& operator<<(ostream&, const RDV&);
 
 #endif // RDV_H
