@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     ldcp.cpp \
+    ldcr.cpp \
     main.cpp \
     mainwindow.cpp \
     manager.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     ldcp.h \
+    ldcr.h \
     mainwindow.h \
     manager.h \
     personne.h \
