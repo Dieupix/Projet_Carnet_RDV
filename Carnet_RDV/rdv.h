@@ -16,6 +16,10 @@ public:
     RDV(const string&, const vector<char>&, const string&, const string&, const vector<Personne*>&);
 
     // Surcharge d'opérateurs
+    bool operator>(const RDV&) const;
+    bool operator>=(const RDV&) const;
+    bool operator<(const RDV&) const;
+    bool operator<=(const RDV&) const;
     bool operator==(const RDV&) const;
     bool operator!=(const RDV&) const;
     void operator=(const RDV&);

@@ -10,6 +10,18 @@ RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, 
 }
 
 // ---------- Surcharge d'opérateurs ----------
+bool RDV::operator>(const RDV& rdv) const{
+
+}
+bool RDV::operator>=(const RDV& rdv) const{
+
+}
+bool RDV::operator<(const RDV& rdv) const{
+
+}
+bool RDV::operator<=(const RDV& rdv) const{
+
+}
 bool RDV::operator==(const RDV& rdv) const{
     return QString::fromStdString(this->name + dateToString() + this->timeStart + this->timeEnd) == QString::fromStdString(rdv.name +rdv.dateToString() + rdv.timeStart + rdv.timeEnd);
 }
