@@ -6,16 +6,15 @@
 class LCS
 {
 public:
-    LCS(void);                       // Constructeur
-    LCS(const LCS& l);           // Constructeur par recopie
-    ~LCS(void);                      // Destructeur
-    int taille(void) const;          // Calcul de la taille
-    void inserer(Personne*);    // Insertion
-    void supprimer(Personne*);  // Suppression
-    void couper(Personne*);     // Couper
-    bool chercher(Personne*);   // Chercher
-    void fusion(const LCS&);  // Fusion
-    void afficher(ostream&) const;
+    LCS(void);                      // Constructeur
+    LCS(const LCS& l);              // Constructeur par recopie
+    ~LCS(void);                     // Destructeur
+    int taille(void) const;         // Calcul de la taille
+    void inserer(Personne*);        // Insertion
+    void supprimer(Personne*);      // Suppression
+    void couper(Personne*);         // Couper
+    bool chercher(Personne*);       // Chercher
+    void afficher(ostream&) const;  // Afficher
 private:
     ChainonPersonne* d_t;
     int size;

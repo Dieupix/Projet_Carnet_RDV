@@ -41,7 +41,7 @@ void LCS::inserer(Personne* val) {
         this->d_t = n;
         ++this->size;
     }
-    else if (this->d_t->p > val) {
+    else if (*this->d_t->p > *val) {
         n->d_suiv = this->d_t;
         this->d_t->d_prec = n;
         n->d_prec = nullptr;
@@ -50,9 +50,9 @@ void LCS::inserer(Personne* val) {
     }
     else {
         auto crt = this->d_t;
-        while (crt->d_suiv != nullptr and crt->p < val)
+        while (crt->d_suiv != nullptr and *crt->p < *val)
             crt = crt->d_suiv;
-        if (crt->p < val) {
+        if (*crt->p < *val) {
             n->d_prec = crt;
             crt->d_suiv = n;
             n->d_suiv = nullptr;
@@ -69,7 +69,7 @@ void LCS::inserer(Personne* val) {
 void LCS::supprimer(Personne* val) {
     if (this->d_t != nullptr) {
         auto crt = this->d_t;
-        if (crt->p == val) {
+        if (*crt->p == *val) {
             if (crt->d_suiv == nullptr)
                 this->d_t = nullptr;
             else {
@@ -80,9 +80,9 @@ void LCS::supprimer(Personne* val) {
             --this->size;
         }
         else {
-            while (crt->p < val and crt->d_suiv != nullptr)
+            while (*crt->p < *val and crt->d_suiv != nullptr)
                 crt = crt->d_suiv;
-            if (crt->p == val) {
+            if (*crt->p == *val) {
                 if (crt->d_suiv == nullptr)
                     crt->d_prec->d_suiv = nullptr;
                 else {
@@ -98,7 +98,7 @@ void LCS::supprimer(Personne* val) {
 
 void LCS::couper(Personne* val) {
     auto crt = this->d_t;
-    while (crt != nullptr and crt->p < val) crt = crt->d_suiv;
+    while (crt != nullptr and *crt->p < *val) crt = crt->d_suiv;
     if (crt != nullptr) {
         if (crt == this->d_t) {
             auto as = crt;
@@ -124,18 +124,10 @@ bool LCS::chercher(Personne* val) {
     bool found = false;
     auto crt = this->d_t;
     while (crt != nullptr and !found) {
-        found = crt->p == val;
+        found = *crt->p == *val;
         crt = crt->d_suiv;
     }
     return found;
-}
-
-void LCS::fusion(const LCS& lc) {
-    auto crt = lc.d_t;
-    while (crt != nullptr) {
-        inserer(crt->p);
-        crt = crt->d_suiv;
-    }
 }
 
 void LCS::afficher(ostream& ost = cout) const {
@@ -144,7 +136,7 @@ void LCS::afficher(ostream& ost = cout) const {
     else {
         int i = 0;
         while (crt->d_suiv != nullptr) {
-            ost << crt->p << " -> ";
+            ost << *crt->p << " -> ";
             crt = crt->d_suiv;
             i++;
             if (i == 10) {
@@ -152,7 +144,7 @@ void LCS::afficher(ostream& ost = cout) const {
                 ost << endl;
             }
         }
-        ost << crt->p;
+        ost << *crt->p;
     }
 }
 

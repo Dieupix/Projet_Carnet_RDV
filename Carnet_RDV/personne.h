@@ -22,6 +22,7 @@ public:
     bool operator<=(const Personne&) const;
     bool operator==(const Personne&) const;
     bool operator!=(const Personne&) const;
+    void operator=(const Personne&);
 
     operator QString(void) const;
 

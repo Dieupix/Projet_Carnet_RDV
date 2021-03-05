@@ -18,6 +18,7 @@ public:
     // Surcharge d'opérateurs
     bool operator==(const RDV&) const;
     bool operator!=(const RDV&) const;
+    void operator=(const RDV&);
 
     operator QString(void) const;
 

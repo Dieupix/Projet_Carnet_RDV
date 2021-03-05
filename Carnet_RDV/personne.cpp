@@ -28,6 +28,13 @@ bool Personne::operator!=(const Personne& p) const{
     return QString::fromStdString(this->lastName + this->firstName) != QString::fromStdString(p.lastName + p.firstName);
 }
 
+void Personne::operator=(const Personne& p){
+    this->firstName = p.firstName;
+    this->lastName = p.lastName;
+    this->phone = p.phone;
+    this->email = p.email;
+}
+
 Personne::operator QString(void) const{
     return toQString();
 }

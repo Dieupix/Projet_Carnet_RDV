@@ -14,11 +14,10 @@ manager::manager()
     vector<Personne*> membersList;
     membersList.push_back(allPersons[0]);
 
-    RDV rdv {"Première réunion", date, "8h30", "10h", membersList};
+    RDV rdv ("Première réunion", date, "8h30", "10h", membersList);
 
     allPersons.push_back(p2);
     rdv.getMembersList().push_back(allPersons[1]);
 
     cout << rdv << endl;
-    cout << rdv.dateToString();
 }

@@ -17,6 +17,14 @@ bool RDV::operator!=(const RDV& rdv) const{
     return QString::fromStdString(this->name + dateToString() + this->timeStart + this->timeEnd) != QString::fromStdString(rdv.name +rdv.dateToString() + rdv.timeStart + rdv.timeEnd);
 }
 
+void RDV::operator=(const RDV& rdv){
+    this->name = rdv.name;
+    this->date = rdv.date;
+    this->timeStart = rdv.timeStart;
+    this->timeEnd = rdv.timeEnd;
+    this->membersList = rdv.membersList;
+}
+
 RDV::operator QString(void) const{
     return toQString();
 }
