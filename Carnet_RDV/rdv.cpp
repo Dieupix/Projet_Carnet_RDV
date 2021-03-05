@@ -9,6 +9,7 @@ RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, 
     this->membersList = membersList;
 }
 
+// ---------- Surcharge d'opérateurs ----------
 RDV::operator QString(void) const{
     QString str = QString::fromStdString(name + " - Le " + date[0] + date[1] + "/" + date[2] + date[3] + "/" + date[4] + date[5] + date[6] + date[7] + " - De " + timeStart + " à " + timeEnd + "\n");
     str += "Participant";
@@ -19,6 +20,14 @@ RDV::operator QString(void) const{
     for(auto p : membersList)
         str += *p + "\n";
     return str;
+}
+
+// ---------- Méthodes ----------
+void RDV::afficher(ostream& ost = cout) const{
+    ost << name << " - Le " << date[0] << date[1] << "/" << date[2] << date[3] << "/" << date[4] << date[5] << date[6] << date[7] << " - De " << timeStart << " a " << timeEnd << endl;
+    ost << "Participant" << (membersList.size() == 1 ? "" : "s") << " (" << membersList.size() << ") :" << endl;
+    if(membersList.size() == 0) ost << "Aucun participant" << endl;
+    else for(auto p : membersList) ost << "* " << *p << endl;
 }
 
 QString RDV::toQString(void) const{
@@ -33,6 +42,7 @@ QString RDV::toQString(void) const{
     return str;
 }
 
+// ---------- Getteurs ----------
 const string& RDV::getName(void) const{
     return this->name;
 }
@@ -49,13 +59,7 @@ vector<Personne*>& RDV::getMembersList(void) {
     return this->membersList;
 }
 
-void RDV::afficher(ostream& ost = cout) const{
-    ost << name << " - Le " << date[0] << date[1] << "/" << date[2] << date[3] << "/" << date[4] << date[5] << date[6] << date[7] << " - De " << timeStart << " a " << timeEnd << endl;
-    ost << "Participant" << (membersList.size() == 1 ? "" : "s") << " (" << membersList.size() << ") :" << endl;
-    if(membersList.size() == 0) ost << "Aucun participant" << endl;
-    else for(auto p : membersList) ost << "* " << *p << endl;
-}
-
+// ---------- Setteurs ----------
 void RDV::setName(const string& name){
     this->name = name;
 }
@@ -69,6 +73,7 @@ void RDV::setDate(const vector<char>& date){
     this->date = date;
 }
 
+// ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const RDV& rdv){
     rdv.afficher(ost);
     return ost;

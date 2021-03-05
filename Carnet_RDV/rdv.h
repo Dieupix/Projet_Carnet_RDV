@@ -15,17 +15,23 @@ private:
 public:
     RDV(const string&, const vector<char>&, const string&, const string&, const vector<Personne*>&);
 
+    // Surcharge d'opérateurs
     operator QString(void) const;
+    //bool operator==(const RDV&) const;
+    //bool operator!=(const RDV&) const;
 
+    // Méthodes
+    void afficher(ostream&) const;
     QString toQString(void) const;
 
+    // Getteurs
     const string& getName(void) const;
     const string& getTimeStart(void) const;
     const string& getTimeEnd(void) const;
     const vector<char>& getDate(void) const;
     vector<Personne*>& getMembersList(void);
 
-    void afficher(ostream&) const;
+    // Setteurs
     void setName(const string&);
     void setTimeStart(const string&);
     void setTimeEnd(const string&);
@@ -33,6 +39,7 @@ public:
 
 };
 
+// Fonctions globales
 ostream& operator<<(ostream&, const RDV&);
 
 #endif // RDV_H

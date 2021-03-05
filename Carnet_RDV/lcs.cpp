@@ -36,7 +36,6 @@ int LCS::taille(void) const {
 }
 
 void LCS::inserer(Personne* val) {
-    auto crt = this->d_t;
     auto n = new ChainonPersonne(val);
     if (this->d_t == nullptr){
         this->d_t = n;
@@ -50,6 +49,7 @@ void LCS::inserer(Personne* val) {
         ++this->size;
     }
     else {
+        auto crt = this->d_t;
         while (crt->d_suiv != nullptr and crt->p < val)
             crt = crt->d_suiv;
         if (crt->p < val) {
