@@ -1,11 +1,11 @@
-#include "lcs.h"
+#include "ldcp.h"
 
-LCS::LCS(void) {
+LDCP::LDCP(void) {
     this->d_t = nullptr;
     this->size = 0;
 }
 
-LCS::LCS(const LCS& l) {
+LDCP::LDCP(const LDCP& l) {
     if (l.d_t == nullptr) this->d_t = nullptr;
     else {
         auto lc = l.d_t;
@@ -22,7 +22,7 @@ LCS::LCS(const LCS& l) {
     }
 }
 
-LCS::~LCS(void) {
+LDCP::~LDCP(void) {
     auto crt = this->d_t;
     while (crt != nullptr) {
         auto as = crt;
@@ -31,11 +31,11 @@ LCS::~LCS(void) {
     }
 }
 
-int LCS::taille(void) const {
+int LDCP::taille(void) const {
     return this->size;
 }
 
-void LCS::inserer(Personne* val) {
+void LDCP::inserer(Personne* val) {
     auto n = new ChainonPersonne(val);
     if (this->d_t == nullptr){
         this->d_t = n;
@@ -66,7 +66,7 @@ void LCS::inserer(Personne* val) {
     }
 }
 
-void LCS::supprimer(Personne* val) {
+void LDCP::supprimer(Personne* val) {
     if (this->d_t != nullptr) {
         auto crt = this->d_t;
         if (*crt->p == *val) {
@@ -96,7 +96,7 @@ void LCS::supprimer(Personne* val) {
     }
 }
 
-void LCS::couper(Personne* val) {
+void LDCP::couper(Personne* val) {
     auto crt = this->d_t;
     while (crt != nullptr and *crt->p < *val) crt = crt->d_suiv;
     if (crt != nullptr) {
@@ -120,7 +120,7 @@ void LCS::couper(Personne* val) {
     }
 }
 
-bool LCS::chercher(Personne* val) {
+bool LDCP::chercher(Personne* val) {
     bool found = false;
     auto crt = this->d_t;
     while (crt != nullptr and !found) {
@@ -130,7 +130,7 @@ bool LCS::chercher(Personne* val) {
     return found;
 }
 
-void LCS::afficher(ostream& ost = cout) const {
+void LDCP::afficher(ostream& ost = cout) const {
     auto crt = this->d_t;
     if (crt == nullptr) ost << "Liste vide";
     else {
@@ -148,7 +148,7 @@ void LCS::afficher(ostream& ost = cout) const {
     }
 }
 
-ostream& operator<<(ostream& ost, const LCS& l) {
+ostream& operator<<(ostream& ost, const LDCP& l) {
     l.afficher(ost);
     return ost;
 }
