@@ -20,4 +20,5 @@ manager::manager()
     rdv.getMembersList().push_back(allPersons[1]);
 
     cout << rdv << endl;
+    cout << rdv.dateToString();
 }

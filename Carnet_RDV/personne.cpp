@@ -29,7 +29,7 @@ bool Personne::operator!=(const Personne& p) const{
 }
 
 Personne::operator QString(void) const{
-    return QString::fromStdString(lastName + " " + firstName + " - " + phone + " - " + email);
+    return toQString();
 }
 
 // ---------- Méthodes ----------

@@ -16,12 +16,14 @@ public:
     RDV(const string&, const vector<char>&, const string&, const string&, const vector<Personne*>&);
 
     // Surcharge d'opérateurs
+    bool operator==(const RDV&) const;
+    bool operator!=(const RDV&) const;
+
     operator QString(void) const;
-    //bool operator==(const RDV&) const;
-    //bool operator!=(const RDV&) const;
 
     // Méthodes
     void afficher(ostream&) const;
+    string dateToString(void) const;
     QString toQString(void) const;
 
     // Getteurs
