@@ -15,7 +15,8 @@ manager::manager()
 
     RDV rdv ("Première réunion", date, "8h30", "10h");
 
-    //allPersons.inserer(p2);
+    allPersons.inserer(p2);
+    cout << allPersons << endl << endl;
     rdv.getMembersList().push_back(p1);
     rdv.getMembersList().push_back(p2);
 

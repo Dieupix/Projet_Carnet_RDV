@@ -44,15 +44,24 @@ void LDCP::inserer(Personne* val) {
     if (this->d_t == nullptr){
         this->d_t = n;
         ++this->Size;
+    }else if(this->d_t->d_suiv == nullptr){
+        if(*this->d_t->p < *val){
+            this->d_t->d_suiv = n;
+            n->d_prec = this->d_t;
+        }else{
+            auto as = this->d_t;
+            this->d_t = n;
+            as->d_prec = n;
+            n->d_suiv = as;
+        }
     }
     else {
-        auto crt = this->d_t;
+        auto crt = this->d_t->d_suiv;
         while (crt->d_suiv != nullptr and *crt->p < *val)
             crt = crt->d_suiv;
         if (*crt->p < *val) {
             n->d_prec = crt;
             crt->d_suiv = n;
-            n->d_suiv = nullptr;
         }
         else {
             crt->d_prec->d_suiv = n;
