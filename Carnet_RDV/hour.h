@@ -14,20 +14,30 @@ private:
 
 public:
     Hour(void);
+    Hour(const Hour& h);
     Hour(const unsigned& hour, const unsigned& minute, const unsigned& second);
 
     // Surcharge d'opérateurs
-    bool operator==(const Hour& d) const;
-    bool operator!=(const Hour& d) const;
-    bool operator>(const Hour& d) const;
-    bool operator>=(const Hour& d) const;
-    bool operator<(const Hour& d) const;
-    bool operator<=(const Hour& d) const;
+    bool operator==(const Hour&) const;
+    bool operator!=(const Hour&) const;
+    bool operator>(const Hour&) const;
+    bool operator>=(const Hour&) const;
+    bool operator<(const Hour&) const;
+    bool operator<=(const Hour&) const;
+
+    Hour operator+(const Hour&) const;
+    Hour& operator+=(const Hour&);
+
+    void operator=(const Hour&) const;
+
+    operator QString(void) const;
+    operator string(void) const;
 
     // Méthodes
     void afficher(ostream& ost = cout) const;
-    QString ToQString(void) const;
-    string ToString(void) const;
+    int compareTo(const Hour& h) const;
+    QString toQString(void) const;
+    string toString(void) const;
 
     // Getteurs
     unsigned getSecond(void) const;

@@ -12,9 +12,9 @@ manager::manager()
     allPersons.inserer(p1);
 
     Date date {10, 04, 2021};
-    Hour h1 = {8, 30, 0}, h2 = (10, 0, 0);
+    Hour timeStart (8, 30, 0), timeEnd (10, 0, 0);
 
-    RDV rdv ("Première réunion", date, "8h30", "10h");
+    RDV rdv ("Première réunion", date, timeStart, timeEnd);
 
     cout << allPersons << endl << endl;
     rdv.getMembersList().push_back(p1);

@@ -14,24 +14,34 @@ private:
 
 public:
     Date(void);
+    Date(const Date& d);
     Date(const unsigned& day, const unsigned& month, const unsigned& year);
 
     // Surcharge d'opérateurs
-    bool operator==(const Date& d) const;
-    bool operator!=(const Date& d) const;
-    bool operator>(const Date& d) const;
-    bool operator>=(const Date& d) const;
-    bool operator<(const Date& d) const;
-    bool operator<=(const Date& d) const;
+    bool operator==(const Date&) const;
+    bool operator!=(const Date&) const;
+    bool operator>(const Date&) const;
+    bool operator>=(const Date&) const;
+    bool operator<(const Date&) const;
+    bool operator<=(const Date&) const;
 
+    Date operator+(const Date&) const;
+    Date& operator+=(const Date&);
+
+    void operator=(const Date&) const;
+
+    operator QString(void) const;
+    operator string(void) const;
 
     // Méthodes
     void add(const Date& d);
     void afficher(ostream& ost = cout) const;
-    bool bisextile(void) const;
-    int comparerA(const Date& d) const;
-    QString ToQString(void) const;
-    string ToString(void) const;
+    int compareTo(const Date& d) const;
+    bool leap(void) const;
+    int lengthMonth(void) const;
+    void remove(const Date& d);
+    QString toQString(void) const;
+    string toString(void) const;
 
     // Getteurs
     unsigned getDay(void) const;

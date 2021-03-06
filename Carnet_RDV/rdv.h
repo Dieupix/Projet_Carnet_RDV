@@ -31,22 +31,21 @@ public:
 
     // Méthodes
     void afficher(ostream& ost = cout) const;
-    string dateToString(void) const;
     string participantsToString(void) const;
     QString toQString(void) const;
     string toString(void) const;
 
     // Getteurs
     const string& getName(void) const;
-    const string& getTimeStart(void) const;
-    const string& getTimeEnd(void) const;
+    Hour& getTimeStart(void);
+    Hour& getTimeEnd(void);
     Date& getDate(void);
     vector<Personne*>& getMembersList(void);
 
     // Setteurs
     void setName(const string& name);
-    void setTimeStart(const string& timeStart);
-    void setTimeEnd(const string& timeEnd);
+    void setTimeStart(const Hour& timeStart);
+    void setTimeEnd(const Hour& timeEnd);
 
 };
 

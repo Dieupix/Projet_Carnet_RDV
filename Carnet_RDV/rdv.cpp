@@ -1,6 +1,6 @@
 #include "rdv.h"
 
-RDV::RDV(const string& name, const Date& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList)
+RDV::RDV(const string& name, const Date& date, const Hour& timeStart, const Hour& timeEnd, const vector<Personne*>& membersList)
 {
     this->name = name;
     this->date = date;
@@ -11,22 +11,22 @@ RDV::RDV(const string& name, const Date& date, const string& timeStart, const st
 
 // ---------- Surcharge d'opérateurs ----------
 bool RDV::operator>(const RDV& rdv) const{
-    return QString::fromStdString(dateToString()) > QString::fromStdString(rdv.dateToString());
+    return QString::fromStdString(date) > QString::fromStdString(rdv.date);
 }
 bool RDV::operator>=(const RDV& rdv) const{
-    return QString::fromStdString(dateToString()) >= QString::fromStdString(rdv.dateToString());
+    return QString::fromStdString(date) >= QString::fromStdString(rdv.date);
 }
 bool RDV::operator<(const RDV& rdv) const{
-    return QString::fromStdString(dateToString()) < QString::fromStdString(rdv.dateToString());
+    return QString::fromStdString(date) < QString::fromStdString(rdv.date);
 }
 bool RDV::operator<=(const RDV& rdv) const{
-    return QString::fromStdString(dateToString()) <= QString::fromStdString(rdv.dateToString());
+    return QString::fromStdString(date) <= QString::fromStdString(rdv.date);
 }
 bool RDV::operator==(const RDV& rdv) const{
-    return QString::fromStdString(this->name + dateToString() + this->timeStart + this->timeEnd) == QString::fromStdString(rdv.name +rdv.dateToString() + rdv.timeStart + rdv.timeEnd);
+    return QString::fromStdString(name + date.toString() + timeStart.toString() + timeEnd.toString()) == QString::fromStdString(rdv.name + rdv.date.toString() + rdv.timeStart.toString() + rdv.timeEnd.toString());
 }
 bool RDV::operator!=(const RDV& rdv) const{
-    return QString::fromStdString(this->name + dateToString() + this->timeStart + this->timeEnd) != QString::fromStdString(rdv.name +rdv.dateToString() + rdv.timeStart + rdv.timeEnd);
+    return QString::fromStdString(name + date.toString() + timeStart.toString() + timeEnd.toString()) != QString::fromStdString(rdv.name +rdv.date.toString() + rdv.timeStart.toString() + rdv.timeEnd.toString());
 }
 
 void RDV::operator=(const RDV& rdv){
@@ -46,9 +46,7 @@ RDV::operator string(void) const{
 
 // ---------- Méthodes ----------
 void RDV::afficher(ostream& ost) const{
-    ost << name << " - Le " << dateToString() << " - De " << timeStart << " a " << timeEnd << endl;
-    ost << "Participant" << (membersList.size() == 1 ? "" : "s") << " (" << membersList.size() << ") :" << endl;
-    ost << participantsToString() << endl;
+    ost << toString();
 }
 
 string RDV::participantsToString(void) const {
@@ -58,18 +56,12 @@ string RDV::participantsToString(void) const {
     return s;
 }
 
-/*string RDV::dateToString(void) const{
-    string s = "";
-    s += date[0]; s += date[1]; s += '/'; s += date[2]; s += date[3]; s += '/'; s += date[4]; s += date[5]; s += date[6]; s += date[7];
-    return s;
-}*/
-
 QString RDV::toQString(void) const{
     return QString::fromStdString(toString());
 }
 
 string RDV::toString(void) const{
-    string s = name + " - Le " + dateToString() + " - De " + timeStart + " à " + timeEnd + "\nParticipant" + (membersList.size() == 1 ? "" : "s") + " (";
+    string s = name + " - Le " + date.toString() + " - De " + timeStart.toString() + " à " + timeEnd.toString() + "\nParticipant" + (membersList.size() == 1 ? "" : "s") + " (";
     s += membersList.size();
     s += ") :\n" + participantsToString();
     return s;
@@ -79,10 +71,10 @@ string RDV::toString(void) const{
 const string& RDV::getName(void) const{
     return this->name;
 }
-const string& RDV::getTimeStart(void) const{
+Hour& RDV::getTimeStart(void){
     return this->timeStart;
 }
-const string& RDV::getTimeEnd(void) const{
+Hour& RDV::getTimeEnd(void){
     return this->timeEnd;
 }
 Date& RDV::getDate(void){
@@ -96,10 +88,10 @@ vector<Personne*>& RDV::getMembersList(void){
 void RDV::setName(const string& name){
     this->name = name;
 }
-void RDV::setTimeStart(const string& timeStart){
+void RDV::setTimeStart(const Hour& timeStart){
     this->timeStart = timeStart;
 }
-void RDV::setTimeEnd(const string& timeEnd){
+void RDV::setTimeEnd(const Hour& timeEnd){
     this->timeEnd = timeEnd;
 }
 
