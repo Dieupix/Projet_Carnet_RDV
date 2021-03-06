@@ -2,24 +2,22 @@
 
 manager::manager()
 {
-    vector<Personne*> allPersons;
-
+    LDCP allPersons;
 
     string fN = "Alexandre", lN = "Janon";
     for(unsigned i = 0; i < lN.length(); ++i) lN[i] = toupper(lN[i]);
 
     auto p1 = new Personne(fN, lN, "0695152925", "alexandre.janon@yahoo.fr"), p2 = new Personne("Alexandre", "JANON", "0666", "gmail");
 
-    allPersons.push_back(p1);
+    allPersons.inserer(p1);
 
     vector<char> date {'1', '0', '0', '4', '2', '0', '2', '1'};
-    vector<Personne*> membersList;
-    membersList.push_back(allPersons[0]);
 
-    RDV rdv ("Première réunion", date, "8h30", "10h", membersList);
+    RDV rdv ("Première réunion", date, "8h30", "10h");
 
-    allPersons.push_back(p2);
+    allPersons.inserer(p2);
+    rdv.getMembersList().push_back(allPersons[0]);
     rdv.getMembersList().push_back(allPersons[1]);
 
-    cout << rdv << endl;
+    cout << rdv;
 }

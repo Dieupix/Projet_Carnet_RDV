@@ -16,10 +16,19 @@ private:
 
 class LDCR
 {
+private:
+    ChainonRDV* d_t;
+    int Size;
+
 public:
     LDCR(void);                                 // Constructeur
     LDCR(const LDCR& l);                        // Constructeur par recopie
     ~LDCR(void);                                // Destructeur
+
+    // Surcharge d'opérateurs
+
+
+    // Méthodes
     int size(void) const;                       // Calcul de la taille
     void inserer(RDV* rdv);                     // Insertion
     void supprimer(RDV* rdv);                   // Suppression
@@ -27,9 +36,9 @@ public:
     bool chercher(RDV* rdv);                    // Chercher
     void afficher(ostream& ost = cout) const;   // Afficher
 
-private:
-    ChainonRDV* d_t;
-    int Size;
 };
+
+// Fonctions globales
+ostream& operator<<(ostream& ost, const LDCR& ldcr);
 
 #endif // LDCR_H
