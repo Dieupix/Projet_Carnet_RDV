@@ -8,7 +8,6 @@ Personne::Personne(const string& firstName, const string& lastName, const string
 }
 
 // ---------- Surcharge d'opérateurs ----------
-
 bool Personne::operator>(const Personne& p) const{
     return QString::fromStdString(this->lastName + this->firstName) > QString::fromStdString(p.lastName + p.firstName);
 }

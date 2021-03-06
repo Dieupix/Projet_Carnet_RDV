@@ -3,6 +3,8 @@
 manager::manager()
 {
     vector<Personne*> allPersons;
+
+
     string fN = "Alexandre", lN = "Janon";
     for(unsigned i = 0; i < lN.length(); ++i) lN[i] = toupper(lN[i]);
 
