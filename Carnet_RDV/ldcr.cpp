@@ -39,30 +39,42 @@ int LDCR::size(void) const {
     return this->Size;
 }
 
-void LDCR::inserer(RDV* val) {
+bool LDCR::inserer(RDV* val) {
+    bool hasBeenInserted = true;
     auto n = new ChainonRDV(val);
     if (this->d_t == nullptr){
         this->d_t = n;
         ++this->Size;
     }else if(this->d_t->d_suiv == nullptr){
-        if(*this->d_t->rdv < *val){
-            this->d_t->d_suiv = n;
-            n->d_prec = this->d_t;
-        }else{
-            auto as = this->d_t;
-            this->d_t = n;
-            as->d_prec = n;
-            n->d_suiv = as;
+        if(*this->d_t->rdv == *val){
+            delete n;
+            hasBeenInserted = false;
+        }
+        else{
+            if(*this->d_t->rdv < *val){
+                this->d_t->d_suiv = n;
+                n->d_prec = this->d_t;
+            }else{
+                auto as = this->d_t;
+                this->d_t = n;
+                as->d_prec = n;
+                n->d_suiv = as;
+            }
+            ++this->Size;
         }
     }
     else {
         auto crt = this->d_t;
-        while (crt->d_suiv != nullptr and *crt->rdv < *val)
+        while (crt->d_suiv != nullptr and *crt->rdv < *val){
+            if(*crt->rdv == *val){
+                delete n;
+                return false;
+            }
             crt = crt->d_suiv;
+        }
         if (*crt->rdv < *val) {
             n->d_prec = crt;
             crt->d_suiv = n;
-            n->d_suiv = nullptr;
         }
         else {
             crt->d_prec->d_suiv = n;
@@ -70,7 +82,9 @@ void LDCR::inserer(RDV* val) {
             n->d_suiv = crt;
             crt->d_prec = n;
         }
+        ++this->Size;
     }
+    return hasBeenInserted;
 }
 
 void LDCR::supprimer(RDV* val) {

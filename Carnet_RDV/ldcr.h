@@ -30,7 +30,7 @@ public:
 
     // Méthodes
     int size(void) const;                       // Calcul de la taille
-    void inserer(RDV* rdv);                     // Insertion
+    bool inserer(RDV* rdv);                     // Insertion
     void supprimer(RDV* rdv);                   // Suppression
     void couper(RDV* rdv);                      // Couper
     bool chercher(RDV* rdv);                    // Chercher

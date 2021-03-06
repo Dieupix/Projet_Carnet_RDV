@@ -3,6 +3,7 @@
 Personne::Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const vector<RDV*>& rdvList){
     this->firstName = firstName;
     this->lastName = lastName;
+    for(unsigned i = 0; i < this->lastName.length(); ++i) this->lastName[i] = toupper(this->lastName[i]);
     this->phone = phone;
     this->email = email;
     this->rdvList = rdvList;
@@ -78,6 +79,7 @@ void Personne::setFirstName(const string& firstName){
 }
 void Personne::setLastName(const string& lastName){
     this->lastName = lastName;
+    for(unsigned i = 0; i < this->lastName.length(); ++i) this->lastName[i] = toupper(this->lastName[i]);
 }
 void Personne::setPhone(const string& phone){
     this->phone = phone;

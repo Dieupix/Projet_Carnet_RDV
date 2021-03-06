@@ -30,7 +30,7 @@ public:
 
     // Méthodes
     int size(void) const;                       // Calcul de la taille
-    void inserer(Personne* p);                  // Insertion
+    bool inserer(Personne* p);                  // Insertion
     void supprimer(Personne* p);                // Suppression
     void couper(Personne* p);                   // Couper
     bool chercher(Personne* p);                 // Chercher

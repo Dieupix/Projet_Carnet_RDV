@@ -39,26 +39,39 @@ int LDCP::size(void) const {
     return this->Size;
 }
 
-void LDCP::inserer(Personne* val) {
+bool LDCP::inserer(Personne* val) {
+    bool hasBeenInserted = true;
     auto n = new ChainonPersonne(val);
     if (this->d_t == nullptr){
         this->d_t = n;
         ++this->Size;
     }else if(this->d_t->d_suiv == nullptr){
-        if(*this->d_t->p < *val){
-            this->d_t->d_suiv = n;
-            n->d_prec = this->d_t;
-        }else{
-            auto as = this->d_t;
-            this->d_t = n;
-            as->d_prec = n;
-            n->d_suiv = as;
+        if(*this->d_t->p == *val){
+            delete n;
+            hasBeenInserted = false;
+        }
+        else{
+            if(*this->d_t->p < *val){
+                this->d_t->d_suiv = n;
+                n->d_prec = this->d_t;
+            }else{
+                auto as = this->d_t;
+                this->d_t = n;
+                as->d_prec = n;
+                n->d_suiv = as;
+            }
+            ++this->Size;
         }
     }
     else {
-        auto crt = this->d_t->d_suiv;
-        while (crt->d_suiv != nullptr and *crt->p < *val)
+        auto crt = this->d_t;
+        while (crt->d_suiv != nullptr and *crt->p < *val){
+            if(*crt->p == *val){
+                delete n;
+                return false;
+            }
             crt = crt->d_suiv;
+        }
         if (*crt->p < *val) {
             n->d_prec = crt;
             crt->d_suiv = n;
@@ -69,7 +82,9 @@ void LDCP::inserer(Personne* val) {
             n->d_suiv = crt;
             crt->d_prec = n;
         }
+        ++this->Size;
     }
+    return hasBeenInserted;
 }
 
 void LDCP::supprimer(Personne* val) {
