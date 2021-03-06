@@ -1,10 +1,11 @@
 #include "personne.h"
 
-Personne::Personne(const string& firstName, const string& lastName, const string& phone, const string& email){
+Personne::Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const LDCR& rdvList){
     this->firstName = firstName;
     this->lastName = lastName;
     this->phone = phone;
     this->email = email;
+    this->rdvList = rdvList;
 }
 
 // ---------- Surcharge d'opérateurs ----------
@@ -39,7 +40,7 @@ Personne::operator QString(void) const{
 }
 
 // ---------- Méthodes ----------
-void Personne::afficher(ostream &ost = cout) const{
+void Personne::afficher(ostream& ost) const{
     ost << lastName << " " << firstName << " - " << phone << " - " << email;
 }
 

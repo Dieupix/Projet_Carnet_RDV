@@ -1,6 +1,6 @@
 #include "rdv.h"
 
-RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList)
+RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const LDCP& membersList)
 {
     this->name = name;
     this->date = date;
@@ -42,11 +42,11 @@ RDV::operator QString(void) const{
 }
 
 // ---------- Méthodes ----------
-void RDV::afficher(ostream& ost = cout) const{
+void RDV::afficher(ostream& ost) const{
     ost << name << " - Le " << dateToString() << " - De " << timeStart << " a " << timeEnd << endl;
     ost << "Participant" << (membersList.size() == 1 ? "" : "s") << " (" << membersList.size() << ") :" << endl;
     if(membersList.size() == 0) ost << "Aucun participant" << endl;
-    else for(auto p : membersList) ost << "* " << *p << endl;
+    else membersList.afficher(ost);
 }
 
 string RDV::dateToString(void) const{

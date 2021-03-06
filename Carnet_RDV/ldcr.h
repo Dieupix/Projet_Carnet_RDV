@@ -17,18 +17,19 @@ private:
 class LDCR
 {
 public:
-    LDCR(void);                     // Constructeur
-    LDCR(const LDCR& l);            // Constructeur par recopie
-    ~LDCR(void);                    // Destructeur
-    int taille(void) const;         // Calcul de la taille
-    void inserer(RDV*);             // Insertion
-    void supprimer(RDV*);           // Suppression
-    void couper(RDV*);              // Couper
-    bool chercher(RDV*);            // Chercher
-    void afficher(ostream&) const;  // Afficher
+    LDCR(void);                                 // Constructeur
+    LDCR(const LDCR& l);                        // Constructeur par recopie
+    ~LDCR(void);                                // Destructeur
+    int size(void) const;                       // Calcul de la taille
+    void inserer(RDV* rdv);                     // Insertion
+    void supprimer(RDV* rdv);                   // Suppression
+    void couper(RDV* rdv);                      // Couper
+    bool chercher(RDV* rdv);                    // Chercher
+    void afficher(ostream& ost = cout) const;   // Afficher
+
 private:
     ChainonRDV* d_t;
-    int size;
+    int Size;
 };
 
 #endif // LDCR_H

@@ -2,7 +2,7 @@
 
 LDCR::LDCR(void) {
     this->d_t = nullptr;
-    this->size = 0;
+    this->Size = 0;
 }
 
 LDCR::LDCR(const LDCR& l) {
@@ -18,7 +18,7 @@ LDCR::LDCR(const LDCR& l) {
             crt = as;
             lc = lc->d_suiv;
         }
-        this->size = l.size;
+        this->Size = l.Size;
     }
 }
 
@@ -31,22 +31,22 @@ LDCR::~LDCR(void) {
     }
 }
 
-int LDCR::taille(void) const {
-    return this->size;
+int LDCR::size(void) const {
+    return this->Size;
 }
 
 void LDCR::inserer(RDV* val) {
     auto n = new ChainonRDV(val);
     if (this->d_t == nullptr){
         this->d_t = n;
-        ++this->size;
+        ++this->Size;
     }
     else if (*this->d_t->rdv > *val) {
         n->d_suiv = this->d_t;
         this->d_t->d_prec = n;
         n->d_prec = nullptr;
         this->d_t = n;
-        ++this->size;
+        ++this->Size;
     }
     else {
         auto crt = this->d_t;
@@ -77,7 +77,7 @@ void LDCR::supprimer(RDV* val) {
                 this->d_t = crt->d_suiv;
             }
             delete crt;
-            --this->size;
+            --this->Size;
         }
         else {
             while (*crt->rdv < *val and crt->d_suiv != nullptr)
@@ -90,7 +90,7 @@ void LDCR::supprimer(RDV* val) {
                     crt->d_suiv->d_prec = crt->d_prec;
                 }
                 delete crt;
-                --this->size;
+                --this->Size;
             }
         }
     }

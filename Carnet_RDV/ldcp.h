@@ -17,18 +17,19 @@ private:
 class LDCP
 {
 public:
-    LDCP(void);                     // Constructeur
-    LDCP(const LDCP& l);            // Constructeur par recopie
-    ~LDCP(void);                    // Destructeur
-    int taille(void) const;         // Calcul de la taille
-    void inserer(Personne*);        // Insertion
-    void supprimer(Personne*);      // Suppression
-    void couper(Personne*);         // Couper
-    bool chercher(Personne*);       // Chercher
-    void afficher(ostream&) const;  // Afficher
+    LDCP(void);                                 // Constructeur
+    LDCP(const LDCP& l);                        // Constructeur par recopie
+    ~LDCP(void);                                // Destructeur
+    int size(void) const;                       // Calcul de la taille
+    void inserer(Personne* p);                  // Insertion
+    void supprimer(Personne* p);                // Suppression
+    void couper(Personne* p);                   // Couper
+    bool chercher(Personne* p);                 // Chercher
+    void afficher(ostream& ost = cout) const;   // Afficher
+
 private:
     ChainonPersonne* d_t;
-    int size;
+    int Size;
 };
 
 #endif // LDCP_H

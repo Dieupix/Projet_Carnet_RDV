@@ -3,17 +3,17 @@
 
 #include <vector>
 
-#include "personne.h"
+#include "ldcp.h"
 
 class RDV
 {
 private:
     string name, timeStart, timeEnd;
     vector<char> date;
-    vector<Personne*> membersList;
+    LDCP membersList;
 
 public:
-    RDV(const string&, const vector<char>&, const string&, const string&, const vector<Personne*>&);
+    RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const LDCP& membersList = LDCP());
 
     // Surcharge d'opérateurs
     bool operator>(const RDV&) const;
@@ -27,7 +27,7 @@ public:
     operator QString(void) const;
 
     // Méthodes
-    void afficher(ostream&) const;
+    void afficher(ostream& ost = cout) const;
     string dateToString(void) const;
     QString toQString(void) const;
 
@@ -39,10 +39,10 @@ public:
     vector<Personne*>& getMembersList(void);
 
     // Setteurs
-    void setName(const string&);
-    void setTimeStart(const string&);
-    void setTimeEnd(const string&);
-    void setDate(const vector<char>&);
+    void setName(const string& name);
+    void setTimeStart(const string& timeStart);
+    void setTimeEnd(const string& timeEnd);
+    void setDate(const vector<char>& date);
 
 };
 

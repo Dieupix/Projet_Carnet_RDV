@@ -6,7 +6,7 @@
 class manager
 {
 public:
-    manager();
+    manager(void);
 };
 
 #endif // MANAGER_H

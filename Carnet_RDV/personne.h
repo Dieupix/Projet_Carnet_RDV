@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include "ldcr.h"
+
 #include <QString>
 
 using namespace std;
@@ -11,9 +13,10 @@ class Personne
 {
 private:
     string firstName, lastName, phone, email;
+    LDCR rdvList;
 
 public:
-    Personne(const string&, const string&, const string&, const string&);
+    Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const LDCR& rdvList = LDCR());
 
     // Surcharge d'opérateurs
     bool operator>(const Personne&) const;
@@ -27,7 +30,7 @@ public:
     operator QString(void) const;
 
     // Méthodes
-    void afficher(ostream&) const;
+    void afficher(ostream& ost = cout) const;
     QString toQString(void) const;
 
     // Getteurs
@@ -37,10 +40,10 @@ public:
     const string& getEmail(void) const;
 
     // Setteurs
-    void setFirstName(const string&);
-    void setLastName(const string&);
-    void setPhone(const string&);
-    void setEmail(const string&);
+    void setFirstName(const string& firstName);
+    void setLastName(const string& lastName);
+    void setPhone(const string& phone);
+    void setEmail(const string& email);
 };
 
 // Fonctions globales

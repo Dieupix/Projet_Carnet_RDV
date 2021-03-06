@@ -2,7 +2,7 @@
 
 LDCP::LDCP(void) {
     this->d_t = nullptr;
-    this->size = 0;
+    this->Size = 0;
 }
 
 LDCP::LDCP(const LDCP& l) {
@@ -18,7 +18,7 @@ LDCP::LDCP(const LDCP& l) {
             crt = as;
             lc = lc->d_suiv;
         }
-        this->size = l.size;
+        this->Size = l.Size;
     }
 }
 
@@ -31,22 +31,22 @@ LDCP::~LDCP(void) {
     }
 }
 
-int LDCP::taille(void) const {
-    return this->size;
+int LDCP::size(void) const {
+    return this->Size;
 }
 
 void LDCP::inserer(Personne* val) {
     auto n = new ChainonPersonne(val);
     if (this->d_t == nullptr){
         this->d_t = n;
-        ++this->size;
+        ++this->Size;
     }
     else if (*this->d_t->p > *val) {
         n->d_suiv = this->d_t;
         this->d_t->d_prec = n;
         n->d_prec = nullptr;
         this->d_t = n;
-        ++this->size;
+        ++this->Size;
     }
     else {
         auto crt = this->d_t;
@@ -77,7 +77,7 @@ void LDCP::supprimer(Personne* val) {
                 this->d_t = crt->d_suiv;
             }
             delete crt;
-            --this->size;
+            --this->Size;
         }
         else {
             while (*crt->p < *val and crt->d_suiv != nullptr)
@@ -90,7 +90,7 @@ void LDCP::supprimer(Personne* val) {
                     crt->d_suiv->d_prec = crt->d_prec;
                 }
                 delete crt;
-                --this->size;
+                --this->Size;
             }
         }
     }
