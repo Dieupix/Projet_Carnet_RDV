@@ -1,6 +1,6 @@
 #include "rdv.h"
 
-RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList)
+RDV::RDV(const string& name, const Date& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList)
 {
     this->name = name;
     this->date = date;
@@ -58,11 +58,11 @@ string RDV::participantsToString(void) const {
     return s;
 }
 
-string RDV::dateToString(void) const{
+/*string RDV::dateToString(void) const{
     string s = "";
     s += date[0]; s += date[1]; s += '/'; s += date[2]; s += date[3]; s += '/'; s += date[4]; s += date[5]; s += date[6]; s += date[7];
     return s;
-}
+}*/
 
 QString RDV::toQString(void) const{
     return QString::fromStdString(toString());
@@ -85,10 +85,10 @@ const string& RDV::getTimeStart(void) const{
 const string& RDV::getTimeEnd(void) const{
     return this->timeEnd;
 }
-const vector<char>& RDV::getDate(void) const{
+Date& RDV::getDate(void){
     return this->date;
 }
-vector<Personne*>& RDV::getMembersList(void) {
+vector<Personne*>& RDV::getMembersList(void){
     return this->membersList;
 }
 
@@ -101,9 +101,6 @@ void RDV::setTimeStart(const string& timeStart){
 }
 void RDV::setTimeEnd(const string& timeEnd){
     this->timeEnd = timeEnd;
-}
-void RDV::setDate(const vector<char>& date){
-    this->date = date;
 }
 
 // ---------- Fonctions globales ----------

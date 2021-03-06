@@ -11,7 +11,8 @@ manager::manager()
 
     allPersons.inserer(p1);
 
-    vector<char> date {'1', '0', '0', '4', '2', '0', '2', '1'};
+    Date date {10, 04, 2021};
+    Hour h1 = {8, 30, 0}, h2 = (10, 0, 0);
 
     RDV rdv ("Première réunion", date, "8h30", "10h");
 

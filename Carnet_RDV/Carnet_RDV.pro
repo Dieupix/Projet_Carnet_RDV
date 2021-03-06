@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     date.cpp \
+    hour.cpp \
     ldcp.cpp \
     ldcr.cpp \
     main.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     date.h \
+    hour.h \
     ldcp.h \
     ldcr.h \
     mainwindow.h \
