@@ -38,14 +38,21 @@ void Personne::operator=(const Personne& p){
 Personne::operator QString(void) const{
     return toQString();
 }
+Personne::operator string(void) const{
+    return toString();
+}
 
 // ---------- Méthodes ----------
 void Personne::afficher(ostream& ost) const{
-    ost << lastName << " " << firstName << " - " << phone << " - " << email;
+    ost << toString();
 }
 
 QString Personne::toQString(void) const{
-    return QString::fromStdString(lastName + " " + firstName + " - " + phone + " - " + email);
+    return QString::fromStdString(toString());
+}
+
+string Personne::toString(void) const{
+    return lastName + " " + firstName + " - " + phone + " - " + email;
 }
 
 // ---------- Getteurs ----------
@@ -60,6 +67,9 @@ const string& Personne::getPhone(void) const{
 }
 const string& Personne::getEmail(void) const{
     return this->email;
+}
+LDCR& Personne::getRDVList(void){
+    return this->rdvList;
 }
 
 // ---------- Setteurs ----------

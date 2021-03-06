@@ -40,13 +40,29 @@ void RDV::operator=(const RDV& rdv){
 RDV::operator QString(void) const{
     return toQString();
 }
+RDV::operator string(void) const{
+    return toString();
+}
 
 // ---------- Méthodes ----------
 void RDV::afficher(ostream& ost) const{
     ost << name << " - Le " << dateToString() << " - De " << timeStart << " a " << timeEnd << endl;
     ost << "Participant" << (membersList.size() == 1 ? "" : "s") << " (" << membersList.size() << ") :" << endl;
-    if(membersList.size() == 0) ost << "Aucun participant" << endl;
-    else membersList.afficher(ost);
+    ost << participantsToString() << endl;
+}
+
+string RDV::participantsToString(void) const {
+    string s = "";
+    auto crt = membersList.d_t;
+    if (crt == nullptr) s = "Aucun participant";
+    else {
+        while (crt->d_suiv != nullptr) {
+            s += crt->p->toString();
+            crt = crt->d_suiv;
+        }
+        s += crt->p->toString();
+    }
+    return s;
 }
 
 string RDV::dateToString(void) const{
@@ -56,15 +72,14 @@ string RDV::dateToString(void) const{
 }
 
 QString RDV::toQString(void) const{
-    QString str = QString::fromStdString(name + " - Le " + dateToString() + " - De " + timeStart + " à " + timeEnd + "\n");
-    str += "Participant";
-    str += membersList.size() == 1 ? "" : "s";
-    str += " (";
-    str += QString::number(membersList.size());
-    str += ") :\n";
-    for(auto p : membersList)
-        str += *p + "\n";
-    return str;
+    return QString::fromStdString(toString());
+}
+
+string RDV::toString(void) const{
+    string s = name + " - Le " + dateToString() + " - De " + timeStart + " à " + timeEnd + "\nParticipant" + (membersList.size() == 1 ? "" : "s") + " (";
+    s += membersList.size();
+    s += ") :\n" + participantsToString();
+    return s;
 }
 
 // ---------- Getteurs ----------
@@ -80,7 +95,7 @@ const string& RDV::getTimeEnd(void) const{
 const vector<char>& RDV::getDate(void) const{
     return this->date;
 }
-vector<Personne*>& RDV::getMembersList(void) {
+LDCP& RDV::getMembersList(void) {
     return this->membersList;
 }
 

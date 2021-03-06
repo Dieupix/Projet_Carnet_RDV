@@ -25,18 +25,21 @@ public:
     void operator=(const RDV&);
 
     operator QString(void) const;
+    operator string(void) const;
 
     // Méthodes
     void afficher(ostream& ost = cout) const;
     string dateToString(void) const;
+    string participantsToString(void) const;
     QString toQString(void) const;
+    string toString(void) const;
 
     // Getteurs
     const string& getName(void) const;
     const string& getTimeStart(void) const;
     const string& getTimeEnd(void) const;
     const vector<char>& getDate(void) const;
-    vector<Personne*>& getMembersList(void);
+    LDCP& getMembersList(void);
 
     // Setteurs
     void setName(const string& name);

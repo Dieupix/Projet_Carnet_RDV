@@ -130,7 +130,7 @@ bool LDCP::chercher(Personne* val) {
     return found;
 }
 
-void LDCP::afficher(ostream& ost = cout) const {
+void LDCP::afficher(ostream& ost) const {
     auto crt = this->d_t;
     if (crt == nullptr) ost << "Liste vide";
     else {

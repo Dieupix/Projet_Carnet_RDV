@@ -130,7 +130,7 @@ bool LDCR::chercher(RDV* val) {
     return found;
 }
 
-void LDCR::afficher(ostream& ost = cout) const {
+void LDCR::afficher(ostream& ost) const {
     auto crt = this->d_t;
     if (crt == nullptr) ost << "Liste vide";
     else {

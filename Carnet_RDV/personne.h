@@ -28,16 +28,19 @@ public:
     void operator=(const Personne&);
 
     operator QString(void) const;
+    operator string(void) const;
 
     // Méthodes
     void afficher(ostream& ost = cout) const;
     QString toQString(void) const;
+    string toString(void) const;
 
     // Getteurs
     const string& getFirstName(void) const;
     const string& getLastName(void) const;
     const string& getPhone(void) const;
     const string& getEmail(void) const;
+    LDCR& getRDVList(void);
 
     // Setteurs
     void setFirstName(const string& firstName);
