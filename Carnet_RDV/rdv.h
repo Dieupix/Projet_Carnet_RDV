@@ -5,13 +5,14 @@
 
 class RDV
 {
+    friend class LDCR;
 private:
     string name, timeStart, timeEnd;
     vector<char> date;
     vector<Personne*> membersList;
 
 public:
-    RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList = vector<Personne*>());
+    RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList = vector<Personne*>(0));
 
     // Surcharge d'opérateurs
     bool operator>(const RDV&) const;

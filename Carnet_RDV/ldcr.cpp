@@ -45,13 +45,6 @@ void LDCR::inserer(RDV* val) {
         this->d_t = n;
         ++this->Size;
     }
-    else if (*this->d_t->rdv > *val) {
-        n->d_suiv = this->d_t;
-        this->d_t->d_prec = n;
-        n->d_prec = nullptr;
-        this->d_t = n;
-        ++this->Size;
-    }
     else {
         auto crt = this->d_t;
         while (crt->d_suiv != nullptr and *crt->rdv < *val)
