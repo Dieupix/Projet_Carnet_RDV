@@ -1,19 +1,17 @@
 #ifndef RDV_H
 #define RDV_H
 
-#include <vector>
-
-#include "ldcp.h"
+#include "personne.h"
 
 class RDV
 {
 private:
     string name, timeStart, timeEnd;
     vector<char> date;
-    LDCP membersList;
+    vector<Personne*> membersList;
 
 public:
-    RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const LDCP& membersList = LDCP());
+    RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList = vector<Personne*>());
 
     // Surcharge d'opérateurs
     bool operator>(const RDV&) const;
@@ -39,7 +37,7 @@ public:
     const string& getTimeStart(void) const;
     const string& getTimeEnd(void) const;
     const vector<char>& getDate(void) const;
-    LDCP& getMembersList(void);
+    vector<Personne*>& getMembersList(void);
 
     // Setteurs
     void setName(const string& name);
@@ -52,4 +50,4 @@ public:
 // Fonctions globales
 ostream& operator<<(ostream&, const RDV&);
 
-#endif // RDV_H
+#endif // RDV_H_

@@ -6,7 +6,6 @@
 class ChainonPersonne
 {
     friend class LDCP;
-    friend class RDV;
 private:
     ChainonPersonne(Personne* p) : p(p), d_prec(nullptr), d_suiv(nullptr) {};
 
@@ -17,7 +16,6 @@ private:
 
 class LDCP
 {
-    friend class RDV;
 public:
     LDCP(void);                                 // Constructeur
     LDCP(const LDCP& l);                        // Constructeur par recopie

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "ldcr.h"
+class RDV;
 
 #include <QString>
 
@@ -11,12 +11,14 @@ using namespace std;
 
 class Personne
 {
+    friend class LDCP;
+    friend class LDCR;
 private:
     string firstName, lastName, phone, email;
-    LDCR rdvList;
+    vector<RDV*> rdvList;
 
 public:
-    Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const LDCR& rdvList = LDCR());
+    Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const vector<RDV*>& rdvList = vector<RDV*>());
 
     // Surcharge d'opérateurs
     bool operator>(const Personne&) const;
@@ -40,7 +42,7 @@ public:
     const string& getLastName(void) const;
     const string& getPhone(void) const;
     const string& getEmail(void) const;
-    LDCR& getRDVList(void);
+    vector<RDV*>& getRDVList(void);
 
     // Setteurs
     void setFirstName(const string& firstName);

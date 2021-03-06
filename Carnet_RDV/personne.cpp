@@ -1,6 +1,6 @@
 #include "personne.h"
 
-Personne::Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const LDCR& rdvList){
+Personne::Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const vector<RDV*>& rdvList){
     this->firstName = firstName;
     this->lastName = lastName;
     this->phone = phone;
@@ -68,7 +68,7 @@ const string& Personne::getPhone(void) const{
 const string& Personne::getEmail(void) const{
     return this->email;
 }
-LDCR& Personne::getRDVList(void){
+vector<RDV*>& Personne::getRDVList(void){
     return this->rdvList;
 }
 

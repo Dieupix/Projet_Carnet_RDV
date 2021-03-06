@@ -1,6 +1,6 @@
 #include "rdv.h"
 
-RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const LDCP& membersList)
+RDV::RDV(const string& name, const vector<char>& date, const string& timeStart, const string& timeEnd, const vector<Personne*>& membersList)
 {
     this->name = name;
     this->date = date;
@@ -53,15 +53,8 @@ void RDV::afficher(ostream& ost) const{
 
 string RDV::participantsToString(void) const {
     string s = "";
-    auto crt = membersList.d_t;
-    if (crt == nullptr) s = "Aucun participant";
-    else {
-        while (crt->d_suiv != nullptr) {
-            s += crt->p->toString();
-            crt = crt->d_suiv;
-        }
-        s += crt->p->toString();
-    }
+    if (membersList.size() == 0) s = "Aucun participant";
+    else for(auto p : membersList) s += p->toString() + "\n";
     return s;
 }
 
@@ -95,7 +88,7 @@ const string& RDV::getTimeEnd(void) const{
 const vector<char>& RDV::getDate(void) const{
     return this->date;
 }
-LDCP& RDV::getMembersList(void) {
+vector<Personne*>& RDV::getMembersList(void) {
     return this->membersList;
 }
 

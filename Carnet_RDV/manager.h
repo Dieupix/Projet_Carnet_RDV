@@ -1,7 +1,8 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
-#include "rdv.h"
+#include "ldcp.h"
+#include "ldcr.h"
 
 class manager
 {
