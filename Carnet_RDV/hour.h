@@ -13,6 +13,7 @@ private:
     unsigned hour, minute, second;
 
 public:
+    // On suppose que les paramètres sont toujours valides
     Hour(void);
     Hour(const Hour& h);
     Hour(const unsigned& hour, const unsigned& minute, const unsigned& second);
@@ -27,6 +28,14 @@ public:
 
     Hour operator+(const Hour&) const;
     Hour& operator+=(const Hour&);
+    Hour operator-(const Hour&) const;
+    Hour& operator-=(const Hour&);
+
+    Hour operator++(int);
+    Hour operator--(int);
+
+    Hour& operator++(void);
+    Hour& operator--(void);
 
     void operator=(const Hour&) const;
 

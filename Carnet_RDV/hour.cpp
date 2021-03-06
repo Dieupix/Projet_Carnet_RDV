@@ -12,36 +12,41 @@ Hour::Hour(const unsigned& hour, const unsigned& minute, const unsigned& second)
 }
 
 // ---------- Surchargde des opérateurs ----------
-bool Hour::operator==(const Hour&) const{
-    return NULL;
+// Commentaires à supprimer après validation
+// Utiliser compareTo() pour les opérateurs binaires
+bool Hour::operator==(const Hour& h) const{
 }
-bool Hour::operator!=(const Hour&) const{
-    return NULL;
+bool Hour::operator!=(const Hour& h) const{
 }
-bool Hour::operator>(const Hour&) const{
-    return NULL;
+bool Hour::operator>(const Hour& h) const{
 }
-bool Hour::operator>=(const Hour&) const{
-    return NULL;
+bool Hour::operator>=(const Hour& h) const{
 }
-bool Hour::operator<(const Hour&) const{
-    return NULL;
+bool Hour::operator<(const Hour& h) const{
 }
-bool Hour::operator<=(const Hour&) const{
-    return NULL;
+bool Hour::operator<=(const Hour& h) const{
 }
 
-Hour Hour::operator+(const Hour&) const{
-    return Hour();
+Hour Hour::operator+(const Hour& h) const{
 }
-Hour& Hour::operator+=(const Hour&){
-    return *this;
+Hour& Hour::operator+=(const Hour& h){
+}
+Hour Hour::operator-(const Hour& h) const{
+}
+Hour& Hour::operator-=(const Hour& h){
+}
+
+Hour Hour::operator++(int){
+}
+Hour Hour::operator--(int){
+}
+
+Hour& Hour::operator++(void){
+}
+Hour& Hour::operator--(void){
 }
 
 void Hour::operator=(const Hour&) const{
-}
-
-void Hour::afficher(ostream& ost) const{
 }
 
 Hour::operator QString(void) const{
@@ -52,9 +57,14 @@ Hour::operator string(void) const{
 }
 
 // ---------- Méthodes ----------
+void Hour::afficher(ostream& ost) const{
+}
 
+// Commentaires à supprimer après validation
+// Retourne 1 si h > this, -1 si h < this, 0 sinon
+int Hour::compareTo(const Hour& h) const{
+}
 
-// ---------- Getteurs ----------
 QString Hour::toQString(void) const{
     return QString::fromStdString(toString());
 }
@@ -67,6 +77,8 @@ string Hour::toString(void) const{
     }
     return s;
 }
+
+// ---------- Getteurs ----------
 
 
 // ---------- Setteurs ----------

@@ -13,31 +13,38 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
 }
 
 // ---------- Surchargde des opérateurs ----------
-
-bool Date::operator==(const Date&) const{
-    return NULL;
+// Commentaires à supprimer après validation
+// Utiliser compareTo() pour les opérateurs binaires
+bool Date::operator==(const Date& d) const{
 }
-bool Date::operator!=(const Date&) const{
-    return NULL;
+bool Date::operator!=(const Date& d) const{
 }
-bool Date::operator>(const Date&) const{
-    return NULL;
+bool Date::operator>(const Date& d) const{
 }
-bool Date::operator>=(const Date&) const{
-    return NULL;
+bool Date::operator>=(const Date& d) const{
 }
-bool Date::operator<(const Date&) const{
-    return NULL;
+bool Date::operator<(const Date& d) const{
 }
-bool Date::operator<=(const Date&) const{
-    return NULL;
+bool Date::operator<=(const Date& d) const{
 }
 
-Date Date::operator+(const Date&) const{
-    return Date();
+Date Date::operator+(const Date& d) const{
 }
-Date& Date::operator+=(const Date&){
-    return *this;
+Date& Date::operator+=(const Date& d){
+}
+Date Date::operator-(const Date& d) const{
+}
+Date& Date::operator-=(const Date& d){
+}
+
+Date Date::operator++(int){
+}
+Date Date::operator--(int){
+}
+
+Date& Date::operator++(void){
+}
+Date& Date::operator--(void){
 }
 
 void Date::operator=(const Date&) const{
@@ -53,6 +60,11 @@ Date::operator string(void) const{
 
 // ---------- Méthodes ----------
 void Date::afficher(ostream& ost) const{
+}
+
+// Commentaires à supprimer après validation
+// Retourne 1 si d > this, -1 si d < this, 0 sinon
+int Date::compareTo(const Date& d) const{
 }
 
 bool Date::leap(void) const{

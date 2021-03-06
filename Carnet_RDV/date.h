@@ -13,6 +13,7 @@ private:
     unsigned day, month, year;
 
 public:
+    // On suppose que les paramètres sont toujours valides
     Date(void);
     Date(const Date& d);
     Date(const unsigned& day, const unsigned& month, const unsigned& year);
@@ -27,6 +28,14 @@ public:
 
     Date operator+(const Date&) const;
     Date& operator+=(const Date&);
+    Date operator-(const Date&) const;
+    Date& operator-=(const Date&);
+
+    Date operator++(int);
+    Date operator--(int);
+
+    Date& operator++(void);
+    Date& operator--(void);
 
     void operator=(const Date&) const;
 
