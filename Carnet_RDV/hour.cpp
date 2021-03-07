@@ -13,7 +13,7 @@ Hour::Hour(const unsigned& hour, const unsigned& minute, const unsigned& second)
 
 // ---------- Surchargde des opérateurs ----------
 // Commentaires à supprimer après validation
-// Utiliser compareTo() pour les opérateurs binaires
+// TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Hour::operator==(const Hour& h) const{
 }
 bool Hour::operator!=(const Hour& h) const{
@@ -61,7 +61,7 @@ void Hour::afficher(ostream& ost) const{
 }
 
 // Commentaires à supprimer après validation
-// Retourne 1 si h > this, -1 si h < this, 0 sinon
+// TODO - Retourne 1 si h > this, -1 si h < this, 0 sinon
 int Hour::compareTo(const Hour& h) const{
 }
 

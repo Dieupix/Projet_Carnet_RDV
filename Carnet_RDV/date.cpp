@@ -14,7 +14,7 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
 
 // ---------- Surchargde des opérateurs ----------
 // Commentaires à supprimer après validation
-// Utiliser compareTo() pour les opérateurs binaires
+// TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Date::operator==(const Date& d) const{
 }
 bool Date::operator!=(const Date& d) const{
@@ -63,7 +63,7 @@ void Date::afficher(ostream& ost) const{
 }
 
 // Commentaires à supprimer après validation
-// Retourne 1 si d > this, -1 si d < this, 0 sinon
+// TODO - Retourne 1 si d > this, -1 si d < this, 0 sinon
 int Date::compareTo(const Date& d) const{
 }
 

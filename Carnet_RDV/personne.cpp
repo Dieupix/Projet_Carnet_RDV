@@ -45,7 +45,7 @@ Personne::operator string(void) const{
 
 // ---------- Méthodes ----------
 // Commentaire à supprimer après validation
-// On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
+// TODO - On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
 bool Personne::addRDV(RDV* rdv){
 }
 
@@ -54,7 +54,7 @@ void Personne::afficher(ostream& ost) const{
 }
 
 // Commentaire à supprimer après validation
-// Quand on enlève un RDV, il n'est pas << delete >> !
+// TODO - Quand on enlève un RDV, il n'est pas << delete >> !
 bool Personne::removeRDV(RDV* rdv){
 }
 

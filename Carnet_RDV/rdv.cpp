@@ -46,7 +46,7 @@ RDV::operator string(void) const{
 
 // ---------- Méthodes ----------
 // Commentaire à supprimer après validation
-// On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
+// TODO - On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
 // Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
 bool RDV::addMember(Personne* p){
 }
@@ -63,7 +63,7 @@ string RDV::participantsToString(void) const {
 }
 
 // Commentaire à supprimer après validation
-// Quand on enlève un participant, il n'est pas << delete >> !
+// TODO - Quand on enlève un participant, il n'est pas << delete >> !
 bool RDV::removeMember(Personne* p){
 }
 
