@@ -46,14 +46,16 @@ Personne::operator string(void) const{
 // ---------- Méthodes ----------
 // Commentaire à supprimer après validation
 // On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
-bool Personne::addRDV(const RDV*& rdv){
+bool Personne::addRDV(RDV* rdv){
 }
 
 void Personne::afficher(ostream& ost) const{
     ost << toString();
 }
 
-bool Personne::removeRDV(const RDV*& rdv){
+// Commentaire à supprimer après validation
+// Quand on enlève un RDV, il n'est pas << delete >> !
+bool Personne::removeRDV(RDV* rdv){
 }
 
 QString Personne::toQString(void) const{

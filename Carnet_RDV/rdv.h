@@ -30,10 +30,10 @@ public:
     operator string(void) const;
 
     // Méthodes
-    bool addMember(const Personne*& p);
+    bool addMember(Personne* p);
     void afficher(ostream& ost = cout) const;
     string participantsToString(void) const;
-    bool removeMember(const Personne*& p);
+    bool removeMember(Personne* p);
     QString toQString(void) const;
     string toString(void) const;
 

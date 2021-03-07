@@ -32,9 +32,9 @@ public:
     operator string(void) const;
 
     // Méthodes
-    bool addRDV(const RDV*& rdv);
+    bool addRDV(RDV* rdv);
     void afficher(ostream& ost = cout) const;
-    bool removeRDV(const RDV*& rdv);
+    bool removeRDV(RDV* rdv);
     QString toQString(void) const;
     string toString(void) const;
 

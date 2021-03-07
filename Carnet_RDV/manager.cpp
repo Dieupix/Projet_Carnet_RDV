@@ -14,11 +14,11 @@ manager::manager()
     Date date {10, 04, 2021};
     Hour timeStart (8, 30, 0), timeEnd (10, 0, 0);
 
-    RDV rdv ("Première réunion", date, timeStart, timeEnd);
+    RDV rdv ("Première réunion", date, Hour(8, 30, 0), timeStart + Hour(1, 30, 0));
 
     cout << allPersons << endl << endl;
-    rdv.getMembersList().push_back(p1);
-    rdv.getMembersList().push_back(p2);
+    rdv.addMember(p1);
+    rdv.addMember(p2);
 
     cout << rdv;
 }
