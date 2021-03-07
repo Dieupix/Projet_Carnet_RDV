@@ -70,7 +70,7 @@ void Hour::afficher(ostream& ost) const{
 int Hour::compareTo(const Hour& h) const{
 }
 
-void Hour::remve(const Hour& h){
+void Hour::remove(const Hour& h){
 }
 
 QString Hour::toQString(void) const{
@@ -87,10 +87,12 @@ string Hour::toString(void) const{
 }
 
 // ---------- Getteurs ----------
-
+// Commentaires à supprimer après validation
+// TODO - Remplir les getteurs
 
 // ---------- Setteurs ----------
-
+// Commentaires à supprimer après validation
+// TODO - Remplir les setteurs
 
 // ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const Hour& h){

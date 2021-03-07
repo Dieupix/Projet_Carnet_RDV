@@ -57,7 +57,7 @@ void RDV::afficher(ostream& ost) const{
 
 string RDV::participantsToString(void) const {
     string s = "";
-    if (membersList.size() == 0) s = "Aucun participant";
+    if (membersList.size() == 0) s = "Aucun participant\n";
     else for(auto p : membersList) s += p->toString() + "\n";
     return s;
 }

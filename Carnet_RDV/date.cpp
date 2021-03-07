@@ -81,10 +81,12 @@ string Date::toString(void) const{
 }
 
 // ---------- Getteurs ----------
-
+// Commentaires à supprimer après validation
+// TODO - Remplir les getteurs
 
 // ---------- Setteurs ----------
-
+// Commentaires à supprimer après validation
+// TODO - Remplir les setteurs
 
 // ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const Date& d){

@@ -79,7 +79,7 @@ const string& Personne::getPhone(void) const{
 const string& Personne::getEmail(void) const{
     return this->email;
 }
-vector<RDV*>& Personne::getRDVList(void){
+const vector<RDV*>& Personne::getRDVList(void) const{
     return this->rdvList;
 }
 

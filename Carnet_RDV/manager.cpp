@@ -20,6 +20,5 @@ manager::manager()
     rdv.addMember(p1);
     rdv.addMember(p2);
 
-    cout << rdv;
+    cout << rdv << endl;
 }
-
