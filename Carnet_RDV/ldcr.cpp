@@ -31,7 +31,7 @@ LDCR::~LDCR(void) {
     }
 }
 
-// ---------- Surcharge d'opérateurs ----------
+// ---------- Surcharge des opérateurs ----------
 
 
 // ---------- Méthodes ----------

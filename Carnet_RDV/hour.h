@@ -18,7 +18,7 @@ public:
     Hour(const Hour& h);
     Hour(const unsigned& hour, const unsigned& minute, const unsigned& second);
 
-    // Surcharge d'opérateurs
+    // Surcharge des opérateurs
     bool operator==(const Hour&) const;
     bool operator!=(const Hour&) const;
     bool operator>(const Hour&) const;

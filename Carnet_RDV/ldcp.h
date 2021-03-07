@@ -25,13 +25,13 @@ public:
     LDCP(const LDCP& l);                        // Constructeur par recopie
     ~LDCP(void);                                // Destructeur
 
-    // Surcharges d'opérateurs
+    // Surcharges des opérateurs
 
 
     // Méthodes
     int size(void) const;                       // Calcul de la taille
     bool inserer(Personne* p);                  // Insertion
-    void supprimer(Personne* p);                // Suppression
+    bool supprimer(Personne* p);                // Suppression
     void couper(Personne* p);                   // Couper
     bool chercher(Personne* p);                 // Chercher
     void afficher(ostream& ost = cout) const;   // Afficher

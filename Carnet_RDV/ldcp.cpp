@@ -31,7 +31,7 @@ LDCP::~LDCP(void) {
     }
 }
 
-// ---------- Surcharge d'opérateurs ----------
+// ---------- Surcharge des opérateurs ----------
 
 
 // ---------- Méthodes ----------
@@ -87,34 +87,42 @@ bool LDCP::inserer(Personne* val) {
     return hasBeenInserted;
 }
 
-void LDCP::supprimer(Personne* val) {
+bool LDCP::supprimer(Personne* val) {
+    bool hasBeenRemoved = true;
     if (this->d_t != nullptr) {
         auto crt = this->d_t;
         if (*crt->p == *val) {
-            if (crt->d_suiv == nullptr)
-                this->d_t = nullptr;
+            if(crt->p->getRDVList().size() != 0) hasBeenRemoved = false;
             else {
-                crt->d_suiv->d_prec = nullptr;
-                this->d_t = crt->d_suiv;
-            }
-            delete crt;
-            --this->Size;
-        }
-        else {
-            while (*crt->p < *val and crt->d_suiv != nullptr)
-                crt = crt->d_suiv;
-            if (*crt->p == *val) {
                 if (crt->d_suiv == nullptr)
-                    crt->d_prec->d_suiv = nullptr;
+                    this->d_t = nullptr;
                 else {
-                    crt->d_prec->d_suiv = crt->d_suiv;
-                    crt->d_suiv->d_prec = crt->d_prec;
+                    crt->d_suiv->d_prec = nullptr;
+                    this->d_t = crt->d_suiv;
                 }
                 delete crt;
                 --this->Size;
             }
         }
+        else {
+            while (*crt->p < *val and crt->d_suiv != nullptr)
+                crt = crt->d_suiv;
+            if (*crt->p == *val) {
+                if(crt->p->getRDVList().size() != 0) hasBeenRemoved = false;
+                else {
+                    if (crt->d_suiv == nullptr)
+                        crt->d_prec->d_suiv = nullptr;
+                    else {
+                        crt->d_prec->d_suiv = crt->d_suiv;
+                        crt->d_suiv->d_prec = crt->d_prec;
+                    }
+                    delete crt;
+                    --this->Size;
+                }
+            }
+        }
     }
+    return hasBeenRemoved;
 }
 
 void LDCP::couper(Personne* val) {

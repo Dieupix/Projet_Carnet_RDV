@@ -18,7 +18,7 @@ public:
     Date(const Date& d);
     Date(const unsigned& day, const unsigned& month, const unsigned& year);
 
-    // Surcharge d'opérateurs
+    // Surcharge des opérateurs
     bool operator==(const Date&) const;
     bool operator!=(const Date&) const;
     bool operator>(const Date&) const;

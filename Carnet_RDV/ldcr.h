@@ -25,7 +25,7 @@ public:
     LDCR(const LDCR& l);                        // Constructeur par recopie
     ~LDCR(void);                                // Destructeur
 
-    // Surcharge d'opérateurs
+    // Surcharge des opérateurs
 
 
     // Méthodes

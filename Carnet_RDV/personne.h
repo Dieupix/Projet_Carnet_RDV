@@ -12,7 +12,6 @@ using namespace std;
 class Personne
 {
     friend class LDCP;
-    friend class LDCR;
 private:
     string firstName, lastName, phone, email;
     vector<RDV*> rdvList;
@@ -20,7 +19,7 @@ private:
 public:
     Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const vector<RDV*>& rdvList = vector<RDV*>());
 
-    // Surcharge d'opérateurs
+    // Surcharge des opérateurs
     bool operator>(const Personne&) const;
     bool operator>=(const Personne&) const;
     bool operator<(const Personne&) const;
@@ -33,7 +32,9 @@ public:
     operator string(void) const;
 
     // Méthodes
+    bool addRDV(const RDV*& rdv);
     void afficher(ostream& ost = cout) const;
+    bool removeRDV(const RDV*& rdv);
     QString toQString(void) const;
     string toString(void) const;
 
@@ -42,7 +43,7 @@ public:
     const string& getLastName(void) const;
     const string& getPhone(void) const;
     const string& getEmail(void) const;
-    vector<RDV*>& getRDVList(void);
+    const vector<RDV*>& getRDVList(void) const;
 
     // Setteurs
     void setFirstName(const string& firstName);

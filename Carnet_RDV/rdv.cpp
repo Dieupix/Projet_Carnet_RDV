@@ -9,7 +9,7 @@ RDV::RDV(const string& name, const Date& date, const Hour& timeStart, const Hour
     this->membersList = membersList;
 }
 
-// ---------- Surcharge d'opérateurs ----------
+// ---------- Surcharge des opérateurs ----------
 bool RDV::operator>(const RDV& rdv) const{
     return QString::fromStdString(date) > QString::fromStdString(rdv.date);
 }
@@ -45,6 +45,12 @@ RDV::operator string(void) const{
 }
 
 // ---------- Méthodes ----------
+// Commentaire à supprimer après validation
+// On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
+// Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
+bool RDV::addMember(const Personne*& p){
+}
+
 void RDV::afficher(ostream& ost) const{
     ost << toString();
 }
@@ -54,6 +60,9 @@ string RDV::participantsToString(void) const {
     if (membersList.size() == 0) s = "Aucun participant";
     else for(auto p : membersList) s += p->toString() + "\n";
     return s;
+}
+
+bool RDV::removeMember(const Personne*& p){
 }
 
 QString RDV::toQString(void) const{
@@ -80,7 +89,7 @@ Hour& RDV::getTimeEnd(void){
 Date& RDV::getDate(void){
     return this->date;
 }
-vector<Personne*>& RDV::getMembersList(void){
+const vector<Personne*>& RDV::getMembersList(void) const{
     return this->membersList;
 }
 
@@ -93,6 +102,10 @@ void RDV::setTimeStart(const Hour& timeStart){
 }
 void RDV::setTimeEnd(const Hour& timeEnd){
     this->timeEnd = timeEnd;
+}
+void RDV::setDate(const Date& date){
+}
+void RDV::setMembersList(const vector<Personne*>& membersList){
 }
 
 // ---------- Fonctions globales ----------
