@@ -13,7 +13,7 @@ Hour::Hour(const unsigned& hour, const unsigned& minute, const unsigned& second)
 
 // ---------- Surchargde des opérateurs ----------
 // Commentaires à supprimer après validation
-// TODO - Utiliser compareTo() pour les opérateurs binaires
+// TODO - Utiliser compareTo() pour les opérateurs de comparaison
 bool Hour::operator==(const Hour& h) const{
 }
 bool Hour::operator!=(const Hour& h) const{
@@ -27,6 +27,8 @@ bool Hour::operator<(const Hour& h) const{
 bool Hour::operator<=(const Hour& h) const{
 }
 
+// Commentaires à supprimer après validation
+// TODO - Utiliser add() et remove() pour les opérateurs d'addition
 Hour Hour::operator+(const Hour& h) const{
 }
 Hour& Hour::operator+=(const Hour& h){
@@ -57,12 +59,18 @@ Hour::operator string(void) const{
 }
 
 // ---------- Méthodes ----------
+void Hour::add(const Hour& h){
+}
+
 void Hour::afficher(ostream& ost) const{
 }
 
 // Commentaires à supprimer après validation
 // TODO - Retourne 1 si h > this, -1 si h < this, 0 sinon
 int Hour::compareTo(const Hour& h) const{
+}
+
+void Hour::remve(const Hour& h){
 }
 
 QString Hour::toQString(void) const{

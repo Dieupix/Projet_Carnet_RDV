@@ -43,8 +43,10 @@ public:
     operator string(void) const;
 
     // Méthodes
+    void add(const Hour& h);
     void afficher(ostream& ost = cout) const;
     int compareTo(const Hour& h) const;
+    void remove(const Hour& h);
     QString toQString(void) const;
     string toString(void) const;
 
