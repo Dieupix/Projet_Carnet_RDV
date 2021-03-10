@@ -1,4 +1,6 @@
 #include "date.h"
+// pour les operateurs +,- :
+#include<cmath>
 
 Date::Date(void)
 {
@@ -15,39 +17,175 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
 // ---------- Surchargde des opérateurs ----------
 // Commentaires à supprimer après validation
 // TODO - Utiliser compareTo() pour les opérateurs binaires
-bool Date::operator==(const Date& d) const{
+bool Date::operator==(const Date& d) const
+{
+    return(day==d.day && month==d.month && year==d.year);
 }
-bool Date::operator!=(const Date& d) const{
+bool Date::operator!=(const Date& d) const
+{
+    return(!operator==(d));
 }
-bool Date::operator>(const Date& d) const{
+bool Date::operator>(const Date& d) const
+{
+   int i = compareTo(d);
+   if(i==-1)
+   {
+       return true;
+   }
+   else return false;
 }
-bool Date::operator>=(const Date& d) const{
+bool Date::operator>=(const Date& d) const
+{
+    int i = compareTo(d);
+    if(i==-1 || i==0)
+    {
+        return true;
+    }
+    else return false;
 }
-bool Date::operator<(const Date& d) const{
+bool Date::operator<(const Date& d) const
+{
+    int i = compareTo(d);
+    if(i==1)
+    {
+        return true;
+    }
+    else return false;
 }
-bool Date::operator<=(const Date& d) const{
+bool Date::operator<=(const Date& d) const
+{
+   int i = compareTo(d);
+   if(i==1 || i==0)
+   {
+       return true;
+   }
+   else return false;
 }
 
-Date Date::operator+(const Date& d) const{
+Date Date::operator+(int nbJours) const
+{
+    Date nD = {day,month,year};
+    if(nbJours > 0)
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            ++nD;
+        }
+    }
+    else if(nbJours < 0)
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            --nD;
+        }
+    }
+    return nD;
 }
-Date& Date::operator+=(const Date& d){
+Date& Date::operator+=(int nbJours)
+{
+    if(nbJours > 0)
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            ++*this;
+        }
+    }
+    else
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            --*this;
+        }
+    }
+    return *this;
 }
-Date Date::operator-(const Date& d) const{
+Date Date::operator-(int nbJours) const
+{
+    Date nD = {day,month,year};
+    if(nbJours > 0)
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            --nD;
+        }
+    }
+    else if(nbJours < 0)
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            ++nD;
+        }
+    }
+    return nD;
 }
-Date& Date::operator-=(const Date& d){
+Date& Date::operator-=(int nbJours)
+{
+    if(nbJours > 0)
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            --*this;
+        }
+    }
+    else
+    {
+        for(int i = 0 ; i < nbJours ; ++i)
+        {
+            ++*this;
+        }
+    }
+    return *this;
+}
+//i++
+Date Date::operator++(int)
+{
+    const Date& d(*this);
+    operator++();
+    return d;
+}
+Date Date::operator--(int)
+{
+    const Date& d(*this);
+    operator--();
+    return d;
+}
+//++i
+Date& Date::operator++(void)
+{
+    if(month == 12 && day == 31)
+    {
+        day = 1;
+        month = 1;
+        ++year;
+    }
+    else if(day == lengthMonth()) //lengthMonth() doit me dire si bissextile ou pas
+    {
+        day = 1;
+        ++month;
+    }
+    else ++day;
+    return *this;
+}
+Date& Date::operator--(void)
+{
+    if(month == 1 && day == 1)
+    {
+        day = 31;
+        month = 12;
+        --year;
+    }
+    else if(day == 1)
+    {
+        --month;
+        day = lengthMonth(); //prend la valeur du mois modifie en tenant compte de fev
+    }
+    else --day;
+    return *this;
 }
 
-Date Date::operator++(int){
-}
-Date Date::operator--(int){
-}
+void Date::operator=(const Date&) const
+{
 
-Date& Date::operator++(void){
-}
-Date& Date::operator--(void){
-}
-
-void Date::operator=(const Date&) const{
 }
 
 Date::operator QString(void) const{
@@ -59,12 +197,24 @@ Date::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-void Date::afficher(ostream& ost) const{
+void Date::afficher(ostream& ost) const
+{
+    ost<<toString();
 }
 
 // Commentaires à supprimer après validation
 // TODO - Retourne 1 si d > this, -1 si d < this, 0 sinon
-int Date::compareTo(const Date& d) const{
+int Date::compareTo(const Date& d) const
+{
+    int b;
+    if(year > d.year) {b = -1;}
+    else if(year < d.year) {b = 1;}
+        else if(month > d.month) {b = -1;}
+             else if(month < d.month) {b=1;}
+                  else if(day > d.day) {b=-1;}
+                       else if(day < d.day) {b=1;}
+                            else b = 0;
+    return b;
 }
 
 bool Date::leap(void) const{
