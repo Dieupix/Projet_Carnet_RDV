@@ -26,10 +26,10 @@ public:
     bool operator<(const Date&) const;
     bool operator<=(const Date&) const;
 
-    Date operator+(const Date&) const;
-    Date& operator+=(const Date&);
-    Date operator-(const Date&) const;
-    Date& operator-=(const Date&);
+    Date operator+(int) const;
+    Date& operator+=(int);
+    Date operator-(int) const;
+    Date& operator-=(int);
 
     Date operator++(int);
     Date operator--(int);
@@ -37,7 +37,7 @@ public:
     Date& operator++(void);
     Date& operator--(void);
 
-    void operator=(const Date&) const;
+    void operator=(const Date&);
 
     operator QString(void) const;
     operator string(void) const;

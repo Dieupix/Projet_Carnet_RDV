@@ -5,6 +5,12 @@ Hour::Hour(void)
     this->second = this->minute = this->hour = 0;
 }
 
+Hour::Hour(const Hour& h){
+    this->second = h.second;
+    this->minute = h.minute;
+    this->hour = h.hour;
+}
+
 Hour::Hour(const unsigned& hour, const unsigned& minute, const unsigned& second){
     this->second = second;
     this->minute = minute;

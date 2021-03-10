@@ -1,11 +1,15 @@
 #include "date.h"
-// pour les operateurs +,- :
-#include<cmath>
 
 Date::Date(void)
 {
     this->day = this->month = 1;
     this->year = 1970;
+}
+
+Date::Date(const Date& d){
+    this->day = d.day;
+    this->month = d.month;
+    this->year = d.year;
 }
 
 Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
@@ -116,7 +120,8 @@ Date& Date::operator-=(int nbJours)
     }
     return *this;
 }
-//i++
+
+// Post incrémentation : i++
 Date Date::operator++(int)
 {
     const Date& d(*this);
@@ -129,7 +134,8 @@ Date Date::operator--(int)
     operator--();
     return d;
 }
-//++i
+
+// Pré incrémentation : ++i
 Date& Date::operator++(void)
 {
     if(month == 12 && day == 31)
