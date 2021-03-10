@@ -46,7 +46,7 @@ public:
     void add(const Date& d);
     void afficher(ostream& ost = cout) const;
     int compareTo(const Date& d) const;
-    bool leap(void) const;
+    bool isLeap(void) const;
     int lengthMonth(void) const;
     void remove(const Date& d);
     QString toQString(void) const;

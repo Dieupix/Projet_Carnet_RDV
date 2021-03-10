@@ -19,7 +19,6 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
 }
 
 // ---------- Surchargde des opérateurs ----------
-// Commentaires à supprimer après validation
 // TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Date::operator==(const Date& d) const
 {
@@ -190,7 +189,7 @@ void Date::afficher(ostream& ost) const
     ost << toString();
 }
 
-// TODO - Retourne 1 si d > this, -1 si d < this, 0 sinon
+// Retourne 1 si d > this, -1 si d < this, 0 sinon
 int Date::compareTo(const Date& d) const
 {
     int b;
@@ -204,7 +203,8 @@ int Date::compareTo(const Date& d) const
     return b;
 }
 
-bool Date::leap(void) const{
+// Retourne vrai si l'année est bissextile, faux sinon
+bool Date::isLeap(void) const{
     return (year % 4 == 0 and year % 10 != 0) or year % 400 == 0;
 }
 
@@ -212,7 +212,7 @@ int Date::lengthMonth(void) const
 {
     if(month==2)
     {
-        if(leap())
+        if(isLeap())
         {
             return 29;
         }
@@ -230,7 +230,7 @@ QString Date::toQString(void) const{
 }
 
 string Date::toString(void) const{
-    string s = ""; s += day; s += "/"; s += month; s += "/"; s += year;
+    string s = ""; s += (day < 10 ? "0" : ""); s += day; s += "/"; s += (month < 10 ? "0" : ""); s += month; s += "/"; s += year;
     return s;
 }
 
