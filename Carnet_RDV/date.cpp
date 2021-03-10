@@ -27,39 +27,19 @@ bool Date::operator!=(const Date& d) const
 }
 bool Date::operator>(const Date& d) const
 {
-   int i = compareTo(d);
-   if(i==-1)
-   {
-       return true;
-   }
-   else return false;
+   return (compareTo(d)==-1);
 }
 bool Date::operator>=(const Date& d) const
 {
-    int i = compareTo(d);
-    if(i==-1 || i==0)
-    {
-        return true;
-    }
-    else return false;
+    return (compareTo(d) <= 0);
 }
 bool Date::operator<(const Date& d) const
 {
-    int i = compareTo(d);
-    if(i==1)
-    {
-        return true;
-    }
-    else return false;
+    return (compareTo(d)==1);
 }
 bool Date::operator<=(const Date& d) const
 {
-   int i = compareTo(d);
-   if(i==1 || i==0)
-   {
-       return true;
-   }
-   else return false;
+   return (compareTo(d) >= 0);
 }
 
 Date Date::operator+(int nbJours) const
@@ -158,7 +138,7 @@ Date& Date::operator++(void)
         month = 1;
         ++year;
     }
-    else if(day == lengthMonth()) //lengthMonth() doit me dire si bissextile ou pas
+    else if(day == (unsigned)lengthMonth()) //lengthMonth() doit me dire si bissextile ou pas
     {
         day = 1;
         ++month;
@@ -183,9 +163,11 @@ Date& Date::operator--(void)
     return *this;
 }
 
-void Date::operator=(const Date&) const
+void Date::operator=(const Date& d)
 {
-
+    year = d.year;
+    month = d.month;
+    day = d.day;
 }
 
 Date::operator QString(void) const{
@@ -219,6 +201,23 @@ int Date::compareTo(const Date& d) const
 
 bool Date::leap(void) const{
     return (year % 4 == 0 and year % 10 != 0) or year % 400;
+}
+
+int Date::lengthMonth(void) const
+{
+    if(month==2)
+    {
+        if(leap())
+        {
+            return 29;
+        }
+        else return 28;
+    }
+    if(month==1||month==3||month==5||month==7||month==8||month==10||month==12)
+    {
+        return 31;
+    }
+    else return 30;
 }
 
 QString Date::toQString(void) const{
