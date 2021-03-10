@@ -43,12 +43,12 @@ public:
     operator string(void) const;
 
     // Méthodes
-    void add(const Date& d);
+    void add(int val);
     void afficher(ostream& ost = cout) const;
     int compareTo(const Date& d) const;
     bool leap(void) const;
     int lengthMonth(void) const;
-    void remove(const Date& d);
+    void remove(int val);
     QString toQString(void) const;
     string toString(void) const;
 
@@ -58,9 +58,9 @@ public:
     unsigned getYear(void) const;
 
     // Setteurs
-    void setDay(const unsigned& day);
-    void setMonth(const unsigned& month);
-    void setYear(const unsigned& year);
+    void setDay(const unsigned& d);
+    void setMonth(const unsigned& m);
+    void setYear(const unsigned& y);
 
 };
 
