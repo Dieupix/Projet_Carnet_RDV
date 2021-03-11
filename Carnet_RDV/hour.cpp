@@ -71,8 +71,7 @@ void Hour::add(const Hour& h){
 void Hour::afficher(ostream& ost) const{
 }
 
-// Commentaires à supprimer après validation
-// TODO - Retourne 1 si h > this, -1 si h < this, 0 sinon
+// Retourne 1 si h > this, -1 si h < this, 0 sinon
 int Hour::compareTo(const Hour& h) const{
 }
 
@@ -84,11 +83,10 @@ QString Hour::toQString(void) const{
 }
 
 string Hour::toString(void) const{
-    string s = ""; s += '0' + hour; s += "h"; s+= (minute < 10 ? "0" : ""); s += '0' + minute;
+    string s = to_string(hour) + "h" + (minute < 10 ? "0" : "") + to_string(minute);
     if(second != 0){
         s += "m";
-        s += (second < 10 ? "0" : "");
-        s += '0' + second;
+        s += (second < 10 ? "0" : "") + to_string(second);
     }
     return s;
 }

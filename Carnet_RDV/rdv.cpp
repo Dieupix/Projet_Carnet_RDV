@@ -73,8 +73,7 @@ QString RDV::toQString(void) const{
 
 string RDV::toString(void) const{
     string s = name + " - Le " + date.toString() + " - De " + timeStart.toString() + " à " + timeEnd.toString() + "\nParticipant" + (membersList.size() == 1 ? "" : "s") + " (";
-    s += membersList.size();
-    s += ") :\n" + participantsToString();
+    s += to_string(membersList.size()) + ") :\n" + participantsToString();
     return s;
 }
 

@@ -19,8 +19,6 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
 }
 
 // ---------- Surcharge des opérateurs ----------
-// Commentaires à supprimer après validation
-// TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Date::operator==(const Date& d) const
 {
     return compareTo(d) == 0;
@@ -214,13 +212,11 @@ QString Date::toQString(void) const{
 }
 
 string Date::toString(void) const{
-    string s = ""; s += (day < 10 ? "0" : ""); s += '0' + day; s += "/"; s += (month < 10 ? "0" : ""); s += '0' + month; s += "/"; s += '0' + year;
+    string s = (day < 10 ? "0" : "") + to_string(day) + "/" + (month < 10 ? "0" : "") + to_string(month) + "/" + to_string(year);
     return s;
 }
 
 // ---------- Getteurs ----------
-// Commentaires à supprimer après validation
-// TODO - Remplir les getteurs
 unsigned Date::getDay(void) const
 {
     return day;
@@ -236,8 +232,6 @@ unsigned Date::getYear(void) const
     return year;
 }
 // ---------- Setteurs ----------
-// Commentaires à supprimer après validation
-// TODO - Remplir les setteurs
 void Date::setDay(const unsigned& d)
 {
     day = d;
