@@ -34,15 +34,15 @@ bool Date::operator>(const Date& d) const
 }
 bool Date::operator>=(const Date& d) const
 {
-    return (compareTo(d) <= 0);
+    return compareTo(d) <= 0;
 }
 bool Date::operator<(const Date& d) const
 {
-    return (compareTo(d) > 1);
+    return compareTo(d) > 1;
 }
 bool Date::operator<=(const Date& d) const
 {
-   return (compareTo(d) >= 0);
+   return compareTo(d) >= 0;
 }
 
 Date Date::operator+(int nbJours) const

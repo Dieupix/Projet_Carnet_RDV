@@ -32,6 +32,8 @@ LDCR::~LDCR(void) {
 }
 
 // ---------- Surcharge des opérateurs ----------
+RDV& LDCR::operator[](int i){
+}
 
 
 // ---------- Méthodes ----------
@@ -113,30 +115,6 @@ void LDCR::supprimer(RDV* val) {
                 delete crt;
                 --this->Size;
             }
-        }
-    }
-}
-
-void LDCR::couper(RDV* val) {
-    auto crt = this->d_t;
-    while (crt != nullptr and *crt->rdv < *val) crt = crt->d_suiv;
-    if (crt != nullptr) {
-        if (crt == this->d_t) {
-            auto as = crt;
-            crt = crt->d_suiv;
-            this->d_t = nullptr;
-            delete as;
-        }
-        else {
-            auto as = crt;
-            crt = crt->d_suiv;
-            as->d_prec->d_suiv = nullptr;
-            delete as;
-        }
-        while (crt != nullptr) {
-            auto as = crt;
-            crt = crt->d_suiv;
-            delete as;
         }
     }
 }

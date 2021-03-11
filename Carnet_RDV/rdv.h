@@ -7,7 +7,6 @@
 
 class RDV
 {
-    friend class LDCR;
 private:
     string name;
     Date date;

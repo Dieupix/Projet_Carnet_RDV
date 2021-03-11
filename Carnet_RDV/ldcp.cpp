@@ -125,30 +125,6 @@ bool LDCP::supprimer(Personne* val) {
     return hasBeenRemoved;
 }
 
-void LDCP::couper(Personne* val) {
-    auto crt = this->d_t;
-    while (crt != nullptr and *crt->p < *val) crt = crt->d_suiv;
-    if (crt != nullptr) {
-        if (crt == this->d_t) {
-            auto as = crt;
-            crt = crt->d_suiv;
-            this->d_t = nullptr;
-            delete as;
-        }
-        else {
-            auto as = crt;
-            crt = crt->d_suiv;
-            as->d_prec->d_suiv = nullptr;
-            delete as;
-        }
-        while (crt != nullptr) {
-            auto as = crt;
-            crt = crt->d_suiv;
-            delete as;
-        }
-    }
-}
-
 bool LDCP::chercher(Personne* val) {
     bool found = false;
     auto crt = this->d_t;

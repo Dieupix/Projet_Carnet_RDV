@@ -11,14 +11,17 @@ manager::manager()
 
     allPersons.inserer(p1);
 
-    Date date {10, 04, 2021};
+    Date date {10, 4, 2021};
     Hour timeStart (8, 30, 0), timeEnd (10, 0, 0);
 
-    RDV rdv ("Première réunion", date, Hour(8, 30, 0), timeStart + Hour(1, 30, 0));
+    RDV rdv ("Première réunion", date, Hour(8, 30, 0), timeEnd);
 
     cout << allPersons << endl << endl;
     rdv.addMember(p1);
     rdv.addMember(p2);
 
     cout << rdv << endl;
+
 }
+
+
