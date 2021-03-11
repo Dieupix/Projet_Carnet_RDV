@@ -114,6 +114,7 @@ Hour::operator string(void) const{
 // ---------- Méthodes ----------
 Hour& Hour::add(const Hour& h)
 {
+    if(h == Hour(24, 0, 0) or h == Hour(0, 0, 0)) return *this;
     second += h.second;
     if(second >= 60)
     {
@@ -152,7 +153,10 @@ Hour& Hour::add(const Hour& h)
         else
         {
             hour += h.hour;
-            if(hour >= 24) {hour %= 24;}
+            if(hour >= 24)
+            {
+                hour %= 24;
+            }
         }
     }
     return *this;
@@ -176,26 +180,28 @@ int Hour::compareTo(const Hour& h) const{
 
 Hour& Hour::remove(const Hour& h)
 {
-    if(second < h.second){
-        if(minute <= h.minute){
+    if(h != Hour(24, 0, 0) and h != Hour(0, 0, 0)){
+        if(second < h.second){
+            if(minute <= h.minute){
+                if(hour <= h.hour)
+                    hour += 23;
+                else --hour;
+                minute += 59;
+            }
+            else --minute;
+            second += 60;
+        }else if(minute < h.minute){
             if(hour <= h.hour)
-                hour = h.hour + 23;
+                hour += 23;
             else --hour;
-            minute = h.minute + 59;
-        }
-        else --minute;
-        second = h.second + 59;
-    }else if(minute < h.minute){
-        if(hour <= h.hour)
-            hour = h.hour + 23;
-        else --hour;
-        minute = h.minute + 59;
-    }else if(hour < h.hour)
-        hour = h.hour + 23;
+            minute += 60;
+        }else if(hour < h.hour)
+            hour += 24;
 
-    second -= h.second;
-    minute -= h.minute;
-    hour -= h.hour;
+        second -= h.second;
+        minute -= h.minute;
+        hour -= h.hour;
+    }
 
     return *this;
 }
@@ -208,7 +214,7 @@ string Hour::toString(void) const{
     string s = to_string(hour) + "h" + (minute < 10 ? "0" : "") + to_string(minute);
     if(second != 0){
         s += "m";
-        s += (second < 10 ? "0" : "") + to_string(second);
+        s += (second < 10 ? "0" : "") + to_string(second) + "s";
     }
     return s;
 }

@@ -236,11 +236,11 @@ unsigned Date::getYear(void) const
 
 // ---------- Setteurs ----------
 void Date::setDay(const unsigned& d)
-{   day = d;    }
+{   day = d;        }
 void Date::setMonth(const unsigned& m)
-{   month = m;  }
+{   month = m;      }
 void Date::setYear(const unsigned& y)
-{   year = y;   }
+{   year = y;       }
 
 
 
