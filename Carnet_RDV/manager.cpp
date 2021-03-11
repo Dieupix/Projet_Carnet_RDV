@@ -22,9 +22,9 @@ manager::manager()
 
     cout << rdv << endl;
 
-    Hour h{2,15,15};
-    Hour i{12,00,00};
-    cout << h.add(i) << endl;
+    Hour h{2,15,10};
+    Hour i{2,00,0};
+    cout << h.remove(i - Hour(1, 0, 0)).add(Hour(1, 0, 0)) << endl;
 
 }
 

@@ -141,7 +141,7 @@ Hour::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-void Hour::add(const Hour& h)
+Hour& Hour::add(const Hour& h)
 {
     second += h.second;
     if(second >= 60)
@@ -184,6 +184,7 @@ void Hour::add(const Hour& h)
             if(hour >= 24) {hour %= 24;}
         }
     }
+    return *this;
 }
 
 void Hour::afficher(ostream& ost) const
@@ -202,7 +203,7 @@ int Hour::compareTo(const Hour& h) const{
                         else return 0;
 }
 
-void Hour::remove(const Hour& h)
+Hour& Hour::remove(const Hour& h)
 {
     if(second - h.second <= 0 )
     {
@@ -249,6 +250,7 @@ void Hour::remove(const Hour& h)
             else hour -= h.hour;
         }
     }
+    return *this;
 }
 
 QString Hour::toQString(void) const{

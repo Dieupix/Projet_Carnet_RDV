@@ -135,7 +135,7 @@ Date::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-void Date::add(int val)
+Date& Date::add(int val)
 {
     if(val > 0)
     {
@@ -151,25 +151,9 @@ void Date::add(int val)
             --*this;
         }
     }
+    return *this;
 }
 
-void Date::remove(int val)
-{
-    if(val > 0)
-    {
-        for(int i = 0 ; i < val ; ++i)
-        {
-            --*this;
-        }
-    }
-    else
-    {
-        for(int i = 0 ; i < val ; ++i)
-        {
-            ++*this;
-        }
-    }
-}
 void Date::afficher(ostream& ost) const
 {
     ost << toString();
@@ -207,6 +191,25 @@ int Date::lengthMonth(void) const
         return 30;
     }
     else return 31;
+}
+
+Date& Date::remove(int val)
+{
+    if(val > 0)
+    {
+        for(int i = 0 ; i < val ; ++i)
+        {
+            --*this;
+        }
+    }
+    else
+    {
+        for(int i = 0 ; i < val ; ++i)
+        {
+            ++*this;
+        }
+    }
+    return *this;
 }
 
 QString Date::toQString(void) const{
