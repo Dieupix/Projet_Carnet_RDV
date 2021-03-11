@@ -23,11 +23,11 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
 // TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Date::operator==(const Date& d) const
 {
-    return(day==d.day && month==d.month && year==d.year);
+    return(compareTo(d)==0);
 }
 bool Date::operator!=(const Date& d) const
 {
-    return(!operator==(d));
+    return(compareTo(d)!=0);
 }
 bool Date::operator>(const Date& d) const
 {
