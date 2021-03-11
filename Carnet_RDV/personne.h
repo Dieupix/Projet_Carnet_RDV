@@ -3,15 +3,14 @@
 
 #include <iostream>
 
-class RDV;
-
 #include <QString>
+
+class RDV;
 
 using namespace std;
 
 class Personne
 {
-    friend class LDCP;
 private:
     string firstName, lastName, phone, email;
     vector<RDV*> rdvList;

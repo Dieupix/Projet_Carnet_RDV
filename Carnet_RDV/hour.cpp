@@ -95,15 +95,15 @@ Hour& Hour::operator++(void)
 }
 Hour& Hour::operator--(void)
 {
-    if(second - 1 < 0)
+    if(second == 0)
     {
         second = 59;
         --minute;
-        if(minute < 0)
+        if(minute == 0)
         {
             minute = 59;
             --hour;
-            if(hour < 0)
+            if(hour == 0)
             {
                 hour = 23;
             }
@@ -246,10 +246,11 @@ QString Hour::toQString(void) const{
 }
 
 string Hour::toString(void) const{
-    string s = ""; s += hour; s += "h"; s += minute;
+    string s = ""; s += '0' + hour; s += "h"; s+= (minute < 10 ? "0" : ""); s += '0' + minute;
     if(second != 0){
         s += "m";
-        s += second;
+        s += (second < 10 ? "0" : "");
+        s += '0' + second;
     }
     return s;
 }

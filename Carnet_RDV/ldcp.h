@@ -32,7 +32,6 @@ public:
     int size(void) const;                       // Calcul de la taille
     bool inserer(Personne* p);                  // Insertion
     bool supprimer(Personne* p);                // Suppression
-    void couper(Personne* p);                   // Couper
     bool chercher(Personne* p);                 // Chercher
     void afficher(ostream& ost = cout) const;   // Afficher
 

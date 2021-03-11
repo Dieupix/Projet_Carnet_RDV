@@ -26,13 +26,12 @@ public:
     ~LDCR(void);                                // Destructeur
 
     // Surcharge des opérateurs
-
+    RDV& operator[](int);
 
     // Méthodes
     int size(void) const;                       // Calcul de la taille
     bool inserer(RDV* rdv);                     // Insertion
     void supprimer(RDV* rdv);                   // Suppression
-    void couper(RDV* rdv);                      // Couper
     bool chercher(RDV* rdv);                    // Chercher
     void afficher(ostream& ost = cout) const;   // Afficher
 

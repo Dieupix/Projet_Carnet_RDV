@@ -23,27 +23,27 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
 // TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Date::operator==(const Date& d) const
 {
-    return(compareTo(d)==0);
+    return compareTo(d) == 0;
 }
 bool Date::operator!=(const Date& d) const
 {
-    return(compareTo(d)!=0);
+    return compareTo(d) != 0;
 }
 bool Date::operator>(const Date& d) const
 {
-   return (compareTo(d)==-1);
+   return compareTo(d) < 0;
 }
 bool Date::operator>=(const Date& d) const
 {
-    return (compareTo(d) <= 0);
+    return compareTo(d) <= 0;
 }
 bool Date::operator<(const Date& d) const
 {
-    return (compareTo(d)==1);
+    return compareTo(d) > 1;
 }
 bool Date::operator<=(const Date& d) const
 {
-   return (compareTo(d) >= 0);
+   return compareTo(d) >= 0;
 }
 
 Date Date::operator+(int nbJours) const
@@ -92,7 +92,7 @@ Date& Date::operator++(void)
         month = 1;
         ++year;
     }
-    else if(day == (unsigned)lengthMonth()) //lengthMonth() doit me dire si bissextile ou pas
+    else if(day == (unsigned)lengthMonth())
     {
         day = 1;
         ++month;
@@ -111,7 +111,7 @@ Date& Date::operator--(void)
     else if(day == 1)
     {
         --month;
-        day = lengthMonth(); //prend la valeur du mois modifie en tenant compte de fev
+        day = lengthMonth();
     }
     else --day;
     return *this;
@@ -171,11 +171,10 @@ void Date::remove(int val)
 }
 void Date::afficher(ostream& ost) const
 {
-    ost<<toString();
+    ost << toString();
 }
 
-// Commentaires à supprimer après validation
-// TODO - Retourne 1 si d > this, -1 si d < this, 0 sinon
+// Retourne 1 si d > this, -1 si d < this, 0 sinon
 int Date::compareTo(const Date& d) const
 {
     int b;
@@ -189,15 +188,16 @@ int Date::compareTo(const Date& d) const
     return b;
 }
 
-bool Date::leap(void) const{
-    return (year % 4 == 0 and year % 10 != 0) or year % 400;
+// Retourne vrai si l'année est bissextile, faux sinon
+bool Date::isLeap(void) const{
+    return (year % 4 == 0 and year % 10 != 0) or year % 400 == 0;
 }
 
 int Date::lengthMonth(void) const
 {
     if(month==2)
     {
-        if(leap())
+        if(isLeap())
         {
             return 29;
         }
@@ -215,7 +215,7 @@ QString Date::toQString(void) const{
 }
 
 string Date::toString(void) const{
-    string s = ""; s += day; s += "/"; s += month; s += "/"; s += year;
+    string s = ""; s += (day < 10 ? "0" : ""); s += '0' + day; s += "/"; s += (month < 10 ? "0" : ""); s += '0' + month; s += "/"; s += '0' + year;
     return s;
 }
 
