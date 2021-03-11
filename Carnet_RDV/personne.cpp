@@ -9,6 +9,8 @@ Personne::Personne(const string& firstName, const string& lastName, const string
     this->rdvList = rdvList;
 }
 
+
+
 // ---------- Surcharge des opérateurs ----------
 bool Personne::operator>(const Personne& p) const{
     return QString::fromStdString(this->lastName + this->firstName) > QString::fromStdString(p.lastName + p.firstName);
@@ -43,6 +45,8 @@ Personne::operator string(void) const{
     return toString();
 }
 
+
+
 // ---------- Méthodes ----------
 // Commentaire à supprimer après validation
 // TODO - On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
@@ -66,6 +70,8 @@ string Personne::toString(void) const{
     return lastName + " " + firstName + " - " + phone + " - " + email;
 }
 
+
+
 // ---------- Getteurs ----------
 const string& Personne::getFirstName(void) const{
     return this->firstName;
@@ -83,6 +89,8 @@ const vector<RDV*>& Personne::getRDVList(void) const{
     return this->rdvList;
 }
 
+
+
 // ---------- Setteurs ----------
 void Personne::setFirstName(const string& firstName){
     this->firstName = firstName;
@@ -97,6 +105,8 @@ void Personne::setPhone(const string& phone){
 void Personne::setEmail(const string& email){
     this->email = email;
 }
+
+
 
 // ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const Personne& p){

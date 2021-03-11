@@ -17,24 +17,34 @@ Hour::Hour(const unsigned& hour, const unsigned& minute, const unsigned& second)
     this->hour = hour;
 }
 
-// ---------- Surchargde des opérateurs ----------
-// Commentaires à supprimer après validation
-// TODO - Utiliser compareTo() pour les opérateurs de comparaison
-bool Hour::operator==(const Hour& h) const
-{return compareTo(h) == 0;}
-bool Hour::operator!=(const Hour& h) const
-{return compareTo(h) != 0;}
-bool Hour::operator>(const Hour& h) const
-{return compareTo(h) == -1;}
-bool Hour::operator>=(const Hour& h) const
-{return compareTo(h) <= 0;}
-bool Hour::operator<(const Hour& h) const
-{return compareTo(h) ==1 ;}
-bool Hour::operator<=(const Hour& h) const
-{return compareTo(h) >=0 ;}
 
-// Commentaires à supprimer après validation
-// TODO - Utiliser add() et remove() pour les opérateurs d'addition
+
+// ---------- Surchargde des opérateurs ----------
+bool Hour::operator==(const Hour& h) const
+{
+    return compareTo(h) == 0;
+}
+bool Hour::operator!=(const Hour& h) const
+{
+    return compareTo(h) != 0;
+}
+bool Hour::operator>(const Hour& h) const
+{
+    return compareTo(h) == -1;
+}
+bool Hour::operator>=(const Hour& h) const
+{
+    return compareTo(h) <= 0;
+}
+bool Hour::operator<(const Hour& h) const
+{
+    return compareTo(h) ==1 ;
+}
+bool Hour::operator<=(const Hour& h) const
+{
+    return compareTo(h) >=0 ;
+}
+
 Hour Hour::operator+(const Hour& h) const
 {
     Hour nh{hour,minute,second};
@@ -127,6 +137,8 @@ Hour::operator QString(void) const{
 Hour::operator string(void) const{
     return toString();
 }
+
+
 
 // ---------- Méthodes ----------
 void Hour::add(const Hour& h)
@@ -252,34 +264,33 @@ string Hour::toString(void) const{
     return s;
 }
 
-// ---------- Getteurs ----------
-// Commentaires à supprimer après validation
-// TODO - Remplir les getteurs
 
+
+// ---------- Getteurs ----------
 unsigned Hour::getSecond(void) const
-{return second;}
+{   return second;  }
 
 unsigned Hour::getMinute(void) const
-{return minute;}
+{   return minute;  }
 
 unsigned Hour::getHour(void) const
-{return hour;}
+{   return hour;    }
+
+
 
 // ---------- Setteurs ----------
-// Commentaires à supprimer après validation
-// TODO - Remplir les setteurs
-
 void Hour::setSecond(const unsigned& s)
-{second = s;}
+{   second = s;     }
 
 void Hour::setMinute(const unsigned& m)
-{minute = m;}
+{   minute = m;     }
 
 void Hour::setHour(const unsigned& h)
-{hour = h;}
+{   hour = h;       }
+
+
 
 // ---------- Fonctions globales ----------
-
 ostream& operator<<(ostream& ost, const Hour& h){
     h.afficher(ost);
     return ost;

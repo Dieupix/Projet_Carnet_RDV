@@ -18,6 +18,8 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
     this->year = year;
 }
 
+
+
 // ---------- Surcharge des opérateurs ----------
 bool Date::operator==(const Date& d) const
 {
@@ -131,6 +133,7 @@ Date::operator string(void) const{
 }
 
 
+
 // ---------- Méthodes ----------
 void Date::add(int val)
 {
@@ -181,7 +184,7 @@ int Date::compareTo(const Date& d) const
              else if(month < d.month) return 1;
                   else if(day > d.day) return -1;
                        else if(day < d.day) return 1;
-                            else return 0
+                            else return 0;
 }
 
 // Retourne vrai si l'année est bissextile, faux sinon
@@ -215,34 +218,29 @@ string Date::toString(void) const{
     return s;
 }
 
+
+
 // ---------- Getteurs ----------
 unsigned Date::getDay(void) const
-{
-    return day;
-}
+{   return day;     }
 
 unsigned Date::getMonth(void) const
-{
-    return month;
-}
+{   return month;   }
 
 unsigned Date::getYear(void) const
-{
-    return year;
-}
+{   return year;    }
+
+
 // ---------- Setteurs ----------
 void Date::setDay(const unsigned& d)
-{
-    day = d;
-}
+{   day = d;    }
 void Date::setMonth(const unsigned& m)
-{
-    month = m;
-}
+{   month = m;  }
 void Date::setYear(const unsigned& y)
-{
-    year = y;
-}
+{   year = y;   }
+
+
+
 // ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const Date& d){
     d.afficher(ost);

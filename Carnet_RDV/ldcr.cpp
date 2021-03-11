@@ -31,12 +31,16 @@ LDCR::~LDCR(void) {
     }
 }
 
+
+
 // ---------- Surcharge des opérateurs ----------
+
 RDV& LDCR::operator[](int i){
 }
 
 
 // ---------- Méthodes ----------
+
 int LDCR::size(void) const {
     return this->Size;
 }
@@ -147,7 +151,10 @@ void LDCR::afficher(ostream& ost) const {
     }
 }
 
+
+
 // ---------- Fonctions globales ----------
+
 ostream& operator<<(ostream& ost, const LDCR& l) {
     l.afficher(ost);
     return ost;

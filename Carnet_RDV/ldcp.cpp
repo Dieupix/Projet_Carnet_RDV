@@ -31,10 +31,14 @@ LDCP::~LDCP(void) {
     }
 }
 
+
+
 // ---------- Surcharge des opérateurs ----------
 
 
+
 // ---------- Méthodes ----------
+
 int LDCP::size(void) const {
     return this->Size;
 }
@@ -153,7 +157,10 @@ void LDCP::afficher(ostream& ost) const {
     }
 }
 
+
+
 // ---------- Fonctions globales ----------
+
 ostream& operator<<(ostream& ost, const LDCP& l) {
     l.afficher(ost);
     return ost;
