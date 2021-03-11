@@ -18,7 +18,12 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
     this->year = year;
 }
 
+<<<<<<< HEAD
 // ---------- Surchargde des opérateurs ----------
+=======
+// ---------- Surcharge des opérateurs ----------
+// Commentaires à supprimer après validation
+>>>>>>> 8f03b6560b832a6b1b6a21443f26cd3a0dafc3b4
 // TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Date::operator==(const Date& d) const
 {
@@ -48,75 +53,23 @@ bool Date::operator<=(const Date& d) const
 Date Date::operator+(int nbJours) const
 {
     Date nD = {day,month,year};
-    if(nbJours > 0)
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            ++nD;
-        }
-    }
-    else if(nbJours < 0)
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            --nD;
-        }
-    }
+    nD.add(nbJours);
     return nD;
 }
 Date& Date::operator+=(int nbJours)
 {
-    if(nbJours > 0)
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            ++*this;
-        }
-    }
-    else
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            --*this;
-        }
-    }
+    add(nbJours);
     return *this;
 }
 Date Date::operator-(int nbJours) const
 {
     Date nD = {day,month,year};
-    if(nbJours > 0)
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            --nD;
-        }
-    }
-    else if(nbJours < 0)
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            ++nD;
-        }
-    }
+    nD.remove(nbJours);
     return nD;
 }
 Date& Date::operator-=(int nbJours)
 {
-    if(nbJours > 0)
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            --*this;
-        }
-    }
-    else
-    {
-        for(int i = 0 ; i < nbJours ; ++i)
-        {
-            ++*this;
-        }
-    }
+    remove(nbJours);
     return *this;
 }
 
@@ -184,6 +137,41 @@ Date::operator string(void) const{
 
 
 // ---------- Méthodes ----------
+void Date::add(int val)
+{
+    if(val > 0)
+    {
+        for(int i = 0 ; i < val ; ++i)
+        {
+            ++*this;
+        }
+    }
+    else
+    {
+        for(int i = 0 ; i < val ; ++i)
+        {
+            --*this;
+        }
+    }
+}
+
+void Date::remove(int val)
+{
+    if(val > 0)
+    {
+        for(int i = 0 ; i < val ; ++i)
+        {
+            --*this;
+        }
+    }
+    else
+    {
+        for(int i = 0 ; i < val ; ++i)
+        {
+            ++*this;
+        }
+    }
+}
 void Date::afficher(ostream& ost) const
 {
     ost << toString();
@@ -218,11 +206,11 @@ int Date::lengthMonth(void) const
         }
         else return 28;
     }
-    if(month==1||month==3||month==5||month==7||month==8||month==10||month==12)
+    if(month==4||month==6||month==9||month==11)
     {
-        return 31;
+        return 30;
     }
-    else return 30;
+    else return 31;
 }
 
 QString Date::toQString(void) const{
@@ -237,11 +225,35 @@ string Date::toString(void) const{
 // ---------- Getteurs ----------
 // Commentaires à supprimer après validation
 // TODO - Remplir les getteurs
+unsigned Date::getDay(void) const
+{
+    return day;
+}
 
+unsigned Date::getMonth(void) const
+{
+    return month;
+}
+
+unsigned Date::getYear(void) const
+{
+    return year;
+}
 // ---------- Setteurs ----------
 // Commentaires à supprimer après validation
 // TODO - Remplir les setteurs
-
+void Date::setDay(const unsigned& d)
+{
+    day = d;
+}
+void Date::setMonth(const unsigned& m)
+{
+    month = m;
+}
+void Date::setYear(const unsigned& y)
+{
+    year = y;
+}
 // ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const Date& d){
     d.afficher(ost);
