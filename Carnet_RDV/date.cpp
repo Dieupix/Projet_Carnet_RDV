@@ -18,12 +18,8 @@ Date::Date(const unsigned& day, const unsigned& month, const unsigned& year){
     this->year = year;
 }
 
-<<<<<<< HEAD
-// ---------- Surchargde des opérateurs ----------
-=======
 // ---------- Surcharge des opérateurs ----------
 // Commentaires à supprimer après validation
->>>>>>> 8f03b6560b832a6b1b6a21443f26cd3a0dafc3b4
 // TODO - Utiliser compareTo() pour les opérateurs binaires
 bool Date::operator==(const Date& d) const
 {
@@ -218,7 +214,7 @@ QString Date::toQString(void) const{
 }
 
 string Date::toString(void) const{
-    string s = ""; s += (day < 10 ? "0" : ""); s += day; s += "/"; s += (month < 10 ? "0" : ""); s += month; s += "/"; s += year;
+    string s = ""; s += (day < 10 ? "0" : ""); s += '0' + day; s += "/"; s += (month < 10 ? "0" : ""); s += '0' + month; s += "/"; s += '0' + year;
     return s;
 }
 

@@ -84,11 +84,11 @@ QString Hour::toQString(void) const{
 }
 
 string Hour::toString(void) const{
-    string s = ""; s += hour; s += "h"; s+= (minute < 10 ? "0" : ""); s += minute;
+    string s = ""; s += '0' + hour; s += "h"; s+= (minute < 10 ? "0" : ""); s += '0' + minute;
     if(second != 0){
         s += "m";
         s += (second < 10 ? "0" : "");
-        s += second;
+        s += '0' + second;
     }
     return s;
 }
