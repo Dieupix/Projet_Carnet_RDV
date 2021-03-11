@@ -24,7 +24,7 @@ manager::manager()
 
     Hour h{2,15,10};
     Hour i{2,00,0};
-    cout << h.remove(i - Hour(1, 0, 0)).add(Hour(1, 0, 0)) << endl;
+    cout << h - i - Hour(1, 0, 0) << endl;
 
 }
 

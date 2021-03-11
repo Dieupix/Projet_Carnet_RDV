@@ -85,41 +85,12 @@ Hour Hour::operator--(int)
 //pre incrementation : ++i
 Hour& Hour::operator++(void)
 {
-    if(second + 1 == 60)
-    {
-        second = 0;
-        ++minute;
-        if(minute == 60)
-        {
-            minute = 0;
-            ++hour;
-            if(hour == 24)
-            {
-                hour = 0;
-            }
-        }
-    }
-    else
-    {++second;}
+    add(Hour(0, 0, 1));
     return *this;
 }
 Hour& Hour::operator--(void)
 {
-    if(second == 0)
-    {
-        second = 59;
-        --minute;
-        if(minute == 0)
-        {
-            minute = 59;
-            --hour;
-            if(hour == 0)
-            {
-                hour = 23;
-            }
-        }
-    }
-    else --second;
+    remove(Hour(0, 0, 1));
     return *this;
 }
 
@@ -205,51 +176,27 @@ int Hour::compareTo(const Hour& h) const{
 
 Hour& Hour::remove(const Hour& h)
 {
-    if(second - h.second <= 0 )
-    {
-        second = (h.second - second);
-        --minute;
-        if(minute - h.minute <=0)
-        {
-            --hour;
-            minute = (h.minute - h.minute );
-           if(hour - h.hour <= 0)
-           {
-               hour = h.hour - hour;
-           }
+    if(second < h.second){
+        if(minute <= h.minute){
+            if(hour <= h.hour)
+                hour = h.hour + 23;
+            else --hour;
+            minute = h.minute + 59;
         }
-        else
-        {
-            minute -= h.minute;
-            if(hour - h.hour <= 0)
-            {
-                hour = h.hour - hour;
-            }
-            else hour -= h.hour;
-        }
-    }
-    else
-    {
-        second -= h.second;
-        if(minute - h.minute <=0)
-        {
-            --hour;
-            minute = (h.minute - h.minute );
-           if(hour - h.hour <= 0)
-           {
-               hour = h.hour - hour;
-           }
-        }
-        else
-        {
-            minute -= h.minute;
-            if(hour - h.hour <= 0)
-            {
-                hour = h.hour - hour;
-            }
-            else hour -= h.hour;
-        }
-    }
+        else --minute;
+        second = h.second + 59;
+    }else if(minute < h.minute){
+        if(hour <= h.hour)
+            hour = h.hour + 23;
+        else --hour;
+        minute = h.minute + 59;
+    }else if(hour < h.hour)
+        hour = h.hour + 23;
+
+    second -= h.second;
+    minute -= h.minute;
+    hour -= h.hour;
+
     return *this;
 }
 
