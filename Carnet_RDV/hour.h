@@ -37,7 +37,7 @@ public:
     Hour& operator++(void);
     Hour& operator--(void);
 
-    void operator=(const Hour&);
+    Hour& operator=(const Hour&);
 
     operator QString(void) const;
     operator string(void) const;

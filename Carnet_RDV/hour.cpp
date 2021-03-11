@@ -113,11 +113,12 @@ Hour& Hour::operator--(void)
     return *this;
 }
 
-void Hour::operator=(const Hour& h)
+Hour& Hour::operator=(const Hour& h)
 {
     second = h.second;
     minute = h.minute;
     hour = h.hour;
+    return *this;
 }
 
 Hour::operator QString(void) const{
@@ -139,6 +140,14 @@ void Hour::add(const Hour& h)
         {
             minute %= 60;
             hour = (hour+h.hour+1);
+            if(hour >= 24)
+            {
+                hour %= 24;
+            }
+        }
+        else
+        {
+            hour += h.hour;
             if(hour >= 24)
             {
                 hour %= 24;

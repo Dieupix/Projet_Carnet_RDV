@@ -117,11 +117,12 @@ Date& Date::operator--(void)
     return *this;
 }
 
-void Date::operator=(const Date& d)
+Date& Date::operator=(const Date& d)
 {
     year = d.year;
     month = d.month;
     day = d.day;
+    return *this;
 }
 
 Date::operator QString(void) const{
