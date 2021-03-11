@@ -22,6 +22,10 @@ manager::manager()
 
     cout << rdv << endl;
 
+    Hour h{2,15,15};
+    Hour i{12,00,00};
+    cout<<(h+i);
+
 }
 
 

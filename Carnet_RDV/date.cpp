@@ -115,11 +115,12 @@ Date& Date::operator--(void)
     return *this;
 }
 
-void Date::operator=(const Date& d)
+Date& Date::operator=(const Date& d)
 {
     year = d.year;
     month = d.month;
     day = d.day;
+    return *this;
 }
 
 Date::operator QString(void) const{
@@ -174,15 +175,13 @@ void Date::afficher(ostream& ost) const
 // Retourne 1 si d > this, -1 si d < this, 0 sinon
 int Date::compareTo(const Date& d) const
 {
-    int b;
-    if(year > d.year) {b = -1;}
-    else if(year < d.year) {b = 1;}
-        else if(month > d.month) {b = -1;}
-             else if(month < d.month) {b=1;}
-                  else if(day > d.day) {b=-1;}
-                       else if(day < d.day) {b=1;}
-                            else b = 0;
-    return b;
+    if(year > d.year) return -1;
+    else if(year < d.year) return 1;
+        else if(month > d.month) return -1;
+             else if(month < d.month) return 1;
+                  else if(day > d.day) return -1;
+                       else if(day < d.day) return 1;
+                            else return 0
 }
 
 // Retourne vrai si l'année est bissextile, faux sinon

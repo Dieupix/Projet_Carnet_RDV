@@ -37,7 +37,7 @@ public:
     Date& operator++(void);
     Date& operator--(void);
 
-    void operator=(const Date&);
+    Date& operator=(const Date&);
 
     operator QString(void) const;
     operator string(void) const;
