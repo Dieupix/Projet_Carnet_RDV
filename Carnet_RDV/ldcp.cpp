@@ -34,7 +34,84 @@ LDCP::~LDCP(void) {
 
 
 // ---------- Surcharge des opérateurs ----------
+bool LDCP::operator==(const LDCP& l) {
+    bool equals = true;
+    auto crt = d_t, as = l.d_t;
+    while (crt != nullptr and as != nullptr and equals) {
+        equals = crt->p == as->p;
+        crt = crt->d_suiv;
+        as = as->d_suiv;
+    }
 
+    if ((crt == nullptr and as != nullptr) or (crt != nullptr and as == nullptr)) equals = false;
+
+    return equals;
+}
+bool LDCP::operator!=(const LDCP& l) {
+    return !this->operator==(l);
+}
+
+LDCP& LDCP::operator=(const LDCP& l) {
+    if (l.d_t == nullptr) {
+        auto crt = d_t;
+        while (crt != nullptr) {
+            auto as = crt;
+            crt = crt->d_suiv;
+            delete as;
+        }
+        d_t = nullptr;
+    }
+    else {
+        auto as = l.d_t;
+        auto crt = d_t;
+        if (crt == nullptr) {
+            d_t = new ChainonPersonne(as->p);
+            crt = d_t;
+            as = as->d_suiv;
+            while (as != nullptr) {
+                auto n = new ChainonPersonne(as->p);
+                crt->d_suiv = n;
+                n->d_prec = crt;
+                crt = crt->d_suiv;
+                as = as->d_suiv;
+            }
+        }
+        else {
+            while (crt->d_suiv != nullptr and as->d_suiv != nullptr) {
+                crt->p = as->p;
+                as = as->d_suiv;
+                crt = crt->d_suiv;
+            }
+            crt->p = as->p;
+            if (crt->d_suiv == nullptr and as->d_suiv != nullptr) {
+                as = as->d_suiv;
+                while (as != nullptr) {
+                    auto n = new ChainonPersonne(as->p);
+                    crt->d_suiv = n;
+                    n->d_prec = crt;
+                    crt = crt->d_suiv;
+                    as = as->d_suiv;
+                }
+                while (crt != nullptr) {
+                    auto t = crt;
+                    crt = crt->d_suiv;
+                    t->d_prec->d_suiv = nullptr;
+                    delete t;
+                }
+            }
+            else {
+                crt = crt->d_suiv;
+                while (crt != nullptr) {
+                    auto t = crt;
+                    crt = crt->d_suiv;
+                    t->d_prec->d_suiv = nullptr;
+                    delete t;
+                }
+            }
+        }
+    }
+    return *this;
+}
 
 
 // ---------- Méthodes ----------

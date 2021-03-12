@@ -26,6 +26,11 @@ public:
     ~LDCR(void);                                // Destructeur
 
     // Surcharge des opérateurs
+    bool operator==(const LDCR&);              // Test egalite
+    bool operator!=(const LDCR&);              // Test different
+
+    LDCR& operator=(const LDCR&);               // Affectation
+
     RDV& operator[](int);
 
     // Méthodes

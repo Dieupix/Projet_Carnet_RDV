@@ -34,6 +34,84 @@ LDCR::~LDCR(void) {
 
 
 // ---------- Surcharge des opérateurs ----------
+bool LDCR::operator==(const LDCR& l) {
+    bool equals = true;
+    auto crt = d_t, as = l.d_t;
+    while (crt != nullptr and as != nullptr and equals) {
+        equals = crt->rdv == as->rdv;
+        crt = crt->d_suiv;
+        as = as->d_suiv;
+    }
+
+    if ((crt == nullptr and as != nullptr) or (crt != nullptr and as == nullptr)) equals = false;
+
+    return equals;
+}
+bool LDCR::operator!=(const LDCR& l) {
+    return !this->operator==(l);
+}
+
+LDCR& LDCR::operator=(const LDCR& l) {
+    if (l.d_t == nullptr) {
+        auto crt = d_t;
+        while (crt != nullptr) {
+            auto as = crt;
+            crt = crt->d_suiv;
+            delete as;
+        }
+        d_t = nullptr;
+    }
+    else {
+        auto as = l.d_t;
+        auto crt = d_t;
+        if (crt == nullptr) {
+            d_t = new ChainonRDV(as->rdv);
+            crt = d_t;
+            as = as->d_suiv;
+            while (as != nullptr) {
+                auto n = new ChainonRDV(as->rdv);
+                crt->d_suiv = n;
+                n->d_prec = crt;
+                crt = crt->d_suiv;
+                as = as->d_suiv;
+            }
+        }
+        else {
+            while (crt->d_suiv != nullptr and as->d_suiv != nullptr) {
+                crt->rdv = as->rdv;
+                as = as->d_suiv;
+                crt = crt->d_suiv;
+            }
+            crt->rdv = as->rdv;
+            if (crt->d_suiv == nullptr and as->d_suiv != nullptr) {
+                as = as->d_suiv;
+                while (as != nullptr) {
+                    auto n = new ChainonRDV(as->rdv);
+                    crt->d_suiv = n;
+                    n->d_prec = crt;
+                    crt = crt->d_suiv;
+                    as = as->d_suiv;
+                }
+                while (crt != nullptr) {
+                    auto t = crt;
+                    crt = crt->d_suiv;
+                    t->d_prec->d_suiv = nullptr;
+                    delete t;
+                }
+            }
+            else {
+                crt = crt->d_suiv;
+                while (crt != nullptr) {
+                    auto t = crt;
+                    crt = crt->d_suiv;
+                    t->d_prec->d_suiv = nullptr;
+                    delete t;
+                }
+            }
+        }
+    }
+    return *this;
+}
 
 RDV& LDCR::operator[](int i){
 }
