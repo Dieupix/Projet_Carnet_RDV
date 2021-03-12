@@ -82,7 +82,7 @@ Hour Hour::operator--(int)
     return h;
 }
 
-//pre incrementation : ++i
+// Pré incrémentation : ++i
 Hour& Hour::operator++(void)
 {
     add(Hour(0, 0, 1));

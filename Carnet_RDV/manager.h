@@ -4,6 +4,8 @@
 #include "ldcp.h"
 #include "ldcr.h"
 
+#include "mainwindow.h"
+
 class manager
 {
 private:

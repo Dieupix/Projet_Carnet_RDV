@@ -43,12 +43,12 @@ public:
     operator string(void) const;
 
     // Méthodes
-    Date& add(int val);
+    Date& add(int nbJours);
     void afficher(ostream& ost = cout) const;
     int compareTo(const Date& d) const;
     bool isLeap(void) const;
     int lengthMonth(void) const;
-    Date& remove(int val);
+    Date& remove(int nbJours);
     QString toQString(void) const;
     string toString(void) const;
 

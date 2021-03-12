@@ -135,18 +135,18 @@ Date::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-Date& Date::add(int val)
+Date& Date::add(int nbJours)
 {
-    if(val > 0)
+    if(nbJours > 0)
     {
-        for(int i = 0 ; i < val ; ++i)
+        for(int i = 0 ; i < nbJours ; ++i)
         {
             ++*this;
         }
     }
     else
     {
-        for(int i = 0 ; i < val ; ++i)
+        for(int i = 0 ; i < nbJours ; ++i)
         {
             --*this;
         }
@@ -193,18 +193,18 @@ int Date::lengthMonth(void) const
     else return 31;
 }
 
-Date& Date::remove(int val)
+Date& Date::remove(int nbJours)
 {
-    if(val > 0)
+    if(nbJours > 0)
     {
-        for(int i = 0 ; i < val ; ++i)
+        for(int i = 0 ; i < nbJours ; ++i)
         {
             --*this;
         }
     }
     else
     {
-        for(int i = 0 ; i < val ; ++i)
+        for(int i = 0 ; i < nbJours ; ++i)
         {
             ++*this;
         }
