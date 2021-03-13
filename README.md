@@ -8,28 +8,27 @@
 
 ### Prérequis
 
-Vous aurez besoin de Qt Creator si vous voulez avoir accès au code source du projet.
+Vous aurez besoin de Qt Creator si vous voulez avoir accès au code source du projet.\
 Vous pourrez le télécharger et l'installer sur [qt.io/download-open-source](https://www.qt.io/download-open-source).
 
 ### Téléchargement du projet
 
 Même méthode pour Windows, Linux ou MacOS :
 
-Téléchargez et décompressez le fichier ZIP du projet [Projet_Carnet_RDV](https://github.com/Dieupix/Projet_Carnet_RDV/archive/main.zip).
-Ou bien
+Téléchargez et décompressez le fichier ZIP du projet [Projet_Carnet_RDV](https://github.com/Dieupix/Projet_Carnet_RDV/archive/main.zip).\
+Ou bien\
 Clonez le répertoire git du projet à l'aide de la commande : ` git clone https://github.com/Dieupix/Projet_Carnet_RDV.git `.
 
 ## Utilisation
 
 ### Exécutable
 
-/!\ A venir
+/!\ A venir /!\ \
 Pour utiliser l'exécutable, ouvrez le dossier ` Release ` puis exécutez ` Carnet_RDV.exe `.
 
 ### Le projet sur Qt Creator
 
-Après avoir installer Qt Creator, ouvrez le dossier ` Carnet_RDV ` puis ouvrez le fichier ` Carnet_RDV.pro ` avec Qt Creator.
-
+Après avoir installé Qt Creator, ouvrez le dossier ` Carnet_RDV ` puis ouvrez le fichier ` Carnet_RDV.pro ` avec Qt Creator.
 
 ## Structure du projet
 
