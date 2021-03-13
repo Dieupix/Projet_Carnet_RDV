@@ -34,12 +34,12 @@ public:
     RDV& operator[](int);
 
     // Méthodes
-    int size(void) const;                       // Calcul de la taille
-    bool inserer(RDV* rdv);                     // Insertion
-    void supprimer(RDV* rdv);                   // Suppression
-    int rechD(RDV* val);                        // Rech dichotomique
-    bool chercher(RDV* rdv);                    // Chercher
     void afficher(ostream& ost = cout) const;   // Afficher
+    bool chercher(RDV* rdv) const;              // Chercher
+    bool inserer(RDV* rdv);                     // Insertion
+    int rechD(RDV* rdv) const;                  // Rech dichotomique
+    int size(void) const;                       // Calcul de la taille
+    void supprimer(RDV* rdv);                   // Suppression
 
 };
 

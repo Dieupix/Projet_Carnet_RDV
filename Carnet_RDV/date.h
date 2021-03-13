@@ -2,6 +2,7 @@
 #define DATE_H
 
 #include <iostream>
+#include "time.h"
 
 #include <QString>
 

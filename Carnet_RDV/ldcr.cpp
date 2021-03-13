@@ -119,8 +119,32 @@ RDV& LDCR::operator[](int i){
 
 
 // ---------- Méthodes ----------
-int LDCR::size(void) const {
-    return this->Size;
+void LDCR::afficher(ostream& ost) const {
+    auto crt = this->d_t;
+    if (crt == nullptr) ost << "Liste vide";
+    else {
+        int i = 0;
+        while (crt->d_suiv != nullptr) {
+            ost << *crt->rdv << " -> ";
+            crt = crt->d_suiv;
+            i++;
+            if (i == 10) {
+                i = 0;
+                ost << endl;
+            }
+        }
+        ost << *crt->rdv;
+    }
+}
+
+bool LDCR::chercher(RDV* val) const{
+    bool found = false;
+    auto crt = this->d_t;
+    while (crt != nullptr and !found) {
+        found = *crt->rdv == *val;
+        crt = crt->d_suiv;
+    }
+    return found;
 }
 
 bool LDCR::inserer(RDV* val) {
@@ -171,6 +195,38 @@ bool LDCR::inserer(RDV* val) {
     return hasBeenInserted;
 }
 
+int LDCR::rechD(RDV* val) const
+{
+    int indCrt{0};
+    auto crt = d_t;
+    bool b{false};
+    int indD = 0;
+    int indF = Size;
+    int m{0};
+    while(!b && indD <= indF)
+    {
+        m = (indD+indF)/2;
+        if(indCrt < m)
+        {
+            for(int i=indCrt;i<m;++i)
+            {crt=crt->d_suiv;}
+        }
+        else
+        {
+            for(int i=indCrt;i>m;--i)
+            {crt=crt->d_prec;}
+        }
+        if(*crt->rdv == *val){b=true;}
+        else if(*crt->rdv < *val){indD=m+1;}
+        else indF=m-1;
+    }
+    return b?indCrt:-1;
+}
+
+int LDCR::size(void) const {
+    return this->Size;
+}
+
 void LDCR::supprimer(RDV* val) {
     if (this->d_t != nullptr) {
         auto crt = this->d_t;
@@ -198,60 +254,6 @@ void LDCR::supprimer(RDV* val) {
                 --this->Size;
             }
         }
-    }
-}
-int LDCR::rechD(RDV* val)
-{
-    int indCrt{0};
-    auto crt = d_t;
-    bool b{false};
-    int indD = 0;
-    int indF = Size;
-    int m{0};
-    while(!b && indD <= indF)
-    {
-        m = (indD+indF)/2;
-        if(indCrt < m)
-        {
-            for(int i=indCrt;i<m;++i)
-            {crt=crt->d_suiv;}
-        }
-        else
-        {
-            for(int i=indCrt;i>m;--i)
-            {crt=crt->d_prec;}
-        }
-        if(*crt->rdv == *val){b=true;}
-        else if(*crt->rdv < *val){indD=m+1;}
-        else indF=m-1;
-    }
-    return b?indCrt:-1;
-}
-bool LDCR::chercher(RDV* val) {
-    bool found = false;
-    auto crt = this->d_t;
-    while (crt != nullptr and !found) {
-        found = *crt->rdv == *val;
-        crt = crt->d_suiv;
-    }
-    return found;
-}
-
-void LDCR::afficher(ostream& ost) const {
-    auto crt = this->d_t;
-    if (crt == nullptr) ost << "Liste vide";
-    else {
-        int i = 0;
-        while (crt->d_suiv != nullptr) {
-            ost << *crt->rdv << " -> ";
-            crt = crt->d_suiv;
-            i++;
-            if (i == 10) {
-                i = 0;
-                ost << endl;
-            }
-        }
-        ost << *crt->rdv;
     }
 }
 
