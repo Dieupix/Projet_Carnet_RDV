@@ -31,6 +31,8 @@ public:
 
     LDCP& operator=(const LDCP&);               // Affectation
 
+    Personne* operator[](int) const;
+
     // Méthodes
     void afficher(ostream& ost = cout) const;   // Afficher
     bool chercher(Personne* p) const;           // Chercher

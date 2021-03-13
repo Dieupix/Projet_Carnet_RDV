@@ -31,7 +31,7 @@ public:
 
     LDCR& operator=(const LDCR&);               // Affectation
 
-    RDV& operator[](int);
+    RDV& operator[](int) const;
 
     // Méthodes
     void afficher(ostream& ost = cout) const;   // Afficher

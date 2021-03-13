@@ -113,6 +113,9 @@ LDCP& LDCP::operator=(const LDCP& l) {
     return *this;
 }
 
+Personne* LDCP::operator[](int) const{
+}
+
 
 // ---------- Méthodes ----------
 void LDCP::afficher(ostream& ost) const {

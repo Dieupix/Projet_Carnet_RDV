@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QBoxLayout>
 #include <QPushButton>
-#include <QProgressBar>
 #include <QMessageBox>
 #include <QLabel>
 
@@ -14,6 +13,7 @@ class MainWindow : public QWidget
 {
     Q_OBJECT
 
+    friend class manager;
 private:
     void setup(void);
     void mainLayoutSetup(void);
@@ -22,11 +22,14 @@ private:
 
     bool isSaved = false;
     manager Manager;
+    QProgressBar* loadingBar;
     QHBoxLayout* mainLayout;
     string windowTitle = "Carnet de Rendez-vous";
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
+    void updateLoadingBar(int i);
 
 private slots:
     void onSave(void);

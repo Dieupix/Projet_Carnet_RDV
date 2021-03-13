@@ -113,7 +113,7 @@ LDCR& LDCR::operator=(const LDCR& l) {
     return *this;
 }
 
-RDV& LDCR::operator[](int i){
+RDV& LDCR::operator[](int i) const{
 }
 
 

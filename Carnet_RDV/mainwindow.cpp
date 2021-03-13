@@ -62,6 +62,9 @@ void MainWindow::updateWindowTitle(void){
 
 
 // ---------- Méthodes publiques ----------
+void MainWindow::updateLoadingBar(int i){
+    loadingBar->setValue(i);
+}
 
 
 
