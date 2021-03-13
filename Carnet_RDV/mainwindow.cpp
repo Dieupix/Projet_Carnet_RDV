@@ -49,8 +49,7 @@ void MainWindow::mainLayoutSetup(void){
 }
 
 void MainWindow::updateWindowTitle(void){
-    string s = "Carnet de Rendez-vous";
-    setWindowTitle(QString::fromStdString(s += (isSaved ? "" : "*")));
+    setWindowTitle(QString::fromStdString(windowTitle + (isSaved ? "" : "*")));
 }
 
 
@@ -63,10 +62,9 @@ void MainWindow::updateWindowTitle(void){
 void MainWindow::onQuit(void){
     if(isSaved) close();
     else{
-        QString title = "Carnet de Rendez-vous non enregistré";
         QString msg = "Votre Carnet de Rendez-vous n'est pas enregistré\n\nVoulez-vous vraiment quitter sans enregistrer ?";
 
-        int exit = QMessageBox(QMessageBox::Information, title, msg, QMessageBox::Save | QMessageBox::Yes | QMessageBox::No).exec();
+        int exit = QMessageBox(QMessageBox::Information, QString::fromStdString(windowTitle), msg, QMessageBox::Save | QMessageBox::Yes | QMessageBox::No).exec();
 
         if(exit == QMessageBox::Save){
             onSave();
