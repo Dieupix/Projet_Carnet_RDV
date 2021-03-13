@@ -28,6 +28,11 @@ void MainWindow::setup(void){
     auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
     auto quitButton = new QPushButton("Quitter");
     auto saveButton = new QPushButton("Enregistrer");
+    quitButton->setToolTip("Quitter l'application");
+    quitButton->setShortcut(QKeySequence("Ctrl + q"));
+    saveButton->setToolTip("Enregistrer le carnet de rendez-vous");
+    saveButton->setShortcut(QKeySequence("Ctrl + s"));
+
     preButtonLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
     preButtonLayout->addStretch(0);
     preButtonLayout->addWidget(saveButton, 0, Qt::AlignBottom);

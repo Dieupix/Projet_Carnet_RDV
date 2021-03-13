@@ -38,16 +38,16 @@ public:
 
     // Getteurs
     const string& getName(void) const;
+    Date& getDate(void);
     Hour& getTimeStart(void);
     Hour& getTimeEnd(void);
-    Date& getDate(void);
     const vector<Personne*>& getMembersList(void) const;
 
     // Setteurs
     void setName(const string& name);
+    void setDate(const Date& date);
     void setTimeStart(const Hour& timeStart);
     void setTimeEnd(const Hour& timeEnd);
-    void setDate(const Date& date);
     void setMembersList(const vector<Personne*>& membersList);
 
 };

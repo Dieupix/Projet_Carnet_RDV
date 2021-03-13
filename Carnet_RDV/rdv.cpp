@@ -81,14 +81,14 @@ string RDV::toString(void) const{
 const string& RDV::getName(void) const{
     return this->name;
 }
+Date& RDV::getDate(void){
+    return this->date;
+}
 Hour& RDV::getTimeStart(void){
     return this->timeStart;
 }
 Hour& RDV::getTimeEnd(void){
     return this->timeEnd;
-}
-Date& RDV::getDate(void){
-    return this->date;
 }
 const vector<Personne*>& RDV::getMembersList(void) const{
     return this->membersList;
@@ -98,13 +98,13 @@ const vector<Personne*>& RDV::getMembersList(void) const{
 void RDV::setName(const string& name){
     this->name = name;
 }
+void RDV::setDate(const Date& date){
+}
 void RDV::setTimeStart(const Hour& timeStart){
     this->timeStart = timeStart;
 }
 void RDV::setTimeEnd(const Hour& timeEnd){
     this->timeEnd = timeEnd;
-}
-void RDV::setDate(const Date& date){
 }
 void RDV::setMembersList(const vector<Personne*>& membersList){
 }

@@ -6,10 +6,10 @@
 
 ## Installation
 
-### Prérequis
+### Pré-requis
 
 Vous aurez besoin de Qt Creator si vous voulez avoir accès au code source du projet.\
-Vous pourrez le télécharger et l'installer sur [qt.io/download-open-source](https://www.qt.io/download-open-source).
+Vous pourrez le télécharger et l'installer à partir de [qt.io/download-open-source](https://www.qt.io/download-open-source).
 
 ### Téléchargement du projet
 
@@ -64,6 +64,6 @@ L'équipe :
 - JANON Alexandre
 - POMMIER Logan
 
-Les icônes ont été fournies gratuitement par [icones8.fr](icones8.fr).
+Les icônes ont été fournies gratuitement par [icones8.fr](https://icones8.fr).
 
 Discord : ` Dieupix#0340 `
