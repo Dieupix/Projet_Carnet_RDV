@@ -249,3 +249,4 @@ ostream& operator<<(ostream& ost, const Date& d){
     d.afficher(ost);
     return ost;
 }
+

@@ -17,6 +17,7 @@ class MainWindow : public QWidget
 private:
     void setup(void);
     void mainLayoutSetup(void);
+    QIcon carnetIcon = QIcon("‪E:/Téléchargements/icons8-carnet-d-adresses-2-100.bmp");
 
     bool isSaved = false;
     manager Manager;

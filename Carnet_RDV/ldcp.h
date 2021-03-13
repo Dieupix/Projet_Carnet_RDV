@@ -26,8 +26,8 @@ public:
     ~LDCP(void);                                // Destructeur
 
     // Surcharges des opérateurs
-    bool operator==(const LDCP&);              // Test egalite
-    bool operator!=(const LDCP&);              // Test different
+    bool operator==(const LDCP&);               // Test d'égalité
+    bool operator!=(const LDCP&);               // Test de différence
 
     LDCP& operator=(const LDCP&);               // Affectation
 

@@ -65,6 +65,6 @@ public:
 };
 
 // Fonctions globales
-ostream& operator<<(ostream& ost, const Date& d);
+ostream& operator<<(ostream&, const Date&);
 
 #endif // DATE_H
