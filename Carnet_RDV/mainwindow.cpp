@@ -26,11 +26,13 @@ void MainWindow::setup(void){
 
     auto preButtonLayout = new QHBoxLayout();
     auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
+
     auto quitButton = new QPushButton("Quitter");
-    auto saveButton = new QPushButton("Enregistrer");
-    quitButton->setToolTip("Quitter l'application\nRaccourci : Ctrl + Q");
+    quitButton->setToolTip("Quitter l'application");
     quitButton->setShortcut(QKeySequence(QKeyCombination(Qt::ControlModifier, Qt::Key_Q)));
-    saveButton->setToolTip("Enregistrer le carnet de rendez-vous\nRaccourci : Ctrl + S");
+
+    auto saveButton = new QPushButton("Enregistrer");
+    saveButton->setToolTip("Enregistrer le carnet de rendez-vous");
     saveButton->setShortcut(QKeySequence(QKeySequence::Save));
 
     preButtonLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
@@ -67,7 +69,8 @@ void MainWindow::updateWindowTitle(void){
 void MainWindow::onQuit(void){
     if(isSaved) close();
     else{
-        QString msg = "Votre Carnet de Rendez-vous n'est pas enregistré\n\nVoulez-vous vraiment quitter sans enregistrer ?";
+        QString msg = (QString) "Votre Carnet de Rendez-vous n'est pas enregistré" + "\n\n" +
+                "Voulez-vous vraiment quitter sans enregistrer ?";
 
         int exit = QMessageBox(QMessageBox::Information, QString::fromStdString(windowTitle), msg, QMessageBox::Save | QMessageBox::Yes | QMessageBox::No).exec();
 

@@ -13,22 +13,22 @@ Personne::Personne(const string& firstName, const string& lastName, const string
 
 // ---------- Surcharge des opérateurs ----------
 bool Personne::operator>(const Personne& p) const{
-    return QString::fromStdString(this->lastName + this->firstName) > QString::fromStdString(p.lastName + p.firstName);
+    return (this->lastName + this->firstName) > (p.lastName + p.firstName);
 }
 bool Personne::operator>=(const Personne& p) const{
-    return QString::fromStdString(this->lastName + this->firstName) >= QString::fromStdString(p.lastName + p.firstName);
+    return (this->lastName + this->firstName) >= (p.lastName + p.firstName);
 }
 bool Personne::operator<(const Personne& p) const{
-    return QString::fromStdString(this->lastName + this->firstName) < QString::fromStdString(p.lastName + p.firstName);
+    return (this->lastName + this->firstName) < (p.lastName + p.firstName);
 }
 bool Personne::operator<=(const Personne& p) const{
-    return QString::fromStdString(this->lastName + this->firstName) <= QString::fromStdString(p.lastName + p.firstName);
+    return (this->lastName + this->firstName) <= (p.lastName + p.firstName);
 }
 bool Personne::operator==(const Personne& p) const{
-    return QString::fromStdString(this->lastName + this->firstName) == QString::fromStdString(p.lastName + p.firstName);
+    return (this->lastName + this->firstName) == (p.lastName + p.firstName);
 }
 bool Personne::operator!=(const Personne& p) const{
-    return QString::fromStdString(this->lastName + this->firstName) != QString::fromStdString(p.lastName + p.firstName);
+    return (this->lastName + this->firstName) != (p.lastName + p.firstName);
 }
 
 void Personne::operator=(const Personne& p){

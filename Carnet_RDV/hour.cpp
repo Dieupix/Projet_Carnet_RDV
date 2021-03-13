@@ -38,11 +38,11 @@ bool Hour::operator>=(const Hour& h) const
 }
 bool Hour::operator<(const Hour& h) const
 {
-    return compareTo(h) ==1 ;
+    return compareTo(h) == 1 ;
 }
 bool Hour::operator<=(const Hour& h) const
 {
-    return compareTo(h) >=0 ;
+    return compareTo(h) >= 0 ;
 }
 
 Hour Hour::operator+(const Hour& h) const
@@ -114,7 +114,7 @@ Hour::operator string(void) const{
 // ---------- Méthodes ----------
 Hour& Hour::add(const Hour& h)
 {
-    if(h == Hour(24, 0, 0) or h == Hour(0, 0, 0)) return *this;
+    if(h.second == 0 and h.minute == 0 and h.hour % 24 == 0) return *this;
     second += h.second;
     if(second >= 60)
     {
@@ -180,28 +180,28 @@ int Hour::compareTo(const Hour& h) const{
 
 Hour& Hour::remove(const Hour& h)
 {
-    if(h != Hour(24, 0, 0) and h != Hour(0, 0, 0)){
-        if(second < h.second){
-            if(minute <= h.minute){
-                if(hour <= h.hour)
-                    hour += 23;
-                else --hour;
-                minute += 59;
-            }
-            else --minute;
-            second += 60;
-        }else if(minute < h.minute){
+    if(h.second == 0 and h.minute == 0 and h.hour % 24 == 0) return *this;
+
+    if(second < h.second){
+        if(minute <= h.minute){
             if(hour <= h.hour)
                 hour += 23;
             else --hour;
-            minute += 60;
-        }else if(hour < h.hour)
-            hour += 24;
+            minute += 59;
+        }
+        else --minute;
+        second += 60;
+    }else if(minute < h.minute){
+        if(hour <= h.hour)
+            hour += 23;
+        else --hour;
+        minute += 60;
+    }else if(hour < h.hour)
+        hour += 24;
 
-        second -= h.second;
-        minute -= h.minute;
-        hour -= h.hour;
-    }
+    second -= h.second;
+    minute -= h.minute;
+    hour -= h.hour;
 
     return *this;
 }
@@ -213,8 +213,7 @@ QString Hour::toQString(void) const{
 string Hour::toString(void) const{
     string s = to_string(hour) + "h" + (minute < 10 ? "0" : "") + to_string(minute);
     if(second != 0){
-        s += "m";
-        s += (second < 10 ? "0" : "") + to_string(second) + "s";
+        s += (string) "m" + (second < 10 ? "0" : "") + to_string(second) + "s";
     }
     return s;
 }
