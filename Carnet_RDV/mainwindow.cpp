@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 // ---------- Méthodes privées ----------
 void MainWindow::setup(void){
-    Manager = manager();
 
     auto fixedLayout = new QVBoxLayout();
     setLayout(fixedLayout);

@@ -26,7 +26,10 @@ public:
     ~LDCP(void);                                // Destructeur
 
     // Surcharges des opérateurs
+    bool operator==(const LDCP&);               // Test d'égalité
+    bool operator!=(const LDCP&);               // Test de différence
 
+    LDCP& operator=(const LDCP&);               // Affectation
 
     // Méthodes
     int size(void) const;                       // Calcul de la taille
