@@ -32,6 +32,7 @@ public:
     int size(void) const;                       // Calcul de la taille
     bool inserer(Personne* p);                  // Insertion
     bool supprimer(Personne* p);                // Suppression
+    int rechD(Personne* val);                   // Rech dichotomique
     bool chercher(Personne* p);                 // Chercher
     void afficher(ostream& ost = cout) const;   // Afficher
 

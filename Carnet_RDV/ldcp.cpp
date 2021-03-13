@@ -128,7 +128,33 @@ bool LDCP::supprimer(Personne* val) {
     }
     return hasBeenRemoved;
 }
-
+int LDCP::rechD(Personne* val)
+{
+    int indCrt{0};
+    auto crt = d_t;
+    bool b{false};
+    int indD = 0;
+    int indF = Size;
+    int m{0};
+    while(!b && indD <= indF)
+    {
+        m = (indD+indF)/2;
+        if(indCrt < m)
+        {
+            for(int i=indCrt;i<m;++i)
+            {crt=crt->d_suiv;}
+        }
+        else
+        {
+            for(int i=indCrt;i>m;--i)
+            {crt=crt->d_prec;}
+        }
+        if(*crt->p == *val){b=true;}
+        else if(*crt->p < *val){indD=m+1;}
+        else indF=m-1;
+    }
+    return b?indCrt:-1;
+}
 bool LDCP::chercher(Personne* val) {
     bool found = false;
     auto crt = this->d_t;
