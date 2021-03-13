@@ -4,6 +4,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
     setup();
+    updateWindowTitle();
 }
 
 
@@ -47,6 +48,11 @@ void MainWindow::mainLayoutSetup(void){
 
 }
 
+void MainWindow::updateWindowTitle(void){
+    string s = "Carnet de Rendez-vous";
+    setWindowTitle(QString::fromStdString(s += (isSaved ? "" : "*")));
+}
+
 
 
 // ---------- Méthodes publiques ----------
@@ -55,8 +61,21 @@ void MainWindow::mainLayoutSetup(void){
 
 // ---------- Slots privés ----------
 void MainWindow::onQuit(void){
-    close();
+    if(isSaved) close();
+    else{
+        QString title = "Carnet de Rendez-vous non enregistré";
+        QString msg = "Votre Carnet de Rendez-vous n'est pas enregistré\n\nVoulez-vous vraiment quitter sans enregistrer ?";
+
+        int exit = QMessageBox(QMessageBox::Information, title, msg, QMessageBox::Save | QMessageBox::Yes | QMessageBox::No).exec();
+
+        if(exit == QMessageBox::Save){
+            onSave();
+            close();
+        }else if(exit == QMessageBox::Yes) close();
+    }
+
 }
 void MainWindow::onSave(void){
-
+    isSaved = true;
+    updateWindowTitle();
 }

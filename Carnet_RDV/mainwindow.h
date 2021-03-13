@@ -19,6 +19,8 @@ private:
     void mainLayoutSetup(void);
     QIcon carnetIcon = QIcon("‪E:/Téléchargements/icons8-carnet-d-adresses-2-100.bmp");
 
+    void updateWindowTitle(void);
+
     bool isSaved = false;
     manager Manager;
     QHBoxLayout* mainLayout;
