@@ -45,7 +45,7 @@ RDV::operator string(void) const{
 }
 
 // ---------- Méthodes ----------
-// Commentaire à supprimer après validation
+// Commentaires à supprimer après validation
 // TODO - On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
 // Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
 bool RDV::addMember(Personne* p){
@@ -55,14 +55,20 @@ void RDV::afficher(ostream& ost) const{
     ost << toString();
 }
 
-string RDV::participantsToString(void) const {
+// Commentaires à supprimer après validation
+// Retourne 1 si rdv > à this, -1 si rdv < this, 0 sinon
+int RDV::compareTo(const RDV &rdv) const{
+
+}
+
+string RDV::participantsToString(void) const{
     string s = "";
     if (membersList.size() == 0) s = "Aucun participant\n";
     else for(auto p : membersList) s += p->toString() + "\n";
     return s;
 }
 
-// Commentaire à supprimer après validation
+// Commentaires à supprimer après validation
 // TODO - Quand on enlève un participant, il n'est pas << delete >> !
 bool RDV::removeMember(Personne* p){
 }

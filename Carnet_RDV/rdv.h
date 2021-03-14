@@ -31,6 +31,7 @@ public:
     // Méthodes
     bool addMember(Personne* p);
     void afficher(ostream& ost = cout) const;
+    int compareTo(const RDV& rdv) const;
     string participantsToString(void) const;
     bool removeMember(Personne* p);
     QString toQString(void) const;
