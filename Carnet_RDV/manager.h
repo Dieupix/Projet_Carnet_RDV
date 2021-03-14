@@ -9,6 +9,9 @@
 #include <fstream>
 #include <sstream>
 
+const string FILENAMEPERSONNE = "Personne.carnetRDV";
+const string FILENAMERDV = "RDV.carnetRDV";
+
 class manager
 {
 private:
@@ -21,11 +24,11 @@ public:
     // Surcharge des opérateurs
 
     // Méthodes
-    bool loadPersonne(const string& filePath, QProgressBar* loadingBar = nullptr);
-    bool laodRDV(const string& filePath, QProgressBar* loadingBar = nullptr);
+    bool loadPersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    bool laodRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
 
-    bool savePersonne(const string& filePath, QProgressBar* loadingBar = nullptr) const;
-    bool saveRDV(const string& filePath, QProgressBar* loadingBar = nullptr) const;
+    bool savePersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr) const;
+    bool saveRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr) const;
 
     // Getteurs
 

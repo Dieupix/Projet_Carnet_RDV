@@ -17,7 +17,7 @@ manager::manager(void){
 
     auto p1 = new Personne(fN, lN, "0695152925", "alexandre.janon@yahoo.fr"), p2 = new Personne("Franck", "JANON", "0666", "gmail");
 
-    loadPersonne("Personne.carnetRDV");
+    loadPersonne();
     cout << endl;
 
     cout << listPersonnes << endl << endl;
@@ -42,9 +42,9 @@ manager::manager(void){
 
 // Méthodes
 bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
-    cout << "Chargement du fichier " << filePath << endl;
+    cout << "Chargement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool loaded = false;
-    ifstream ifs(filePath);
+    ifstream ifs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
 
     if(!ifs)
         cerr << "Impossible d'ouvrir le fichier en lecture" << endl;
@@ -52,9 +52,10 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
         stringstream buffer;
         buffer << ifs.rdbuf();
 
-        string s = "", lastName= "", firstName = "", phone = "", email = "";
-        bool stringIsEmpty = false;
+        string lastName= "", firstName = "", phone = "", email = "";
+        short int sequence = 0;
         unsigned long long max = buffer.str().size(), line = 1;
+        bool abort = true;
         double val = 0;
         char c = '0';
         for(unsigned long long i = 0;  i < buffer.str().size(); ++i){
@@ -62,78 +63,110 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
             if(c == '&'){
 
                 if(i+2 < max and buffer.str()[i+1] == 'l' and buffer.str()[i+2] == '='){
-                        s = "";
-                        i += 2;
+                    if(lastName != "" or
+                            firstName != "" or
+                            phone != "" or
+                            email != ""){
+                        cerr << "Erreur : ligne " << line - 1 << " : pas de fin de ligne" << endl;
+                        lastName = firstName = phone = email = "";
+                    }
+                    sequence = 1;
+                    i += 2;
+                    abort = false;
 
                 }else if(i+2 < max and buffer.str()[i+1] == 'f' and buffer.str()[i+2] == '='){
-                    if(!isStringEmpty(s)){
-                        lastName = s;
-                        s = "";
-                        i += 2;
-                    }else{
+                    if(isStringEmpty(lastName)){
                         cerr << "Erreur : ligne " << line << " : lastName est vide" << endl;
-                        ++line;
-                        stringIsEmpty = true;
+                        abort = true;
                     }
+                    sequence = 2;
+                    i += 2;
 
                 }else if(i+2 < max and buffer.str()[i+1] == 'p' and buffer.str()[i+2] == '='){
-                    if(!isStringEmpty(s)){
-                        firstName = s;
-                        s = "";
-                        i += 2;
-                    }else{
+                    if(isStringEmpty(firstName)){
                         cerr << "Erreur : ligne " << line << " : firstName est vide" << endl;
-                        ++line;
-                        stringIsEmpty = true;
+                        abort = true;
                     }
+                    sequence = 3;
+                    i += 2;
 
                 }else if(i+2 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == '='){
-                    if(!isStringEmpty(s)){
-                        phone = s;
-                        s = "";
-                        i += 2;
+                    if(isStringEmpty(phone)){
+                        cerr << "Erreur : ligne " << line << " : phone est vide" << endl;
+                        abort = true;
                     }
+                    sequence = 4;
+                    i += 2;
 
                 }else if(i+4 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == 'n' and buffer.str()[i+3] == 'd' and buffer.str()[i+4] == 'P'){
-                    if(!isStringEmpty(s)){
-                        email = s;
-                        s = "";
-                        i += 4;
+                    if(isStringEmpty(email)){
+                        cerr << "Erreur : ligne " << line << " : email est vide" << endl;
+                        abort = true;
+                    }
 
+                    if(!abort){
                         auto p = new Personne(firstName, lastName, phone, email);
-                        if(!listPersonnes.inserer(p)) cerr << "Erreur : ligne " << line << " : personne deja ajoutee" << endl;
+                        if(!listPersonnes.inserer(p)){
+                            cerr << "Erreur : ligne " << line << " : personne deja ajoutee" << endl;
+                            delete p;
+                        }
                     }
-
-                }else s += c;
-
-                if(stringIsEmpty){
-
-                    bool isOk = false;
-                    if(i+1 < max) ++i;
-                    else isOk = true;
-
-                    while(!isOk){
-                        if(buffer.str()[i] == '&'){
-                            if(i+2 < max and buffer.str()[i+1] == 'l' and buffer.str()[i+2] == '='){
-                                s = "";
-                                i += 2;
-                                isOk = true;
-                            }
-                        }else if(i+1 < max) ++i;
-                        else isOk = true;
-                    }
-                    stringIsEmpty = false;
+                    sequence = 0;
+                    i += 4;
+                    lastName = firstName = phone = email = "";
 
                 }else{
-                    if(loadingBar != nullptr){
-                        val = (i * 100) / max;
-                        loadingBar->setValue(val);
+                    switch(sequence){
+                    case 0:
+                        break;
+                    case 1:
+                        lastName += c;
+                        break;
+                    case 2:
+                        firstName += c;
+                        break;
+                    case 3:
+                        phone += c;
+                        break;
+                    case 4:
+                        email += c;
+                        break;
+                    default:
+                        cerr << "Erreur : sequence = " << sequence << endl;
+                        break;
                     }
                 }
 
-            }else s += c;
-
+                if(loadingBar != nullptr){
+                    val = (i * 100) / max;
+                    loadingBar->setValue(val);
+                }
+            }else{
+                if(c == '\n') ++line;
+                switch(sequence){
+                case 0:
+                    break;
+                case 1:
+                    lastName += c;
+                    break;
+                case 2:
+                    firstName += c;
+                    break;
+                case 3:
+                    phone += c;
+                    break;
+                case 4:
+                    email += c;
+                    break;
+                default:
+                    cerr << "Erreur : sequence = " << sequence << endl;
+                    break;
+                }
+            }
         }
+
+        if(lastName != "" or firstName != "" or phone != "" or email != "")
+            cerr << "Erreur : ligne " << line << " : pas de fin de ligne" << endl;
 
         loaded = true;
     }
@@ -143,9 +176,9 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
 
 }
 bool manager::laodRDV(const string& filePath, QProgressBar* loadingBar){
-    cout << "Chargement du fichier "  << filePath<< endl;
+    cout << "Chargement du fichier "  << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
     bool loaded = false;
-    ifstream ifs(filePath);
+    ifstream ifs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);
 
     if(!ifs)
         cerr << "Impossible d'ouvrir le fichier en lecture" << endl;
@@ -160,9 +193,9 @@ bool manager::laodRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar) const{
-    cout << "Enregistrement du fichier " << filePath << endl;
+    cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool saved = false;
-    ofstream ofs(filePath);
+    ofstream ofs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
 
     if(!ofs)
         cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
@@ -213,9 +246,9 @@ bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar) con
 
 }
 bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar) const{
-    cout << "Enregistrement du fichier " << filePath << endl;
+    cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
     bool saved = false;
-    ofstream ofs(filePath);
+    ofstream ofs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);
 
     if(!ofs)
         cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
