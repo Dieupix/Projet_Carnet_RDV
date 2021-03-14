@@ -17,7 +17,8 @@ Même méthode pour Windows, Linux ou MacOS :
 
 Téléchargez et décompressez le fichier ZIP du projet [Projet_Carnet_RDV](https://github.com/Dieupix/Projet_Carnet_RDV/archive/main.zip).\
 Ou bien\
-Clonez le répertoire git du projet à l'aide de la commande : ` git clone https://github.com/Dieupix/Projet_Carnet_RDV.git `.
+Clonez le répertoire git du projet à l'aide de la commande :\
+` git clone https://github.com/Dieupix/Projet_Carnet_RDV.git `.
 
 ## Utilisation
 
@@ -35,7 +36,7 @@ Après avoir installé Qt Creator, ouvrez le dossier ` Carnet_RDV ` puis ouvrez 
 ```
 Carnet_RDV
 ├── icons: icônes pour l'application
-├── Carnet_RDV.pro: fichier du projet
+├── Carnet_RDV.pro: fichier source du projet
 ├── Headers: fichiers d'en-têtes C++
 |   ├── date.h
 |   ├── hour.h
