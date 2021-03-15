@@ -20,6 +20,7 @@ manager::manager(void){
     loadPersonne();
     cout << endl;
 
+
     cout << listPersonnes << endl << endl;
 
     Date date {10, 4, 2021};
@@ -36,11 +37,11 @@ manager::manager(void){
 
 
 
-// Surcharge des opérateurs
+// ---------- Surcharge des opérateurs ----------
 
 
 
-// Méthodes
+// ---------- Méthodes ----------
 bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
     cout << "Chargement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool loaded = false;
@@ -68,10 +69,7 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
             if(c == '&'){
 
                 if(i+2 < max and buffer.str()[i+1] == 'l' and buffer.str()[i+2] == '='){
-                    if(lastName != "" or
-                            firstName != "" or
-                            phone != "" or
-                            email != ""){
+                    if(lastName != "" or  firstName != "" or phone != "" or email != ""){
                         cerr << "Erreur : ligne " << line - 1 << " : pas de fin de ligne" << endl;
                         lastName = firstName = phone = email = "";
                     }
@@ -141,11 +139,6 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                         break;
                     }
                 }
-
-                if(loadingBar != nullptr){
-                    val = (i * 100) / max;
-                    loadingBar->setValue(val);
-                }
             }else{
                 if(c == '\n') ++line;
                 switch(sequence){
@@ -193,6 +186,203 @@ bool manager::laodRDV(const string& filePath, QProgressBar* loadingBar){
     if(!ifs)
         cerr << "Impossible d'ouvrir le fichier en lecture" << endl;
     else{
+
+        stringstream buffer;
+        buffer << ifs.rdbuf();
+
+        string name = "", date = "", timeStart = "", timeEnd = "", lastName= "", firstName = "", phone = "", email = "";
+        short int sequence = 0;
+        unsigned long long i = 0, max = buffer.str().size();
+        int line = 1;
+        bool abort = true;
+        double val = 0;
+        char c = '0';
+        for(i = 0;  i < buffer.str().size(); ++i){
+            c = buffer.str()[i];
+            if(loadingBar != nullptr){
+                val = (i * 100) / max;
+                loadingBar->setValue(val);
+            }
+            if(c == '&'){
+
+                if(i+2 < max and buffer.str()[i+1] == 'n' and buffer.str()[i+2] == '='){
+                    if(name != "" or date != "" or timeStart != "" or timeEnd != ""){
+                        cerr << "Erreur : ligne " << line - 1 << " : pas de fin de ligne" << endl;
+                        name = date = timeStart = timeEnd = "";
+                    }
+                    sequence = 1;
+                    i += 2;
+                    abort = false;
+                }else if(i+2 < max and buffer.str()[i+1] == 'd' and buffer.str()[i+2] == '='){
+                    if(isStringEmpty(name)){
+                        cerr << "Erreur : ligne " << line << " : name est vide" << endl;
+                        abort = true;
+                    }
+                    sequence = 2;
+                    i += 2;
+                }else if(i+3 < max and buffer.str()[i+1] == 't' and buffer.str()[i+2] == 's' and buffer.str()[i+3] == '='){
+                    if(isStringEmpty(date)){
+                        cerr << "Erreur : ligne " << line << " : date est vide" << endl;
+                        abort = true;
+                    }
+                    sequence = 3;
+                    i += 3;
+                }else if(i+3 < max and buffer.str()[i+1] == 't' and buffer.str()[i+2] == 'e' and buffer.str()[i+3] == '='){
+                    if(isStringEmpty(timeStart)){
+                        cerr << "Erreur : ligne " << line << " : timeStart est vide" << endl;
+                        abort = true;
+                    }
+                    sequence = 4;
+                    i += 3;
+                }else if(i+4 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == 'n' and buffer.str()[i+3] == 'd' and buffer.str()[i+3] == 'R'){
+                    if(isStringEmpty(timeEnd)){
+                        cerr << "Erreur : ligne " << line << " : timeEnd est vide" << endl;
+                        abort = true;
+                    }
+
+                    if(!abort){
+                        Date d;
+                        Hour tS, tE;
+                        if(stoDate(date, d) and stoHour(timeStart, tS) and stoHour(timeEnd, tE)){
+                            RDV* rdv = new RDV(name, d, tS, tE);
+                            if(!listRDV.inserer(rdv)){
+                                cerr << "Erreur : ligne " << line << " : RDV deja insere" << endl;
+                                delete rdv;
+                            }
+
+                        }else cerr << "Erreur : ligne " << line << " : format de date ou d'heure incorrect" << endl;
+                    }
+
+                    sequence = 5;
+                    i += 4;
+                }
+                else if(i+2 < max and buffer.str()[i+1] == 'l' and buffer.str()[i+2] == '='){
+                    if(lastName != "" or firstName != "" or phone != "" or email != ""){
+                        cerr << "Erreur : ligne " << line - 1 << " : pas de fin de ligne" << endl;
+                        lastName = firstName = phone = email = "";
+                    }
+                    sequence = 5;
+                    i += 2;
+                    abort = false;
+
+                }else if(i+2 < max and buffer.str()[i+1] == 'f' and buffer.str()[i+2] == '='){
+                    if(isStringEmpty(lastName)){
+                        cerr << "Erreur : ligne " << line << " : lastName est vide" << endl;
+                        abort = true;
+                    }
+                    sequence = 6;
+                    i += 2;
+
+                }else if(i+2 < max and buffer.str()[i+1] == 'p' and buffer.str()[i+2] == '='){
+                    if(isStringEmpty(firstName)){
+                        cerr << "Erreur : ligne " << line << " : firstName est vide" << endl;
+                        abort = true;
+                    }
+                    sequence = 7;
+                    i += 2;
+
+                }else if(i+2 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == '='){
+                    if(isStringEmpty(phone)){
+                        cerr << "Erreur : ligne " << line << " : phone est vide" << endl;
+                        abort = true;
+                    }
+                    sequence = 8;
+                    i += 2;
+
+                }else if(i+4 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == 'n' and buffer.str()[i+3] == 'd' and buffer.str()[i+4] == 'P'){
+                    if(isStringEmpty(email)){
+                        cerr << "Erreur : ligne " << line << " : email est vide" << endl;
+                        abort = true;
+                    }
+
+                    if(!abort){
+                        auto p = new Personne(firstName, lastName, phone, email);
+                        if(!listPersonnes.inserer(p)){
+                            cerr << "Erreur : ligne " << line << " : personne deja ajoutee" << endl;
+                            delete p;
+                        }
+                    }
+                    sequence = 0;
+                    i += 4;
+                    lastName = firstName = phone = email = "";
+
+                }else{
+                    if(c == '\n') ++line;
+                    switch(sequence){
+                    case 0:
+                        break;
+                    case 1:
+                        name += c;
+                        break;
+                    case 2:
+                        date += c;
+                        break;
+                    case 3:
+                        timeStart += c;
+                        break;
+                    case 4:
+                        timeEnd += c;
+                        break;
+                    case 5:
+                        lastName += c;
+                        break;
+                    case 6:
+                        firstName += c;
+                        break;
+                    case 7:
+                        phone += c;
+                        break;
+                    case 8:
+                        email += c;
+                        break;
+                    default:
+                        cerr << "Erreur : sequence = " << sequence << endl;
+                        break;
+                    }
+                }
+            }else{
+                if(c == '\n') ++line;
+                switch(sequence){
+                case 0:
+                    break;
+                case 1:
+                    name += c;
+                    break;
+                case 2:
+                    date += c;
+                    break;
+                case 3:
+                    timeStart += c;
+                    break;
+                case 4:
+                    timeEnd += c;
+                    break;
+                case 5:
+                    lastName += c;
+                    break;
+                case 6:
+                    firstName += c;
+                    break;
+                case 7:
+                    phone += c;
+                    break;
+                case 8:
+                    email += c;
+                    break;
+                default:
+                    cerr << "Erreur : sequence = " << sequence << endl;
+                    break;
+                }
+            }
+        }
+
+        if(loadingBar != nullptr){
+            val = (i * 100) / max;
+            loadingBar->setValue(val);
+        }
+
+        if(lastName != "" or firstName != "" or phone != "" or email != "")
+            cerr << "Erreur : ligne " << line << " : pas de fin de ligne" << endl;
 
 
         loaded = true;
@@ -324,14 +514,14 @@ bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar) const{
 
 
 
-// Getteurs
+// ---------- Getteurs ----------
 
 
 
-// Setteurs
+// ---------- Setteurs ----------
 
 
 
-// Fonctions globales
+// ---------- Fonctions globales ----------
 
 
