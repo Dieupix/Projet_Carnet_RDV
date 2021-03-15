@@ -173,13 +173,14 @@ bool LDCR::inserer(RDV* val) {
     }
     else {
         auto crt = this->d_t;
-        while (crt->d_suiv != nullptr and *crt->rdv < *val){
-            if(*crt->rdv == *val){
-                delete n;
-                return false;
-            }
+        while (crt->d_suiv != nullptr and *crt->rdv < *val)
             crt = crt->d_suiv;
+
+        if(*crt->rdv == *val){
+            delete n;
+            return false;
         }
+
         if (*crt->rdv < *val) {
             n->d_prec = crt;
             crt->d_suiv = n;
