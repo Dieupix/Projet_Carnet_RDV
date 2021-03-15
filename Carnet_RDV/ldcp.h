@@ -18,7 +18,7 @@ class LDCP
 {
 private:
     ChainonPersonne* d_t;
-    int Size;
+    unsigned Size;
 
 public:
     LDCP(void);                                 // Constructeur
@@ -31,7 +31,7 @@ public:
 
     LDCP& operator=(const LDCP&);               // Affectation
 
-    Personne* operator[](int);
+    Personne* operator[](unsigned);
 
     // Méthodes
     void afficher(ostream& ost = cout) const;   // Afficher

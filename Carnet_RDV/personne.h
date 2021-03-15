@@ -33,6 +33,7 @@ public:
     // Méthodes
     bool addRDV(RDV* rdv);
     void afficher(ostream& ost = cout) const;
+    string RDVToString(void) const;
     bool removeRDV(RDV* rdv);
     QString toQString(void) const;
     string toString(void) const;

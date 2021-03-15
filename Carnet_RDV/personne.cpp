@@ -57,6 +57,13 @@ void Personne::afficher(ostream& ost) const{
     ost << toString();
 }
 
+string Personne::RDVToString(void) const{
+    string s = "";
+    for(unsigned i = 0; i < rdvList.size(); ++i)
+
+    return s;
+}
+
 // Commentaire à supprimer après validation
 // TODO - Quand on enlève un RDV, il n'est pas << delete >> !
 bool Personne::removeRDV(RDV* rdv){
