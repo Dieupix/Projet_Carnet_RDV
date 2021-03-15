@@ -251,3 +251,4 @@ ostream& operator<<(ostream& ost, const Hour& h){
     h.afficher(ost);
     return ost;
 }
+
