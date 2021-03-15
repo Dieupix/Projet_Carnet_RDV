@@ -17,9 +17,8 @@ manager::manager(void){
 
     auto p1 = new Personne(fN, lN, "0695152925", "alexandre.janon@yahoo.fr"), p2 = new Personne("Franck", "JANON", "0666", "gmail");
 
-
-
-
+    loadPersonne();
+    cout << endl;
 
     cout << listPersonnes << endl << endl;
 
