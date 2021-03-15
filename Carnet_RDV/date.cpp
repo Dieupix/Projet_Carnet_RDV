@@ -164,11 +164,11 @@ int Date::compareTo(const Date& d) const
 {
     if(year > d.year) return -1;
     else if(year < d.year) return 1;
-        else if(month > d.month) return -1;
-             else if(month < d.month) return 1;
-                  else if(day > d.day) return -1;
-                       else if(day < d.day) return 1;
-                            else return 0;
+    else if(month > d.month) return -1;
+    else if(month < d.month) return 1;
+    else if(day > d.day) return -1;
+    else if(day < d.day) return 1;
+    else return 0;
 }
 
 // Retourne vrai si l'année est bissextile, faux sinon

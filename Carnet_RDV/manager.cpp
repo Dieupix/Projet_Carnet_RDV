@@ -12,33 +12,20 @@ bool isStringEmpty(const string& s){
 
 manager::manager(void){
 
-    string fN = "Alexandre", lN = "JANON";
-    for(unsigned i = 0; i < lN.length(); ++i) lN[i] = toupper(lN[i]);
-
-    auto p1 = new Personne(fN, lN, "0695152925", "alexandre.janon@yahoo.fr"), p2 = new Personne("Franck", "JANON", "0666", "gmail");
-
     loadPersonne();
     cout << endl;
 
     cout << listPersonnes << endl << endl;
 
     Date date {10, 4, 2021};
-    Hour timeStart (8, 30, 0), timeEnd (10, 0, 0);
+    Hour timeStart (8, 30), timeEnd (10, 0);
 
     RDV* rdv = new RDV("Première réunion", date, timeStart, timeEnd);
 
-    rdv->addMember(p1);
-    rdv->addMember(p2);
+    rdv->addMember(listPersonnes[0]);
+    rdv->addMember(listPersonnes[1]);
 
-    cout << rdv << endl;
-    LDCR r;r.inserer(rdv);
-    cout << *r[0]<<endl;
-
-    auto rdv2 = new RDV("Première réunion", date, timeStart, timeEnd);
-
-    if(!listRDV.inserer(rdv2)) cerr << "Erreur : " << endl;
-
-    cout << listRDV << endl << endl;
+    cout << *rdv << endl;
 
 }
 
@@ -185,7 +172,7 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
     return loaded;
 
 }
-bool manager::laodRDV(const string& filePath, QProgressBar* loadingBar){
+bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
     cout << "Chargement du fichier "  << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
     bool loaded = false;
     ifstream ifs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);

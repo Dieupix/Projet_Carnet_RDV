@@ -16,7 +16,7 @@ public:
     // On suppose que les paramètres sont toujours valides
     Hour(void);
     Hour(const Hour& h);
-    Hour(const unsigned& hour, const unsigned& minute, const unsigned& second);
+    Hour(const unsigned& hour, const unsigned& minute, const unsigned& second = 0);
 
     // Surcharge des opérateurs
     bool operator==(const Hour&) const;

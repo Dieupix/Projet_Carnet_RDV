@@ -25,7 +25,7 @@ public:
 
     // Méthodes
     bool loadPersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
-    bool laodRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    bool loadRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
 
     bool savePersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
     bool saveRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);

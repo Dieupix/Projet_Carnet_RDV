@@ -171,11 +171,11 @@ void Hour::afficher(ostream& ost) const
 int Hour::compareTo(const Hour& h) const{
     if(hour > h.hour) return -1;
     else if(hour < h.hour) return 1;
-        else if(minute > h.minute) return -1;
-            else if(minute < h.minute) return 1;
-                else if(second > h.second) return -1;
-                    else if(second < h.second) return 1;
-                        else return 0;
+    else if(minute > h.minute) return -1;
+    else if(minute < h.minute) return 1;
+    else if(second > h.second) return -1;
+    else if(second < h.second) return 1;
+    else return 0;
 }
 
 Hour& Hour::remove(const Hour& h)
