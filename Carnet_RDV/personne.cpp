@@ -57,6 +57,17 @@ void Personne::afficher(ostream& ost) const{
     ost << toString();
 }
 
+QString Personne::rdvToQString(void) const{
+    return QString::fromStdString(rdvToString());
+}
+
+string Personne::rdvToString(void) const{
+    string s = "Rendez-vous (" + to_string(rdvList.size()) + ") : \n";
+    if (rdvList.size() == 0) s += "Aucun Rendez-vous\n";
+    else for(auto rdv : rdvList) s += rdv->toString() + "\n";
+    return s;
+}
+
 // Commentaire à supprimer après validation
 // TODO - Quand on enlève un RDV, il n'est pas << delete >> !
 bool Personne::removeRDV(RDV* rdv){

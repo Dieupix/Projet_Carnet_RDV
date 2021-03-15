@@ -2,9 +2,10 @@
 #define HOUR_H
 
 #include <iostream>
+#include <time.h>
 
 #include <QString>
-#include<ctime>
+
 using namespace std;
 
 class Hour

@@ -113,10 +113,10 @@ LDCP& LDCP::operator=(const LDCP& l) {
     return *this;
 }
 
-Personne* LDCP::operator[](int i){
-    if(i >= 0 and i < Size){
+Personne* LDCP::operator[](unsigned i){
+    if(i < Size){
         auto crt = d_t;
-        for (int ind = 0; ind < i; ++ind) crt = crt->d_suiv;
+        for (unsigned ind = 0; ind < i; ++ind) crt = crt->d_suiv;
         return crt->p;
     }
     else{
@@ -132,12 +132,12 @@ void LDCP::afficher(ostream& ost) const{
     auto crt = this->d_t;
     if (crt == nullptr) ost << "Liste vide";
     else {
-        int i = 0;
+        unsigned i = 0;
         while (crt->d_suiv != nullptr) {
             ost << *crt->p << " -> ";
             crt = crt->d_suiv;
             i++;
-            if (i == 10) {
+            if (i == PRINT_MODULO) {
                 i = 0;
                 ost << endl;
             }

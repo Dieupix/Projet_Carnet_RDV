@@ -25,10 +25,7 @@ manager::manager(void){
     rdv->addMember(listPersonnes[0]);
     rdv->addMember(listPersonnes[1]);
 
-    cout << *rdv << endl;
-
-    savePersonne();
-    cout << endl;
+    cout << *rdv << endl << rdv->participantsToString() << endl;
 
 }
 

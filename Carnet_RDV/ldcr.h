@@ -17,8 +17,10 @@ private:
 class LDCR
 {
 private:
+    const unsigned PRINT_MODULO = 3;
+
     ChainonRDV* d_t;
-    int Size;
+    unsigned Size;
 
 public:
     LDCR(void);                                 // Constructeur
@@ -31,7 +33,7 @@ public:
 
     LDCR& operator=(const LDCR&);               // Affectation
 
-    RDV* operator[](int);
+    RDV* operator[](unsigned);
 
     // Méthodes
     void afficher(ostream& ost = cout) const;   // Afficher
