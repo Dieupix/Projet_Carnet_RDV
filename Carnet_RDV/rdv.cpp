@@ -56,9 +56,18 @@ void RDV::afficher(ostream& ost) const{
 }
 
 // Commentaires à supprimer après validation
-// Retourne 1 si rdv > à this, -1 si rdv < this, 0 sinon
-int RDV::compareTo(const RDV &rdv) const{
-
+// Retourne 1 si r > à this, -1 si r < this, 0 sinon
+int RDV::compareTo(const RDV& r ) const
+{
+   if(name > r.name) return -1;
+   else if(name < r.name) return 1;
+   else if(date > r.date) return -1;
+   else if(date < r.date) return 1;
+   else if(timeStart > r.timeStart) return -1;
+   else if(timeStart < r.timeStart) return 1;
+   else if(timeEnd > r.timeEnd)  return -1;
+   else if(timeEnd < r.timeEnd) return 1;
+   else return 0;
 }
 
 string RDV::participantsToString(void) const{
