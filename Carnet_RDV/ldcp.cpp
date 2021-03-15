@@ -113,7 +113,7 @@ LDCP& LDCP::operator=(const LDCP& l) {
     return *this;
 }
 
-Personne* LDCP::operator[](int) const{
+Personne* LDCP::operator[](int){
 }
 
 
