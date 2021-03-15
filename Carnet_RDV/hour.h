@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include <QString>
-
+#include<ctime>
 using namespace std;
 
 class Hour
@@ -60,6 +60,7 @@ public:
     void setMinute(const unsigned& minute);
     void setHour(const unsigned& hour);
 
+    friend Hour now(void);
 };
 
 // Fonctions globales

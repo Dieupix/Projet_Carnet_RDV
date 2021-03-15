@@ -252,3 +252,13 @@ ostream& operator<<(ostream& ost, const Date& d){
     return ost;
 }
 
+Date today(void)
+{
+    Date dt{};
+    time_t t = time(NULL);
+    tm* now = localtime(&t);
+    dt.day = now->tm_mday;
+    dt.month = now->tm_mon;
+    dt.year = now->tm_year;
+    return dt;
+}
