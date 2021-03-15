@@ -2,7 +2,7 @@
 #define DATE_H
 
 #include <iostream>
-#include "time.h"
+#include <ctime>
 
 #include <QString>
 
@@ -63,6 +63,7 @@ public:
     void setMonth(const unsigned& m);
     void setYear(const unsigned& y);
 
+    friend Date today(void);
 };
 
 // Fonctions globales
