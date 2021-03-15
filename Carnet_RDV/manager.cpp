@@ -20,7 +20,6 @@ manager::manager(void){
     loadPersonne();
     cout << endl;
 
-
     cout << listPersonnes << endl << endl;
 
     Date date {10, 4, 2021};
@@ -32,6 +31,8 @@ manager::manager(void){
     rdv->addMember(p2);
 
     cout << rdv << endl;
+    LDCR r;r.inserer(rdv);
+    cout << *r[0]<<endl;
 
     auto rdv2 = new RDV("Première réunion", date, timeStart, timeEnd);
 
@@ -413,6 +414,7 @@ bool manager::laodRDV(const string& filePath, QProgressBar* loadingBar){
     return loaded;
 
 }
+
 bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
     cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool saved = false;
@@ -466,6 +468,7 @@ bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
     return saved;
 
 }
+
 bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
     cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
     bool saved = false;

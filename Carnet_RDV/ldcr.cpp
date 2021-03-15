@@ -114,6 +114,10 @@ LDCR& LDCR::operator=(const LDCR& l) {
 }
 
 RDV* LDCR::operator[](int i){
+    assert( i>= 0 and i < Size);
+    auto crt = d_t;
+    for (int ind =1; ind< i ;++ind) crt =crt->d_suiv;
+    return crt->rdv;
 }
 
 
@@ -173,13 +177,14 @@ bool LDCR::inserer(RDV* val) {
     }
     else {
         auto crt = this->d_t;
-        while (crt->d_suiv != nullptr and *crt->rdv < *val){
-            if(*crt->rdv == *val){
-                delete n;
-                return false;
-            }
+        while (crt->d_suiv != nullptr and *crt->rdv < *val)
             crt = crt->d_suiv;
+
+        if(*crt->rdv == *val){
+            delete n;
+            return false;
         }
+
         if (*crt->rdv < *val) {
             n->d_prec = crt;
             crt->d_suiv = n;

@@ -113,12 +113,17 @@ LDCP& LDCP::operator=(const LDCP& l) {
     return *this;
 }
 
-Personne* LDCP::operator[](int){
+Personne* LDCP::operator[](int i){
+
+    assert(i >= 0 and i < Size);
+    auto crt = d_t;
+    for (int ind =1; ind< i ;++ind) crt =crt->d_suiv;
+    return crt->p;
 }
 
 
 // ---------- Méthodes ----------
-void LDCP::afficher(ostream& ost) const {
+void LDCP::afficher(ostream& ost) const{
     auto crt = this->d_t;
     if (crt == nullptr) ost << "Liste vide";
     else {
@@ -172,13 +177,14 @@ bool LDCP::inserer(Personne* val) {
     }
     else {
         auto crt = this->d_t;
-        while (crt->d_suiv != nullptr and *crt->p < *val){
-            if(*crt->p == *val){
-                delete n;
-                return false;
-            }
+        while (crt->d_suiv != nullptr and *crt->p < *val)
             crt = crt->d_suiv;
+
+        if(*crt->p == *val){
+            delete n;
+            return false;
         }
+
         if (*crt->p < *val) {
             n->d_prec = crt;
             crt->d_suiv = n;

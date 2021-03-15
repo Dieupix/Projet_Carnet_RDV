@@ -245,6 +245,8 @@ void Hour::setHour(const unsigned& h)
 
 
 // ---------- Fonctions globales ----------
+bool stoHour(const string& s, Hour& h){
+}
 ostream& operator<<(ostream& ost, const Hour& h){
     h.afficher(ost);
     return ost;
