@@ -113,7 +113,15 @@ LDCP& LDCP::operator=(const LDCP& l) {
     return *this;
 }
 
-Personne* LDCP::operator[](int) const{
+Personne* LDCP::operator[](int i ){
+
+    assert(i>=0 and i<Size);
+    auto crt = d_t;
+    for (int ind =1; ind< i ;++ind)
+    {
+        crt =crt->d_suiv;
+    }
+    return crt->p;
 }
 
 

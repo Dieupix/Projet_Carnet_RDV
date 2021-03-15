@@ -31,7 +31,7 @@ public:
 
     LDCP& operator=(const LDCP&);               // Affectation
 
-    Personne* operator[](int) const;
+    Personne* operator[](int);
 
     // Méthodes
     void afficher(ostream& ost = cout) const;   // Afficher

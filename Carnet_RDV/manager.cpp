@@ -25,12 +25,14 @@ manager::manager(void){
     Date date {10, 4, 2021};
     Hour timeStart (8, 30, 0), timeEnd (10, 0, 0);
 
-    RDV rdv ("Première réunion", date, timeStart, timeEnd);
+    RDV* rdv= new RDV ("Première réunion", date, timeStart, timeEnd);
 
-    rdv.addMember(p1);
-    rdv.addMember(p2);
+    rdv->addMember(p1);
+    rdv->addMember(p2);
 
     cout << rdv << endl;
+    LDCR r;r.inserer(rdv);
+    cout << *r[0]<<endl;
 
 }
 
@@ -391,7 +393,7 @@ bool manager::laodRDV(const string& filePath, QProgressBar* loadingBar){
     return loaded;
 
 }
-bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar) const{
+bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar) {
     cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool saved = false;
     ofstream ofs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
@@ -444,7 +446,7 @@ bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar) con
     return saved;
 
 }
-bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar) const{
+bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar) {
     cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
     bool saved = false;
     ofstream ofs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);
@@ -453,22 +455,22 @@ bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar) const{
         cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
     else{
         int ind = 0, max = listRDV.size();
-        for(int ind = 0; ind < listRDV.size(); ++ind) max += listRDV[ind].getMembersList().size();
+        for(int ind = 0; ind < listRDV.size(); ++ind) max += listRDV[ind]->getMembersList().size();
         double val = 0;
         string buf = "";
         for(int i = 0; i < listRDV.size(); ++i){
             auto rdv = listRDV[i];
-            buf += (string) "&n=" + rdv.getName()
-                    + "&d=" + rdv.getDate().toString()
-                    + "&ts=" + rdv.getTimeStart().toString()
-                    + "&te=" + rdv.getTimeEnd().toString()
+            buf += (string) "&n=" + rdv->getName()
+                    + "&d=" + rdv->getDate().toString()
+                    + "&ts=" + rdv->getTimeStart().toString()
+                    + "&te=" + rdv->getTimeEnd().toString()
                     + "&endR\n";
             if(loadingBar != nullptr){
                 val = (ind * 100) / max;
                 loadingBar->setValue(val);
                 ++ind;
             }
-            for(auto p : rdv.getMembersList()){
+            for(auto p : rdv->getMembersList()){
                 buf += (string) "&l=" + p->getLastName()
                         + "&f=" + p->getFirstName()
                         + "&endP\n";
