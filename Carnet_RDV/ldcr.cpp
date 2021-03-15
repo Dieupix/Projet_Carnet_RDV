@@ -113,7 +113,14 @@ LDCR& LDCR::operator=(const LDCR& l) {
     return *this;
 }
 
-RDV& LDCR::operator[](int i) const{
+RDV* LDCR::operator[](int i) {
+assert(i>=0 and i<Size);
+auto crt = d_t;
+for (int ind =1; ind< i ;++ind)
+{
+    crt =crt->d_suiv;
+}
+return crt->rdv;
 }
 
 
