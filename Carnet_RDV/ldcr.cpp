@@ -114,10 +114,15 @@ LDCR& LDCR::operator=(const LDCR& l) {
 }
 
 RDV* LDCR::operator[](int i){
-    assert( i>= 0 and i < Size);
-    auto crt = d_t;
-    for (int ind =1; ind< i ;++ind) crt =crt->d_suiv;
-    return crt->rdv;
+    if(i >= 0 and i < Size){
+        auto crt = d_t;
+        for (int ind = 0; ind < i; ++ind) crt = crt->d_suiv;
+        return crt->rdv;
+    }
+    else{
+        throw (out_of_range("LDCR[" + to_string(i) + "] is out of range"));
+        terminate();
+    }
 }
 
 

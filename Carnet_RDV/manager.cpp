@@ -27,6 +27,9 @@ manager::manager(void){
 
     cout << *rdv << endl;
 
+    cout << *listPersonnes[0] << endl;
+    cout << *listPersonnes[1] << endl;
+
 }
 
 
