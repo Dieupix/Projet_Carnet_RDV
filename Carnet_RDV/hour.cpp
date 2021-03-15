@@ -245,9 +245,22 @@ void Hour::setHour(const unsigned& h)
 
 
 // ---------- Fonctions globales ----------
-bool stoHour(const string& s, Hour& h){
-}
+
 ostream& operator<<(ostream& ost, const Hour& h){
     h.afficher(ost);
     return ost;
+}
+
+bool stoHour(const string& s, Hour& h){
+}
+
+Hour now(void)
+{
+    Hour h{};
+    time_t t = time(NULL);
+    tm* now = localtime(&t);
+    h.hour = now->tm_hour;
+    h.minute = now->tm_min;
+    h.second = now->tm_sec;
+    return h;
 }

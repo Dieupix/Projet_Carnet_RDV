@@ -55,7 +55,6 @@ void RDV::afficher(ostream& ost) const{
     ost << toString();
 }
 
-// Commentaires à supprimer après validation
 // Retourne 1 si r > à this, -1 si r < this, 0 sinon
 int RDV::compareTo(const RDV& r ) const
 {
@@ -119,6 +118,7 @@ void RDV::setName(const string& name){
     this->name = name;
 }
 void RDV::setDate(const Date& date){
+    this->date = date;
 }
 void RDV::setTimeStart(const Hour& timeStart){
     this->timeStart = timeStart;
@@ -127,6 +127,7 @@ void RDV::setTimeEnd(const Hour& timeEnd){
     this->timeEnd = timeEnd;
 }
 void RDV::setMembersList(const vector<Personne*>& membersList){
+    this->membersList = membersList;
 }
 
 // ---------- Fonctions globales ----------

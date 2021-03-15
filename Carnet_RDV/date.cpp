@@ -245,10 +245,21 @@ void Date::setYear(const unsigned& y)
 
 
 // ---------- Fonctions globales ----------
-bool stoDate(const string& s, Date& d){
-}
 ostream& operator<<(ostream& ost, const Date& d){
     d.afficher(ost);
     return ost;
 }
 
+bool stoDate(const string& s, Date& d){
+}
+
+Date today(void)
+{
+    Date dt{};
+    time_t t = time(NULL);
+    tm* now = localtime(&t);
+    dt.day = now->tm_mday;
+    dt.month = now->tm_mon;
+    dt.year = now->tm_year;
+    return dt;
+}
