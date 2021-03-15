@@ -33,7 +33,6 @@ manager::manager(void){
     cout << rdv << endl;
     LDCR r;r.inserer(rdv);
     cout << *r[0]<<endl;
-
 }
 
 
