@@ -27,6 +27,9 @@ manager::manager(void){
 
     cout << *rdv << endl;
 
+    savePersonne();
+    cout << endl;
+
 }
 
 
@@ -439,6 +442,7 @@ bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
                 loadingBar->setValue(val);
                 ++i;
             }
+            cout << c;
         }
         if(loadingBar != nullptr){
             val = (i * 100) / max;
@@ -451,7 +455,7 @@ bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
 
     }
 
-    cout << "Enregistrement du fichier " << (saved ? "avec" : "sans") << " succes" << endl;
+    cout << "Fichier enregistre " << (saved ? "avec" : "sans") << " succes" << endl;
     return saved;
 
 }
@@ -518,7 +522,7 @@ bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
     }
 
-    cout << "Enregistrement du fichier " << (saved ? "avec" : "sans") << " succes" << endl;
+    cout << "Fichier enregistre " << (saved ? "avec" : "sans") << " succes" << endl;
     return saved;
 
 }
