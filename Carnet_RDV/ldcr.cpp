@@ -132,12 +132,12 @@ void LDCR::afficher(ostream& ost) const {
     auto crt = this->d_t;
     if (crt == nullptr) ost << "Liste vide";
     else {
-        int i = 0;
+        unsigned i = 0;
         while (crt->d_suiv != nullptr) {
             ost << *crt->rdv << " -> ";
             crt = crt->d_suiv;
             i++;
-            if (i == 10) {
+            if (i == PRINT_MODULO) {
                 i = 0;
                 ost << endl;
             }

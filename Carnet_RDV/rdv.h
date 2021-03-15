@@ -5,6 +5,8 @@
 #include "date.h"
 #include "hour.h"
 
+class Personne;
+
 class RDV
 {
 private:
@@ -32,6 +34,7 @@ public:
     bool addMember(Personne* p);
     void afficher(ostream& ost = cout) const;
     int compareTo(const RDV& rdv) const;
+    QString participantsToQString(void) const;
     string participantsToString(void) const;
     bool removeMember(Personne* p);
     QString toQString(void) const;

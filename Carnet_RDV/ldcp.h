@@ -17,6 +17,8 @@ private:
 class LDCP
 {
 private:
+    const unsigned PRINT_MODULO = 3;
+
     ChainonPersonne* d_t;
     unsigned Size;
 

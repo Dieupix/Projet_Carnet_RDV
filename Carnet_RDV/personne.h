@@ -2,6 +2,7 @@
 #define PERSONNE_H
 
 #include <iostream>
+#include "rdv.h"
 
 #include <QString>
 
@@ -33,7 +34,8 @@ public:
     // Méthodes
     bool addRDV(RDV* rdv);
     void afficher(ostream& ost = cout) const;
-    string RDVToString(void) const;
+    QString rdvToQString(void) const;
+    string rdvToString(void) const;
     bool removeRDV(RDV* rdv);
     QString toQString(void) const;
     string toString(void) const;

@@ -17,6 +17,8 @@ private:
 class LDCR
 {
 private:
+    const unsigned PRINT_MODULO = 3;
+
     ChainonRDV* d_t;
     unsigned Size;
 

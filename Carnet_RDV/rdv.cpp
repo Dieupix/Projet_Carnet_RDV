@@ -69,9 +69,14 @@ int RDV::compareTo(const RDV& r ) const
    else return 0;
 }
 
+QString RDV::participantsToQString(void) const{
+    return QString::fromStdString(participantsToString());
+}
+
 string RDV::participantsToString(void) const{
-    string s = "";
-    if (membersList.size() == 0) s = "Aucun participant\n";
+    string s = "Participant" + (string) (membersList.size() == 1 ? "" : "s") + " " +
+            "(" + to_string(membersList.size()) + ") :\n";
+    if (membersList.size() == 0) s += "Aucun participant\n";
     else for(auto p : membersList) s += p->toString() + "\n";
     return s;
 }
@@ -89,10 +94,7 @@ string RDV::toString(void) const{
     string s = name +
             " - Le " + date.toString() +
             " - De " + timeStart.toString() +
-            " à " + timeEnd.toString() + "\n"
-            "Participant" + (membersList.size() == 1 ? "" : "s") + " " +
-            "(" + to_string(membersList.size()) + ") :\n" +
-            participantsToString();
+            " à " + timeEnd.toString();
     return s;
 }
 
