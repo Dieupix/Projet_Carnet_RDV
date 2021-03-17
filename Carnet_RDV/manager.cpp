@@ -109,7 +109,7 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                     if(!abort){
                         auto p = new Personne(firstName, lastName, phone, email);
                         if(!listPersonnes.inserer(p)){
-                            cerr << "Erreur : ligne " << line << " : personne deja ajoutee" << endl;
+                            cerr << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
                             delete p;
                         }
                     }
@@ -189,7 +189,7 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
         stringstream buffer;
         buffer << ifs.rdbuf();
 
-        string name = "", date = "", timeStart = "", timeEnd = "", lastName= "", firstName = "", phone = "", email = "";
+        string name = "", date = "", timeStart = "", timeEnd = "", lastName= "", firstName = "";
         short int sequence = 0;
         unsigned long long i = 0, max = buffer.str().size();
         int line = 1;
@@ -245,7 +245,7 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                         if(stoDate(date, d) and stoHour(timeStart, tS) and stoHour(timeEnd, tE)){
                             RDV* rdv = new RDV(name, d, tS, tE);
                             if(!listRDV.inserer(rdv)){
-                                cerr << "Erreur : ligne " << line << " : RDV deja insere" << endl;
+                                cerr << "Erreur : ligne " << line << " : le RDV est deja dans la base de donnees" << endl;
                                 delete rdv;
                                 abortP = true;
                             }
@@ -257,9 +257,9 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                     i += 4;
                 }
                 else if(i+2 < max and buffer.str()[i+1] == 'l' and buffer.str()[i+2] == '='){
-                    if(lastName != "" or firstName != "" or phone != "" or email != ""){
+                    if(lastName != "" or firstName != ""){
                         cerr << "Erreur : ligne " << line - 1 << " : pas de fin de ligne" << endl;
-                        lastName = firstName = phone = email = "";
+                        lastName = firstName = "";
                     }
                     sequence = 5;
                     i += 2;
@@ -273,30 +273,14 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                     sequence = 6;
                     i += 2;
 
-                }else if(i+2 < max and buffer.str()[i+1] == 'p' and buffer.str()[i+2] == '='){
+                }else if(i+4 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == 'n' and buffer.str()[i+3] == 'd' and buffer.str()[i+4] == 'P'){
                     if(isStringEmpty(firstName)){
                         cerr << "Erreur : ligne " << line << " : firstName est vide" << endl;
                         abortP = true;
                     }
-                    sequence = 7;
-                    i += 2;
-
-                }else if(i+2 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == '='){
-                    if(isStringEmpty(phone)){
-                        cerr << "Erreur : ligne " << line << " : phone est vide" << endl;
-                        abortP = true;
-                    }
-                    sequence = 8;
-                    i += 2;
-
-                }else if(i+4 < max and buffer.str()[i+1] == 'e' and buffer.str()[i+2] == 'n' and buffer.str()[i+3] == 'd' and buffer.str()[i+4] == 'P'){
-                    if(isStringEmpty(email)){
-                        cerr << "Erreur : ligne " << line << " : email est vide" << endl;
-                        abortP = true;
-                    }
 
                     if(!abortP){
-                        auto p = new Personne(firstName, lastName, phone, email);
+                        auto p = new Personne(firstName, lastName, "", "");
                         Date d;
                         stoDate(date, d);
                         Hour tS, tE;
@@ -318,7 +302,7 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                     }
                     sequence = 0;
                     i += 4;
-                    name = date = timeStart = timeEnd = lastName = firstName = phone = email = "";
+                    name = date = timeStart = timeEnd = lastName = firstName = "";
 
                 }else{
                     if(c == '\n') ++line;
@@ -342,12 +326,6 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                         break;
                     case 6:
                         firstName += c;
-                        break;
-                    case 7:
-                        phone += c;
-                        break;
-                    case 8:
-                        email += c;
                         break;
                     default:
                         cerr << "Erreur : sequence = " << sequence << endl;
@@ -377,12 +355,6 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                 case 6:
                     firstName += c;
                     break;
-                case 7:
-                    phone += c;
-                    break;
-                case 8:
-                    email += c;
-                    break;
                 default:
                     cerr << "Erreur : sequence = " << sequence << endl;
                     break;
@@ -395,7 +367,7 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
             loadingBar->setValue(val);
         }
 
-        if(lastName != "" or firstName != "" or phone != "" or email != "")
+        if(lastName != "" or firstName != "")
             cerr << "Erreur : ligne " << line << " : pas de fin de ligne" << endl;
 
 
