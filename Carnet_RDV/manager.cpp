@@ -20,12 +20,17 @@ manager::manager(void){
     Date date {10, 4, 2021};
     Hour timeStart (8, 30), timeEnd (10, 0);
 
-    RDV* rdv = new RDV("Première réunion", date, timeStart, timeEnd);
+    listRDV.inserer(new RDV("Première réunion", date, timeStart, timeEnd));
+    auto rdv = listRDV[0];
 
     rdv->addMember(listPersonnes[0]);
     rdv->addMember(listPersonnes[1]);
 
+    vector<Personne*> membersList = {listPersonnes[0], listPersonnes[1], listPersonnes[2], listPersonnes[3]};
+    rdv->setMembersList(membersList);
+
     cout << *rdv << endl << rdv->participantsToString() << endl;
+
 
 }
 
