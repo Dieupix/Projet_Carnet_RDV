@@ -13,22 +13,22 @@ Personne::Personne(const string& firstName, const string& lastName, const string
 
 // ---------- Surcharge des opérateurs ----------
 bool Personne::operator>(const Personne& p) const{
-    return (this->lastName + this->firstName) > (p.lastName + p.firstName);
+    return compareTo(p) < 0;
 }
 bool Personne::operator>=(const Personne& p) const{
-    return (this->lastName + this->firstName) >= (p.lastName + p.firstName);
+    return compareTo(p) <= 0;
 }
 bool Personne::operator<(const Personne& p) const{
-    return (this->lastName + this->firstName) < (p.lastName + p.firstName);
+    return compareTo(p) > 0;
 }
 bool Personne::operator<=(const Personne& p) const{
-    return (this->lastName + this->firstName) <= (p.lastName + p.firstName);
+    return compareTo(p) >= 0;
 }
 bool Personne::operator==(const Personne& p) const{
-    return (this->lastName + this->firstName) == (p.lastName + p.firstName);
+    return compareTo(p) == 0;
 }
 bool Personne::operator!=(const Personne& p) const{
-    return (this->lastName + this->firstName) != (p.lastName + p.firstName);
+    return compareTo(p) != 0;
 }
 
 void Personne::operator=(const Personne& p){
@@ -55,6 +55,13 @@ bool Personne::addRDV(RDV* rdv){
 
 void Personne::afficher(ostream& ost) const{
     ost << toString();
+}
+
+// Retourn 1 si p > this, -1 si p < this, 0 sinon
+int Personne::compareTo(const Personne& p) const{
+    if(lastName + firstName > p.lastName + p.firstName) return -1;
+    else if(lastName + firstName < p.lastName + p.firstName) return 1;
+    else return 0;
 }
 
 QString Personne::rdvToQString(void) const{
