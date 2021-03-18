@@ -41,6 +41,14 @@ manager::manager(void){
 
 
 // ---------- Méthodes ----------
+bool manager::addPersonne(Personne *p){
+    return listPersonnes.inserer(p);
+}
+
+bool manager::addRDV(RDV *rdv){
+    return listRDV.inserer(rdv);
+}
+
 bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
     cout << "Chargement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool loaded = false;
@@ -108,10 +116,9 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
 
                     if(!abort){
                         auto p = new Personne(firstName, lastName, phone, email);
-                        if(!listPersonnes.inserer(p)){
+                        if(!listPersonnes.inserer(p))
                             cerr << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
-                            delete p;
-                        }
+                        delete p;
                     }
                     sequence = 0;
                     i += 4;
@@ -246,9 +253,9 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                             RDV* rdv = new RDV(name, d, tS, tE);
                             if(!listRDV.inserer(rdv)){
                                 cerr << "Erreur : ligne " << line << " : le RDV est deja dans la base de donnees" << endl;
-                                delete rdv;
                                 abortP = true;
                             }
+                            delete rdv;
 
                         }else cerr << "Erreur : ligne " << line << " : format de date ou d'heure incorrect" << endl;
                     }
@@ -294,11 +301,12 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                             ind = listRDV.rechD(rdv);
                             delete rdv;
                             rdv = listRDV[ind];
-                        }
-                        if(!rdv->addMember(p)){
-                            cerr << "Erreur : ligne " << line << " : personne deja ajoutee au rdv" << endl;
-                            delete p;
-                        }
+
+                            if(!rdv->addMember(p))
+                                cerr << "Erreur : ligne " << line << " : personne deja ajoutee au rdv" << endl;
+                        }else
+                            delete rdv;
+
                     }
                     sequence = 0;
                     i += 4;

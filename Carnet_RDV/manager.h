@@ -9,12 +9,15 @@
 #include <fstream>
 #include <sstream>
 
-const string FILENAMEPERSONNE = "Personne.carnetRDV";
-const string FILENAMERDV = "RDV.carnetRDV";
+// Fonction annexe
+bool isStringEmpty(const string& s);
 
 class manager
 {
 private:
+    const string FILENAMEPERSONNE = "Personne.carnetRDV";
+    const string FILENAMERDV = "RDV.carnetRDV";
+
     LDCP listPersonnes;
     LDCR listRDV;
 
@@ -24,6 +27,8 @@ public:
     // Surcharge des opérateurs
 
     // Méthodes
+    bool addPersonne(Personne* p);
+    bool addRDV(RDV* rdv);
     bool loadPersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
     bool loadRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
 
