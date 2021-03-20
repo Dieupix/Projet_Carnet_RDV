@@ -54,43 +54,31 @@ bool Personne::addRDV(RDV* r)
 {
     for(unsigned i=0; i< rdvList.size(); ++i)
     {
-        if(r->date
+        if(r->date == rdvList[i]->date)
         {
-            if(rdvList[i]->timeStart < timeEnd)
+            if(rdvList[i]->timeStart < r->timeEnd)
             {
-                if(rdvList[i]->timeStart >= timeStart || p->rdvList[i]->timeEnd > timeStart) {return false;}
+                if(rdvList[i]->timeStart >= r->timeStart || rdvList[i]->timeEnd > r->timeStart) {return false;}
             }
-            if(rdvList[i]->timeStart == timeEnd) //18-20 20-22 ?
+            if(rdvList[i]->timeStart == r->timeEnd) //18-20 20-22 ?
             {return false;}
         }
     }
 
-    int ind{0};
-    while(p->lastName > membersList[ind]->lastName){++ind;}
-    if(p->lastName == membersList[ind]->lastName)
+    unsigned ind{0};
+    bool found = false;
+    while(ind < rdvList.size() && !found)
     {
-        while(p->firstName > membersList[ind]->firstName){++ind;}
+        found = rdvList[ind] >= r;
+        ++ind;
     }
-
-
-    /* Avec la méthode :
-
-    int ind{0};
-    while(membersList[ind]->compareTo(p) == -1){++ind;}
-    */
-
-    //l'indice dans lequel je dois insérer p est connu
-
-    //Méthode qui insère une personne dans une liste de personnes : LDCP ?
-    /*
-    auto sauv = membersList[ind];
-    for(unsigned i=ind ; i<membersList.size()+1;++i)
+    rdvList.push_back(rdvList[rdvList.size()-1]);
+    for(unsigned i=rdvList.size()-2 ; i > ind ; --i)
     {
-        auto as = membersList[i];
-        membersList[i] = sauv;
-        ...
+        rdvList[i]=rdvList[i-1];
     }
-    */
+    rdvList[ind] = r;
+    return true;
 }
 
 void Personne::afficher(ostream& ost) const{
@@ -99,7 +87,22 @@ void Personne::afficher(ostream& ost) const{
 
 // Commentaire à supprimer après validation
 // TODO - Quand on enlève un RDV, il n'est pas << delete >> !
-bool Personne::removeRDV(RDV* rdv){
+bool Personne::removeRDV(RDV* r)
+{
+    unsigned i{0};
+    bool found{false};
+    while(i < rdvList.size() && !found)
+    {
+        found = (rdvList[i] == r);
+        ++i;
+    }
+
+    for(unsigned j = i ; j < rdvList.size()-1 ; ++j)
+    {
+        rdvList[j] = rdvList[j+1];
+    }
+    rdvList.pop_back();
+    return true;
 }
 
 QString Personne::toQString(void) const{

@@ -52,6 +52,8 @@ public:
     void setTimeEnd(const Hour& timeEnd);
     void setMembersList(const vector<Personne*>& membersList);
 
+    //Ami
+    friend class Personne;
 };
 
 // Fonctions globales
