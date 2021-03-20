@@ -48,9 +48,35 @@ Personne::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-// Commentaire à supprimer après validation
-// TODO - On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
-bool Personne::addRDV(RDV* rdv){
+// On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
+bool Personne::addRDV(RDV* rdv)
+{
+    for(unsigned i=0; i< rdvList.size(); ++i)
+    {
+        if(rdv->date == rdvList[i]->date)
+        {
+            if(rdvList[i]->timeStart < rdv->timeEnd)
+                if(rdvList[i]->timeStart >= rdv->timeStart || rdvList[i]->timeEnd > rdv->timeStart)
+                    return false;
+
+            if(rdvList[i]->timeStart == rdv->timeEnd) //18-20 20-22 ?
+                return false;
+        }
+    }
+
+    unsigned ind{0};
+    bool found = false;
+    while(ind < rdvList.size() && !found)
+    {
+        found = rdvList[ind] >= rdv;
+        ++ind;
+    }
+    rdvList.push_back(rdvList[rdvList.size()-1]);
+    for(unsigned i=rdvList.size() - 2; i > ind; --i)
+        rdvList[i]=rdvList[i-1];
+
+    rdvList[ind] = rdv;
+    return true;
 }
 
 void Personne::afficher(ostream& ost) const{
@@ -75,9 +101,21 @@ string Personne::rdvToString(void) const{
     return s;
 }
 
-// Commentaire à supprimer après validation
-// TODO - Quand on enlève un RDV, il n'est pas << delete >> !
-bool Personne::removeRDV(RDV* rdv){
+bool Personne::removeRDV(RDV* rdv)
+{
+    unsigned i{0};
+    bool found{false};
+    while(i < rdvList.size() && !found)
+    {
+        found = (rdvList[i] == rdv);
+        ++i;
+    }
+
+    for(unsigned j = i; j < rdvList.size() - 1; ++j)
+        rdvList[j] = rdvList[j+1];
+
+    rdvList.pop_back();
+    return true;
 }
 
 QString Personne::toQString(void) const{

@@ -9,6 +9,8 @@ RDV::RDV(const string& name, const Date& date, const Hour& timeStart, const Hour
     this->membersList = membersList;
 }
 
+
+
 // ---------- Surcharge des opérateurs ----------
 bool RDV::operator>(const RDV& rdv) const{
     return compareTo(rdv) < 0;
@@ -44,9 +46,10 @@ RDV::operator string(void) const{
     return toString();
 }
 
+
+
 // ---------- Méthodes ----------
-// Commentaires à supprimer après validation
-// TODO - On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
+// On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
 // Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
 bool RDV::addMember(Personne* p)
 {
@@ -101,8 +104,6 @@ string RDV::participantsToString(void) const{
     return s;
 }
 
-// Commentaires à supprimer après validation
-// TODO - Quand on enlève un participant, il n'est pas << delete >> !
 bool RDV::removeMember(Personne* p)
 {
     unsigned i{0};
@@ -132,6 +133,8 @@ string RDV::toString(void) const{
     return s;
 }
 
+
+
 // ---------- Getteurs ----------
 const string& RDV::getName(void) const{
     return this->name;
@@ -149,6 +152,8 @@ const vector<Personne*>& RDV::getMembersList(void) const{
     return this->membersList;
 }
 
+
+
 // ---------- Setteurs ----------
 void RDV::setName(const string& name){
     this->name = name;
@@ -165,6 +170,8 @@ void RDV::setTimeEnd(const Hour& timeEnd){
 void RDV::setMembersList(const vector<Personne*>& membersList){
     this->membersList = membersList;
 }
+
+
 
 // ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const RDV& rdv){

@@ -54,7 +54,7 @@ public:
     void setPhone(const string& phone);
     void setEmail(const string& email);
 
-    //ami
+    //Ami
     friend class RDV;
 };
 
