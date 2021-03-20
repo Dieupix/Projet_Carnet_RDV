@@ -9,6 +9,8 @@ RDV::RDV(const string& name, const Date& date, const Hour& timeStart, const Hour
     this->membersList = membersList;
 }
 
+
+
 // ---------- Surcharge des opérateurs ----------
 bool RDV::operator>(const RDV& rdv) const{
     return compareTo(rdv) < 0;
@@ -44,11 +46,32 @@ RDV::operator string(void) const{
     return toString();
 }
 
+
+
 // ---------- Méthodes ----------
-// Commentaires à supprimer après validation
-// TODO - On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
+// On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
 // Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
-bool RDV::addMember(Personne* p){
+bool RDV::addMember(Personne* p)
+{
+    unsigned i{0};
+    while(*p >= *membersList[i])
+    {
+        if(*p == *membersList[i])
+        {
+            return false;
+        }
+        ++i;
+    }
+    if(p->addRDV(this)){
+        membersList.push_back(membersList[membersList.size()-1]);
+        for(unsigned j = membersList.size()-2 ; j > i ; --j)
+        {
+            membersList[j]=membersList[j-1];
+        }
+        membersList[i]= p;
+        return true;
+    }
+    return false;
 }
 
 void RDV::afficher(ostream& ost) const{
@@ -81,9 +104,21 @@ string RDV::participantsToString(void) const{
     return s;
 }
 
-// Commentaires à supprimer après validation
-// TODO - Quand on enlève un participant, il n'est pas << delete >> !
-bool RDV::removeMember(Personne* p){
+bool RDV::removeMember(Personne* p)
+{
+    unsigned i{0};
+    while(*p != *membersList[i]){++i;}
+
+    if(p->removeRDV(this))
+    {
+        for(unsigned j = i ; j < membersList.size()-1 ; ++j)
+        {
+            membersList[j]= membersList[j+1];
+        }
+        membersList.pop_back();
+        return true;
+    }
+    return false;
 }
 
 QString RDV::toQString(void) const{
@@ -97,6 +132,8 @@ string RDV::toString(void) const{
             " à " + timeEnd.toString();
     return s;
 }
+
+
 
 // ---------- Getteurs ----------
 const string& RDV::getName(void) const{
@@ -115,6 +152,8 @@ const vector<Personne*>& RDV::getMembersList(void) const{
     return this->membersList;
 }
 
+
+
 // ---------- Setteurs ----------
 void RDV::setName(const string& name){
     this->name = name;
@@ -131,6 +170,8 @@ void RDV::setTimeEnd(const Hour& timeEnd){
 void RDV::setMembersList(const vector<Personne*>& membersList){
     this->membersList = membersList;
 }
+
+
 
 // ---------- Fonctions globales ----------
 ostream& operator<<(ostream& ost, const RDV& rdv){
