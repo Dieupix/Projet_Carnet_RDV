@@ -11,22 +11,22 @@ RDV::RDV(const string& name, const Date& date, const Hour& timeStart, const Hour
 
 // ---------- Surcharge des opérateurs ----------
 bool RDV::operator>(const RDV& rdv) const{
-    return QString::fromStdString(date) > QString::fromStdString(rdv.date);
+    return compareTo(rdv) < 0;
 }
 bool RDV::operator>=(const RDV& rdv) const{
-    return QString::fromStdString(date) >= QString::fromStdString(rdv.date);
+    return compareTo(rdv) <= 0;
 }
 bool RDV::operator<(const RDV& rdv) const{
-    return QString::fromStdString(date) < QString::fromStdString(rdv.date);
+    return compareTo(rdv) > 0;
 }
 bool RDV::operator<=(const RDV& rdv) const{
-    return QString::fromStdString(date) <= QString::fromStdString(rdv.date);
+    return compareTo(rdv) >= 0;
 }
 bool RDV::operator==(const RDV& rdv) const{
-    return QString::fromStdString(name + date.toString() + timeStart.toString() + timeEnd.toString()) == QString::fromStdString(rdv.name + rdv.date.toString() + rdv.timeStart.toString() + rdv.timeEnd.toString());
+    return compareTo(rdv) == 0;
 }
 bool RDV::operator!=(const RDV& rdv) const{
-    return QString::fromStdString(name + date.toString() + timeStart.toString() + timeEnd.toString()) != QString::fromStdString(rdv.name +rdv.date.toString() + rdv.timeStart.toString() + rdv.timeEnd.toString());
+    return compareTo(rdv) != 0;
 }
 
 void RDV::operator=(const RDV& rdv){
