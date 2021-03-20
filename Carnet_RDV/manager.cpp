@@ -115,10 +115,9 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                     }
 
                     if(!abort){
-                        auto p = new Personne(firstName, lastName, phone, email);
-                        if(!listPersonnes.inserer(p))
+                        Personne p (firstName, lastName, phone, email);
+                        if(!listPersonnes.inserer(&p))
                             cerr << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
-                        delete p;
                     }
                     sequence = 0;
                     i += 4;
@@ -250,12 +249,11 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                         Date d;
                         Hour tS, tE;
                         if(stoDate(date, d) and stoHour(timeStart, tS) and stoHour(timeEnd, tE)){
-                            RDV* rdv = new RDV(name, d, tS, tE);
-                            if(!listRDV.inserer(rdv)){
+                            RDV rdv (name, d, tS, tE);
+                            if(!listRDV.inserer(&rdv)){
                                 cerr << "Erreur : ligne " << line << " : le RDV est deja dans la base de donnees" << endl;
                                 abortP = true;
                             }
-                            delete rdv;
 
                         }else cerr << "Erreur : ligne " << line << " : format de date ou d'heure incorrect" << endl;
                     }
@@ -287,25 +285,24 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                     }
 
                     if(!abortP){
-                        auto p = new Personne(firstName, lastName, "", "");
+                        Personne p (firstName, lastName, "", "");
+                        Personne* crtP;
                         Date d;
                         stoDate(date, d);
                         Hour tS, tE;
                         stoHour(timeStart, tS);
                         stoHour(timeEnd, tE);
-                        auto rdv = new RDV(name, d, tS, tE);
-                        int ind = listPersonnes.rechD(p);
-                        delete p;
+                        RDV rdv (name, d, tS, tE);
+                        RDV* crtRDV;
+                        int ind = listPersonnes.rechD(&p);
                         if(ind != -1){
-                            p = listPersonnes[ind];
-                            ind = listRDV.rechD(rdv);
-                            delete rdv;
-                            rdv = listRDV[ind];
+                            crtP = listPersonnes[ind];
+                            ind = listRDV.rechD(&rdv);
+                            crtRDV = listRDV[ind];
 
-                            if(!rdv->addMember(p))
-                                cerr << "Erreur : ligne " << line << " : personne deja ajoutee au rdv" << endl;
-                        }else
-                            delete rdv;
+                            if(!crtRDV->addMember(crtP))
+                                cerr << "Erreur : ligne " << line << " : La personne est deja dans le rdv" << endl;
+                        }
 
                     }
                     sequence = 0;
