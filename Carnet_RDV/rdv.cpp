@@ -48,7 +48,27 @@ RDV::operator string(void) const{
 // Commentaires à supprimer après validation
 // TODO - On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
 // Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
-bool RDV::addMember(Personne* p){
+bool RDV::addMember(Personne* p)
+{
+    unsigned i{0};
+    while(*p >= *membersList[i])
+    {
+        if(*p == *membersList[i])
+        {
+            return false;
+        }
+        ++i;
+    }
+    if(p->addRDV(this)){
+        membersList.push_back(membersList[membersList.size()-1]);
+        for(unsigned j = membersList.size()-2 ; j > i ; --j)
+        {
+            membersList[j]=membersList[j-1];
+        }
+        membersList[i]= p;
+        return true;
+    }
+    return false;
 }
 
 void RDV::afficher(ostream& ost) const{
@@ -83,7 +103,21 @@ string RDV::participantsToString(void) const{
 
 // Commentaires à supprimer après validation
 // TODO - Quand on enlève un participant, il n'est pas << delete >> !
-bool RDV::removeMember(Personne* p){
+bool RDV::removeMember(Personne* p)
+{
+    unsigned i{0};
+    while(*p != *membersList[i]){++i;}
+
+    if(p->removeRDV(this))
+    {
+        for(unsigned j = i ; j < membersList.size()-1 ; ++j)
+        {
+            membersList[j]= membersList[j+1];
+        }
+        membersList.pop_back();
+        return true;
+    }
+    return false;
 }
 
 QString RDV::toQString(void) const{
