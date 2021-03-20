@@ -119,10 +119,8 @@ RDV* LDCR::operator[](unsigned i){
         for (unsigned ind = 0; ind < i; ++ind) crt = crt->d_suiv;
         return crt->rdv;
     }
-    else{
+    else
         throw (out_of_range("LDCR[" + to_string(i) + "] is out of range"));
-        terminate();
-    }
 }
 
 

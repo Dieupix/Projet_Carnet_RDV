@@ -21,15 +21,18 @@ Manager::Manager(void){
     Hour timeStart (8, 30), timeEnd (10, 0);
 
     listRDV.inserer(new RDV("Première réunion", date, timeStart, timeEnd));
+    listRDV.inserer(new RDV("Deuxième réunion", date, {10, 5, 0}, {12, 0, 0}));
     auto rdv = listRDV[0];
+    auto rdv2 = listRDV[1];
 
     rdv->addMember(listPersonnes[0]);
     rdv->addMember(listPersonnes[1]);
-
-    vector<Personne*> membersList = {listPersonnes[0], listPersonnes[1], listPersonnes[2], listPersonnes[3]};
-    rdv->setMembersList(membersList);
-
+    rdv2->addMember(listPersonnes[0]);
     cout << *rdv << endl << rdv->participantsToString() << endl;
+
+    cout << listPersonnes[0]->rdvToString() << endl;
+
+    saveRDV();
 
 
 }
@@ -115,9 +118,11 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                     }
 
                     if(!abort){
-                        Personne p (firstName, lastName, phone, email);
-                        if(!listPersonnes.inserer(&p))
-                            cerr << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
+                        Personne* p = new Personne(firstName, lastName, phone, email);
+                        if(!listPersonnes.inserer(p)){
+                            cerr << *p << " : " << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
+                            delete p;
+                        }
                     }
                     sequence = 0;
                     i += 4;
@@ -249,9 +254,10 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                         Date d;
                         Hour tS, tE;
                         if(stoDate(date, d) and stoHour(timeStart, tS) and stoHour(timeEnd, tE)){
-                            RDV rdv (name, d, tS, tE);
-                            if(!listRDV.inserer(&rdv)){
+                            RDV* rdv = new RDV(name, d, tS, tE);
+                            if(!listRDV.inserer(rdv)){
                                 cerr << "Erreur : ligne " << line << " : le RDV est deja dans la base de donnees" << endl;
+                                delete rdv;
                                 abortP = true;
                             }
 
@@ -285,25 +291,33 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                     }
 
                     if(!abortP){
-                        Personne p (firstName, lastName, "", "");
-                        Personne* crtP;
+                        Personne* p = new Personne(firstName, lastName, "", "");
                         Date d;
                         stoDate(date, d);
                         Hour tS, tE;
                         stoHour(timeStart, tS);
                         stoHour(timeEnd, tE);
-                        RDV rdv (name, d, tS, tE);
-                        RDV* crtRDV;
-                        int ind = listPersonnes.rechD(&p);
+                        RDV* rdv = new RDV(name, d, tS, tE);
+                        int ind = listPersonnes.rechD(p);
                         if(ind != -1){
-                            crtP = listPersonnes[ind];
-                            ind = listRDV.rechD(&rdv);
-                            crtRDV = listRDV[ind];
+                            delete p;
+                            p = listPersonnes[ind];
+                            ind = listRDV.rechD(rdv);
+                            delete rdv;
+                            rdv = listRDV[ind];
 
-                            if(!crtRDV->addMember(crtP))
-                                cerr << "Erreur : ligne " << line << " : La personne est deja dans le rdv" << endl;
+                            if(!rdv->addMember(p)){
+                                cerr << "Erreur : ligne " << line << " : La Personne est deja dans le RDV" << endl;
+                                delete p;
+                            }
+                        }else{
+                            listPersonnes.inserer(p);
+
+                            if(!rdv->addMember(p)){
+                                cerr << "Erreur : ligne " << line << " : La Personne est deja dans le RDV" << endl;
+                                delete p;
+                            }
                         }
-
                     }
                     sequence = 0;
                     i += 4;
@@ -461,8 +475,8 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
             auto rdv = listRDV[i];
             buf += (string) "&n=" + rdv->getName()
                     + "&d=" + rdv->getDate().toString()
-                    + "&ts=" + rdv->getTimeStart().toString()
-                    + "&te=" + rdv->getTimeEnd().toString()
+                    + "&ts=" + rdv->getTimeStart().toString(true)
+                    + "&te=" + rdv->getTimeEnd().toString(true)
                     + "&endR\n";
             if(loadingBar != nullptr){
                 val = (ind * 100) / max;

@@ -51,7 +51,7 @@ Personne::operator string(void) const{
 // On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
 bool Personne::addRDV(RDV* rdv)
 {
-    for(unsigned i=0; i< rdvList.size(); ++i)
+    for(unsigned i = 0; i < rdvList.size(); ++i)
     {
         if(rdv->date == rdvList[i]->date)
         {
@@ -65,17 +65,17 @@ bool Personne::addRDV(RDV* rdv)
     }
 
     unsigned ind{0};
-    bool found = false;
-    while(ind < rdvList.size() && !found)
-    {
-        found = rdvList[ind] >= rdv;
-        ++ind;
-    }
-    rdvList.push_back(rdvList[rdvList.size()-1]);
-    for(unsigned i=rdvList.size() - 2; i > ind; --i)
-        rdvList[i]=rdvList[i-1];
+    while(ind < rdvList.size() && *rdvList[ind] < *rdv) ++ind;
+    if(rdvList.size() == 0)
+        rdvList.push_back(rdv);
 
-    rdvList[ind] = rdv;
+    else{
+        rdvList.push_back(rdvList[rdvList.size() - 1]);
+        for(unsigned i = rdvList.size() - 2; i > ind; --i)
+            rdvList[i] = rdvList[i - 1];
+
+        rdvList[ind] = rdv;
+    }
     return true;
 }
 
@@ -96,7 +96,7 @@ QString Personne::rdvToQString(void) const{
 
 string Personne::rdvToString(void) const{
     string s = "Rendez-vous (" + to_string(rdvList.size()) + ") : \n";
-    if (rdvList.size() == 0) s += "Aucun Rendez-vous\n";
+    if (rdvList.size() == 0) s += "Aucun rendez-vous\n";
     else for(auto rdv : rdvList) s += rdv->toString() + "\n";
     return s;
 }
@@ -105,17 +105,20 @@ bool Personne::removeRDV(RDV* rdv)
 {
     unsigned i{0};
     bool found{false};
-    while(i < rdvList.size() && !found)
-    {
-        found = (rdvList[i] == rdv);
-        ++i;
+    while(i < rdvList.size() && !found){
+        if(*rdvList[i] == *rdv) found = true;
+        else ++i;
     }
 
-    for(unsigned j = i; j < rdvList.size() - 1; ++j)
-        rdvList[j] = rdvList[j+1];
+    if(rdvList.size() == 0) return false;
+    else if(found){
+        for(unsigned j = i; j < rdvList.size() - 1; ++j)
+            rdvList[j] = rdvList[j + 1];
 
-    rdvList.pop_back();
-    return true;
+        rdvList.pop_back();
+        return true;
+    }
+    return false;
 }
 
 QString Personne::toQString(void) const{

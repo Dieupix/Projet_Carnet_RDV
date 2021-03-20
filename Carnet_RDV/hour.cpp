@@ -206,13 +206,13 @@ Hour& Hour::remove(const Hour& h)
     return *this;
 }
 
-QString Hour::toQString(void) const{
-    return QString::fromStdString(toString());
+QString Hour::toQString(bool fullDigits) const{
+    return QString::fromStdString(toString(fullDigits));
 }
 
-string Hour::toString(void) const{
-    string s = to_string(hour) + "h" + (minute < 10 ? "0" : "") + to_string(minute);
-    if(second != 0){
+string Hour::toString(bool fullDigits) const{
+    string s = (hour < 10 and fullDigits ? "0" : "") + to_string(hour) + "h" + (minute < 10 ? "0" : "") + to_string(minute);
+    if(second != 0 or fullDigits){
         s += (string) "m" + (second < 10 ? "0" : "") + to_string(second) + "s";
     }
     return s;

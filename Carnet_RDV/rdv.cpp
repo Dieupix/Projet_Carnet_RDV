@@ -54,22 +54,22 @@ RDV::operator string(void) const{
 bool RDV::addMember(Personne* p)
 {
     unsigned i{0};
-    while(*p >= *membersList[i])
-    {
-        if(*p == *membersList[i])
-        {
+    while(i < membersList.size())
+        if(*p == *membersList[i++])
             return false;
-        }
-        ++i;
-    }
+
     if(p->addRDV(this)){
-        membersList.push_back(membersList[membersList.size()-1]);
-        for(unsigned j = membersList.size()-2 ; j > i ; --j)
-        {
-            membersList[j]=membersList[j-1];
+        if(membersList.size() == 0)
+            membersList.push_back(p);
+
+        else{
+            membersList.push_back(membersList[membersList.size() - 1]);
+            for(unsigned j = membersList.size() - 2; j > i; --j)
+                membersList[j] = membersList[j - 1];
+
+            membersList[i] = p;
+            return true;
         }
-        membersList[i]= p;
-        return true;
     }
     return false;
 }
@@ -81,9 +81,9 @@ void RDV::afficher(ostream& ost) const{
 // Retourne 1 si r > à this, -1 si r < this, 0 sinon
 int RDV::compareTo(const RDV& r ) const
 {
-   if(name > r.name) return -1;
+   /*if(name > r.name) return -1;
    else if(name < r.name) return 1;
-   else if(date > r.date) return -1;
+   else*/ if(date > r.date) return -1;
    else if(date < r.date) return 1;
    else if(timeStart > r.timeStart) return -1;
    else if(timeStart < r.timeStart) return 1;
@@ -107,16 +107,21 @@ string RDV::participantsToString(void) const{
 bool RDV::removeMember(Personne* p)
 {
     unsigned i{0};
-    while(*p != *membersList[i]){++i;}
+    bool found = false;
+    while(i < membersList.size() and ! found){
+        if(*p == *membersList[i]) found = true;
+        else ++i;
+    }
 
     if(p->removeRDV(this))
     {
-        for(unsigned j = i ; j < membersList.size()-1 ; ++j)
-        {
-            membersList[j]= membersList[j+1];
+        if(membersList.size() == 0) return false;
+        else if(found){
+            for(unsigned j = i; j < membersList.size() - 1; ++j)
+                membersList[j] = membersList[j + 1];
+            membersList.pop_back();
+            return true;
         }
-        membersList.pop_back();
-        return true;
     }
     return false;
 }

@@ -48,8 +48,8 @@ public:
     void afficher(ostream& ost = cout) const;
     int compareTo(const Hour& h) const;
     Hour& remove(const Hour& h);
-    QString toQString(void) const;
-    string toString(void) const;
+    QString toQString(bool fullDigits = false) const;
+    string toString(bool fullDigits = false) const;
 
     // Getteurs
     unsigned getSecond(void) const;
