@@ -41,11 +41,11 @@ manager::manager(void){
 
 
 // ---------- Méthodes ----------
-bool manager::addPersonne(Personne *p){
+bool manager::addPersonne(Personne* p){
     return listPersonnes.inserer(p);
 }
 
-bool manager::addRDV(RDV *rdv){
+bool manager::addRDV(RDV* rdv){
     return listRDV.inserer(rdv);
 }
 
@@ -382,6 +382,12 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
     cout << "Fichier charge " << (loaded ? "avec" : "sans") << " succes" << endl;
     return loaded;
 
+}
+
+bool manager::removePersonne(Personne* p){
+}
+
+bool manager::removeRDV(RDV* rdv){
 }
 
 bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
