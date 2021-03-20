@@ -21,7 +21,7 @@ private:
     void updateWindowTitle(void);
 
     bool isSaved = false;
-    manager Manager;
+    Manager manager;
     QProgressBar* loadingBar;
     QHBoxLayout* mainLayout;
     string windowTitle = "Carnet de Rendez-vous";

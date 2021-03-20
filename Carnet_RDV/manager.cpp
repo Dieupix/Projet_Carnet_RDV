@@ -10,7 +10,7 @@ bool isStringEmpty(const string& s){
     return true;
 }
 
-manager::manager(void){
+Manager::Manager(void){
 
     loadPersonne();
     cout << endl;
@@ -41,15 +41,15 @@ manager::manager(void){
 
 
 // ---------- Méthodes ----------
-bool manager::addPersonne(Personne* p){
+bool Manager::addPersonne(Personne* p){
     return listPersonnes.inserer(p);
 }
 
-bool manager::addRDV(RDV* rdv){
+bool Manager::addRDV(RDV* rdv){
     return listRDV.inserer(rdv);
 }
 
-bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
+bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
     cout << "Chargement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool loaded = false;
     ifstream ifs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
@@ -183,7 +183,7 @@ bool manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
     return loaded;
 
 }
-bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
+bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
     cout << "Chargement du fichier "  << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
     bool loaded = false;
     ifstream ifs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);
@@ -384,13 +384,13 @@ bool manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 
-bool manager::removePersonne(Personne* p){
+bool Manager::removePersonne(Personne* p){
 }
 
-bool manager::removeRDV(RDV* rdv){
+bool Manager::removeRDV(RDV* rdv){
 }
 
-bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
+bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
     cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
     bool saved = false;
     ofstream ofs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
@@ -445,7 +445,7 @@ bool manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
 
 }
 
-bool manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
+bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
     cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
     bool saved = false;
     ofstream ofs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);

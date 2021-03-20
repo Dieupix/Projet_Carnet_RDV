@@ -12,7 +12,7 @@
 // Fonction annexe
 bool isStringEmpty(const string& s);
 
-class manager
+class Manager
 {
 private:
     const string FILENAMEPERSONNE = "Personne.carnetRDV";
@@ -22,7 +22,7 @@ private:
     LDCR listRDV;
 
 public:
-    manager(void);
+    Manager(void);
 
     // Surcharge des opérateurs
 
