@@ -2,7 +2,7 @@
 #define PERSONNE_H
 
 #include <iostream>
-
+#include "rdv.h"
 #include <QString>
 
 class RDV;
@@ -49,6 +49,9 @@ public:
     void setLastName(const string& lastName);
     void setPhone(const string& phone);
     void setEmail(const string& email);
+
+    //ami
+    friend class RDV;
 };
 
 // Fonctions globales

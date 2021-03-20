@@ -50,7 +50,47 @@ Personne::operator string(void) const{
 // ---------- Méthodes ----------
 // Commentaire à supprimer après validation
 // TODO - On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
-bool Personne::addRDV(RDV* rdv){
+bool Personne::addRDV(RDV* r)
+{
+    for(unsigned i=0; i< rdvList.size(); ++i)
+    {
+        if(r->date
+        {
+            if(rdvList[i]->timeStart < timeEnd)
+            {
+                if(rdvList[i]->timeStart >= timeStart || p->rdvList[i]->timeEnd > timeStart) {return false;}
+            }
+            if(rdvList[i]->timeStart == timeEnd) //18-20 20-22 ?
+            {return false;}
+        }
+    }
+
+    int ind{0};
+    while(p->lastName > membersList[ind]->lastName){++ind;}
+    if(p->lastName == membersList[ind]->lastName)
+    {
+        while(p->firstName > membersList[ind]->firstName){++ind;}
+    }
+
+
+    /* Avec la méthode :
+
+    int ind{0};
+    while(membersList[ind]->compareTo(p) == -1){++ind;}
+    */
+
+    //l'indice dans lequel je dois insérer p est connu
+
+    //Méthode qui insère une personne dans une liste de personnes : LDCP ?
+    /*
+    auto sauv = membersList[ind];
+    for(unsigned i=ind ; i<membersList.size()+1;++i)
+    {
+        auto as = membersList[i];
+        membersList[i] = sauv;
+        ...
+    }
+    */
 }
 
 void Personne::afficher(ostream& ost) const{

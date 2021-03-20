@@ -4,6 +4,7 @@
 #include "personne.h"
 #include "date.h"
 #include "hour.h"
+class Personne;
 
 class RDV
 {
