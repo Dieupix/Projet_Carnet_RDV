@@ -65,17 +65,19 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
 
         string lastName= "", firstName = "", phone = "", email = "";
         short int sequence = 0;
-        unsigned long long i = 0, max = buffer.str().size();
+        unsigned i = 0, max = buffer.str().size();
+        if(loadingBar != nullptr){
+            loadingBar->setRange(0, max);
+            loadingBar->setValue(0);
+        }
         int line = 1;
         bool abort = true;
-        double val = 0;
         char c = '0';
         for(i = 0;  i < buffer.str().size(); ++i){
             c = buffer.str()[i];
-            if(loadingBar != nullptr){
-                val = (i * 100) / max;
-                loadingBar->setValue(val);
-            }
+            if(loadingBar != nullptr)
+                loadingBar->setValue(i);
+
             if(c == '&'){
 
                 if(i+2 < max and buffer.str()[i+1] == 'l' and buffer.str()[i+2] == '='){
@@ -173,10 +175,8 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
             }
         }
 
-        if(loadingBar != nullptr){
-            val = (i * 100) / max;
-            loadingBar->setValue(val);
-        }
+        if(loadingBar != nullptr)
+            loadingBar->setValue(i);
 
         if(lastName != "" or firstName != "" or phone != "" or email != "")
             cerr << "Erreur : ligne " << line << " : pas de fin de ligne" << endl;
