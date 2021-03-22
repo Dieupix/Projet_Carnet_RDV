@@ -412,8 +412,9 @@ bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
     if(!ofs)
         cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
     else{
-        int i = 0, max = listPersonnes.size();
-        double val = 0;
+        int i = 0;
+        loadingBar->setRange(0, listPersonnes.size());
+        loadingBar->setValue(0);
         string buf = "";
         for(i = 0; i < listPersonnes.size(); ++i){
             auto p = listPersonnes[i];
@@ -422,31 +423,25 @@ bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
                     + "&p=" + p->getPhone()
                     + "&e=" + p->getEmail()
                     + "&endP\n";
-            if(loadingBar != nullptr){
-                val = (i * 100) / max;
-                loadingBar->setValue(val);
-            }
+            if(loadingBar != nullptr)
+                loadingBar->setValue(i);
         }
-        if(loadingBar != nullptr){
-            val = (i * 100) / max;
-            loadingBar->setValue(val);
-        }
+        if(loadingBar != nullptr)
+            loadingBar->setValue(i);
 
-        i = 0, max = buf.length();
+        i = 0;
+        loadingBar->setMaximum(buf.length());
+        loadingBar->setValue(i);
         stringstream buffer;
         for(char c : buf){
             buffer.put(c);
             if(loadingBar != nullptr){
-                val = (i * 100) / max;
-                loadingBar->setValue(val);
-                ++i;
+                loadingBar->setValue(i++);
             }
             cout << c;
         }
-        if(loadingBar != nullptr){
-            val = (i * 100) / max;
-            loadingBar->setValue(val);
-        }
+        if(loadingBar != nullptr)
+            loadingBar->setValue(i);
 
         ofs << buffer.rdbuf();
 
