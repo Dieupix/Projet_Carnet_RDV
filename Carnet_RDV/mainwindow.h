@@ -1,39 +1,48 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QWidget>
 #include <QBoxLayout>
-#include <QPushButton>
-#include <QMessageBox>
 #include <QLabel>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QPushButton>
+#include <QSpinBox>
 
 #include "manager.h"
 
-class MainWindow : public QWidget
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    friend class manager;
 private:
-    void setup(void);
-    void mainLayoutSetup(void);
-
-    void updateWindowTitle(void);
+    // Constantes
+    const QString windowTitle = "Carnet de Rendez-vous";
+    const QString uhaURL = "https://www.uha.fr";
 
     bool isSaved = false;
     Manager manager;
-    QProgressBar* loadingBar;
     QHBoxLayout* mainLayout;
-    string windowTitle = "Carnet de Rendez-vous";
+    QMainWindow* win;
+    QProgressBar* loadingBar;
 
-public:
-    MainWindow(QWidget *parent = nullptr);
+    // Méthodes privées
+    void setup(void);
+    QVBoxLayout* setupFooterLayout(void);
+    void setupFileMenu(QMenu* fileMenu);
+    void setupMainLayout(void);
+    void setupMenuBar(void);
 
     void updateLoadingBar(int i);
+    void updateWindowTitle(void);
+
+public:
+    MainWindow(QMainWindow *parent = nullptr);
 
 private slots:
     void onSave(void);
     void onQuit(void);
+    void onSpinBox(int i);
 
 };
 
