@@ -231,7 +231,7 @@ int LDCR::rechD(RDV* val) const
     return b?indCrt:-1;
 }
 
-int LDCR::size(void) const {
+unsigned LDCR::size(void) const {
     return this->Size;
 }
 

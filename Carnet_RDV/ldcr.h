@@ -40,7 +40,7 @@ public:
     bool chercher(RDV* rdv) const;              // Chercher
     bool inserer(RDV* rdv);                     // Insertion
     int rechD(RDV* rdv) const;                  // Rech dichotomique
-    int size(void) const;                       // Calcul de la taille
+    unsigned size(void) const;                  // Calcul de la taille
     void supprimer(RDV* rdv);                   // Suppression
 
 };

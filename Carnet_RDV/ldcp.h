@@ -40,7 +40,7 @@ public:
     bool chercher(Personne* p) const;           // Chercher
     bool inserer(Personne* p);                  // Insertion
     int rechD(Personne* p) const;               // Recherche dichotomique
-    int size(void) const;                       // Calcul de la taille
+    unsigned size(void) const;                  // Calcul de la taille
     bool supprimer(Personne* p);                // Suppression
 
 };

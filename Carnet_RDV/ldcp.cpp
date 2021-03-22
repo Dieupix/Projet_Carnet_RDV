@@ -231,7 +231,7 @@ int LDCP::rechD(Personne* val) const
     return b?indCrt:-1;
 }
 
-int LDCP::size(void) const {
+unsigned LDCP::size(void) const {
     return this->Size;
 }
 

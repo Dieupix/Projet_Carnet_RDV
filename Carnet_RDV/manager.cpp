@@ -412,9 +412,11 @@ bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
     if(!ofs)
         cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
     else{
-        int i = 0;
-        loadingBar->setRange(0, listPersonnes.size());
-        loadingBar->setValue(0);
+        unsigned i = 0;
+        if(loadingBar != nullptr){
+            loadingBar->setRange(0, listPersonnes.size());
+            loadingBar->setValue(0);
+        }
         string buf = "";
         for(i = 0; i < listPersonnes.size(); ++i){
             auto p = listPersonnes[i];
@@ -430,15 +432,15 @@ bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
             loadingBar->setValue(i);
 
         i = 0;
-        loadingBar->setMaximum(buf.length());
-        loadingBar->setValue(i);
+        if(loadingBar != nullptr){
+            loadingBar->setMaximum(buf.length());
+            loadingBar->setValue(i);
+        }
         stringstream buffer;
         for(char c : buf){
             buffer.put(c);
-            if(loadingBar != nullptr){
+            if(loadingBar != nullptr)
                 loadingBar->setValue(i++);
-            }
-            cout << c;
         }
         if(loadingBar != nullptr)
             loadingBar->setValue(i);
@@ -463,52 +465,47 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
         cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
     else{
         int ind = 0, max = listRDV.size();
-        for(int ind = 0; ind < listRDV.size(); ++ind) max += listRDV[ind]->getMembersList().size();
-        double val = 0;
+        for(unsigned ind = 0; ind < listRDV.size(); ++ind) max += listRDV[ind]->getMembersList().size();
+        if(loadingBar != nullptr){
+            loadingBar->setRange(0, max);
+            loadingBar->setValue(ind);
+        }
         string buf = "";
-        for(int i = 0; i < listRDV.size(); ++i){
+        for(unsigned i = 0; i < listRDV.size(); ++i){
             auto rdv = listRDV[i];
             buf += (string) "&n=" + rdv->getName()
                     + "&d=" + rdv->getDate().toString()
                     + "&ts=" + rdv->getTimeStart().toString(true)
                     + "&te=" + rdv->getTimeEnd().toString(true)
                     + "&endR\n";
-            if(loadingBar != nullptr){
-                val = (ind * 100) / max;
-                loadingBar->setValue(val);
-                ++ind;
-            }
+            if(loadingBar != nullptr)
+                loadingBar->setValue(ind++);
+
             for(auto p : rdv->getMembersList()){
                 buf += (string) "&l=" + p->getLastName()
                         + "&f=" + p->getFirstName()
                         + "&endP\n";
 
-                if(loadingBar != nullptr){
-                    val = (ind * 100) / max;
-                    loadingBar->setValue(val);
-                    ++ind;
-                }
+                if(loadingBar != nullptr)
+                    loadingBar->setValue(ind++);
             }
         }
-        if(loadingBar != nullptr){
-            val = (ind * 100) / max;
-            loadingBar->setValue(val);
-        }
+        if(loadingBar != nullptr)
+            loadingBar->setValue(ind);
 
         ind = 0, max = buf.length();
+        if(loadingBar != nullptr){
+            loadingBar->setMaximum(max);
+            loadingBar->setValue(ind);
+        }
         stringstream buffer;
         for(char c : buf){
             buffer.put(c);
-            if(loadingBar != nullptr){
-                val = (ind * 100) / max;
-                loadingBar->setValue(val);
-                ++ind;
-            }
+            if(loadingBar != nullptr)
+                loadingBar->setValue(ind++);
         }
-        if(loadingBar != nullptr){
-            val = (ind * 100) / max;
-            loadingBar->setValue(val);
-        }
+        if(loadingBar != nullptr)
+            loadingBar->setValue(ind);
 
         ofs << buffer.rdbuf();
 
