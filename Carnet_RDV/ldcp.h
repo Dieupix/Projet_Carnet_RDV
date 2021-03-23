@@ -3,6 +3,8 @@
 
 #include "personne.h"
 
+class Personne;
+
 class ChainonPersonne
 {
     friend class LDCP;
@@ -24,7 +26,7 @@ private:
 
 public:
     LDCP(void);                                 // Constructeur
-    LDCP(const LDCP& l);                        // Constructeur par recopie
+    LDCP(const LDCP& ldcp);                     // Constructeur par recopie
     ~LDCP(void);                                // Destructeur
 
     // Surcharges des opérateurs
@@ -33,7 +35,7 @@ public:
 
     LDCP& operator=(const LDCP&);               // Affectation
 
-    Personne* operator[](unsigned);
+    Personne* operator[](unsigned) const;
 
     // Méthodes
     void afficher(ostream& ost = cout) const;   // Afficher

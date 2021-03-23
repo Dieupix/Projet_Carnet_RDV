@@ -1,14 +1,15 @@
 #ifndef RDV_H
 #define RDV_H
 
-#include "personne.h"
 #include "date.h"
 #include "hour.h"
+#include "personne.h"
 
 class Personne;
 
 class RDV
 {
+    friend class Personne;
 private:
     string name;
     Date date;
@@ -34,17 +35,17 @@ public:
     bool addMember(Personne* p);
     void afficher(ostream& ost = cout) const;
     int compareTo(const RDV& rdv) const;
-    QString participantsToQString(void) const;
-    string participantsToString(void) const;
+    QString participantsToQString(void);
+    string participantsToString(void);
     bool removeMember(Personne* p);
     QString toQString(void) const;
     string toString(void) const;
 
     // Getteurs
     const string& getName(void) const;
-    Date& getDate(void);
-    Hour& getTimeStart(void);
-    Hour& getTimeEnd(void);
+    const Date& getDate(void) const;
+    const Hour& getTimeStart(void) const;
+    const Hour& getTimeEnd(void) const;
     const vector<Personne*>& getMembersList(void) const;
 
     // Setteurs
@@ -53,9 +54,6 @@ public:
     void setTimeStart(const Hour& timeStart);
     void setTimeEnd(const Hour& timeEnd);
     void setMembersList(const vector<Personne*>& membersList);
-
-    //Ami
-    friend class Personne;
 };
 
 // Fonctions globales

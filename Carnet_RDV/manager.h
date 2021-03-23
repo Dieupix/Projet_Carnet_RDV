@@ -1,6 +1,8 @@
 #ifndef MANAGER_H
 #define MANAGER_H
 
+#include "date.h"
+#include "hour.h"
 #include "ldcp.h"
 #include "ldcr.h"
 

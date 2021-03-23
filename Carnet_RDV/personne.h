@@ -12,6 +12,7 @@ using namespace std;
 
 class Personne
 {
+    friend class RDV;
 private:
     string firstName, lastName, phone, email;
     vector<RDV*> rdvList;
@@ -53,9 +54,7 @@ public:
     void setLastName(const string& lastName);
     void setPhone(const string& phone);
     void setEmail(const string& email);
-
-    //Ami
-    friend class RDV;
+    void setRDVList(const vector<RDV*>& rdvList);
 };
 
 // Fonctions globales

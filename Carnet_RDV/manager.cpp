@@ -21,7 +21,7 @@ Manager::Manager(void){
     Hour timeStart (8, 30), timeEnd (10, 0);
 
     listRDV.inserer(new RDV("Première réunion", date, timeStart, timeEnd));
-    listRDV.inserer(new RDV("Deuxième réunion", date, {10, 5, 0}, {12, 0, 0}));
+    listRDV.inserer(new RDV("Deuxième réunion", date, {10, 0}, {12, 0}));
     auto rdv = listRDV[0];
     auto rdv2 = listRDV[1];
 
@@ -481,7 +481,8 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
             if(loadingBar != nullptr)
                 loadingBar->setValue(ind++);
 
-            for(auto p : rdv->getMembersList()){
+            for(unsigned i = 0; i < rdv->getMembersList().size(); ++i){
+                auto p = rdv->getMembersList()[i];
                 buf += (string) "&l=" + p->getLastName()
                         + "&f=" + p->getFirstName()
                         + "&endP\n";

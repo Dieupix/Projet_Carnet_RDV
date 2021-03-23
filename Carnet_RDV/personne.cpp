@@ -58,9 +58,6 @@ bool Personne::addRDV(RDV* rdv)
             if(rdvList[i]->timeStart < rdv->timeEnd)
                 if(rdvList[i]->timeStart >= rdv->timeStart || rdvList[i]->timeEnd > rdv->timeStart)
                     return false;
-
-            if(rdvList[i]->timeStart == rdv->timeEnd) //18-20 20-22 ?
-                return false;
         }
     }
 
@@ -97,7 +94,7 @@ QString Personne::rdvToQString(void) const{
 string Personne::rdvToString(void) const{
     string s = "Rendez-vous (" + to_string(rdvList.size()) + ") : \n";
     if (rdvList.size() == 0) s += "Aucun rendez-vous\n";
-    else for(auto rdv : rdvList) s += rdv->toString() + "\n";
+    else for(unsigned i = 0; i < rdvList.size(); ++i) s += rdvList[i]->toString() + "\n";
     return s;
 }
 
@@ -163,6 +160,9 @@ void Personne::setPhone(const string& phone){
 }
 void Personne::setEmail(const string& email){
     this->email = email;
+}
+void Personne::setRDVList(const vector<RDV*>& rdvList){
+    this->rdvList = rdvList;
 }
 
 

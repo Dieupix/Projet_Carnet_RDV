@@ -1,7 +1,6 @@
 #include "rdv.h"
 
-RDV::RDV(const string& name, const Date& date, const Hour& timeStart, const Hour& timeEnd, const vector<Personne*>& membersList)
-{
+RDV::RDV(const string& name, const Date& date, const Hour& timeStart, const Hour& timeEnd, const vector<Personne*>& membersList){
     this->name = name;
     this->date = date;
     this->timeStart = timeStart;
@@ -93,15 +92,15 @@ int RDV::compareTo(const RDV& r ) const
    else return 0;*/
 }
 
-QString RDV::participantsToQString(void) const{
+QString RDV::participantsToQString(void){
     return QString::fromStdString(participantsToString());
 }
 
-string RDV::participantsToString(void) const{
+string RDV::participantsToString(void){
     string s = "Participant" + (string) (membersList.size() == 1 ? "" : "s") + " " +
             "(" + to_string(membersList.size()) + ") :\n";
     if (membersList.size() == 0) s += "Aucun participant\n";
-    else for(auto p : membersList) s += p->toString() + "\n";
+    else for(unsigned i = 0; i < membersList.size(); ++i) s += membersList[i]->toString() + "\n";
     return s;
 }
 
@@ -145,13 +144,13 @@ string RDV::toString(void) const{
 const string& RDV::getName(void) const{
     return this->name;
 }
-Date& RDV::getDate(void){
+const Date& RDV::getDate(void) const{
     return this->date;
 }
-Hour& RDV::getTimeStart(void){
+const Hour& RDV::getTimeStart(void) const{
     return this->timeStart;
 }
-Hour& RDV::getTimeEnd(void){
+const Hour& RDV::getTimeEnd(void) const{
     return this->timeEnd;
 }
 const vector<Personne*>& RDV::getMembersList(void) const{

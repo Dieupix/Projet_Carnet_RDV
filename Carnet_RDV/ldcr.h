@@ -3,6 +3,8 @@
 
 #include "rdv.h"
 
+class RDV;
+
 class ChainonRDV
 {
     friend class LDCR;
@@ -24,7 +26,7 @@ private:
 
 public:
     LDCR(void);                                 // Constructeur
-    LDCR(const LDCR& l);                        // Constructeur par recopie
+    LDCR(const LDCR& ldcr);                     // Constructeur par recopie
     ~LDCR(void);                                // Destructeur
 
     // Surcharge des opérateurs
@@ -33,7 +35,7 @@ public:
 
     LDCR& operator=(const LDCR&);               // Affectation
 
-    RDV* operator[](unsigned);
+    RDV* operator[](unsigned) const;
 
     // Méthodes
     void afficher(ostream& ost = cout) const;   // Afficher
