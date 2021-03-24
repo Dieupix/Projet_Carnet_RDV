@@ -22,8 +22,8 @@ Manager::Manager(void){
 
     listRDV.inserer(new RDV("Première réunion", date, timeStart, timeEnd));
     listRDV.inserer(new RDV("Deuxième réunion", date, {10, 0}, {12, 0}));
-    auto rdv = listRDV[0];
-    auto rdv2 = listRDV[1];
+    auto rdv = listRDV[1];
+    auto rdv2 = listRDV[0];
 
     rdv->addMember(listPersonnes[0]);
     rdv->addMember(listPersonnes[1]);

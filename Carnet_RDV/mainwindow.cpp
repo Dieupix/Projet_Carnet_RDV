@@ -18,36 +18,34 @@ void MainWindow::setup(void){
 
     setupMenuBar();
 
-    mainLayout = new QHBoxLayout();
-    setupMainLayout();
-    fixedLayout->addLayout(mainLayout);
-
+    fixedLayout->addLayout(setupMainLayout());
     fixedLayout->addLayout(setupFooterLayout());
 
 }
 
-QVBoxLayout* MainWindow::setupFooterLayout(void){
-    auto footerLayout = new QVBoxLayout();
+QBoxLayout* MainWindow::setupFooterLayout(void){
+    auto preFooterLayout = new QVBoxLayout();
+
     auto line = new QFrame();
     line->setFrameStyle(QFrame::HLine);
-    footerLayout->addStretch(0);
-    footerLayout->addWidget(line, 0, Qt::AlignBottom);
+    preFooterLayout->addStretch(0);
+    preFooterLayout->addWidget(line, 0, Qt::AlignBottom);
 
-    auto preFooterLayout = new QHBoxLayout();
+    auto footerLayout = new QHBoxLayout();
     auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
 
     auto uhaLabel = new QLabel("Université de Haute Alsace - (<a href='" + uhaURL + "'>UHA</a>)");
     uhaLabel->setOpenExternalLinks(true);
     uhaLabel->setToolTip("Accéder au site internet de l'UHA");
 
-    preFooterLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
-    preFooterLayout->addStretch(0);
-    preFooterLayout->addWidget(uhaLabel, 0, Qt::AlignRight);
+    footerLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
+    footerLayout->addStretch(0);
+    footerLayout->addWidget(uhaLabel, 0, Qt::AlignRight);
 
-    footerLayout->addLayout(preFooterLayout);
-    footerLayout->setContentsMargins(0, 5, 0, 0);
+    preFooterLayout->addLayout(footerLayout);
+    preFooterLayout->setContentsMargins(0, 5, 0, 0);
 
-    return footerLayout;
+    return preFooterLayout;
 }
 
 void MainWindow::setupFileMenu(QMenu *fileMenu){
@@ -80,20 +78,24 @@ void MainWindow::setupFileMenu(QMenu *fileMenu){
     connect(quitAction, &QAction::triggered, this, &MainWindow::onQuit);
 }
 
-void MainWindow::setupMainLayout(void){
+QBoxLayout* MainWindow::setupMainLayout(void){
+    mainLayout = new QHBoxLayout();
+
     auto spinBox = new QSpinBox();
     spinBox->setRange(0, 200);
+    spinBox->setValue(spinBox->minimum());
     loadingBar = new QProgressBar();
-    loadingBar->setRange(0, 200);
-    loadingBar->setValue(0);
+    loadingBar->setRange(spinBox->minimum(), spinBox->maximum());
+    loadingBar->setValue(spinBox->value());
     mainLayout->addWidget(spinBox);
     mainLayout->addWidget(loadingBar);
     connect(spinBox, &QSpinBox::valueChanged, this, &MainWindow::onSpinBox);
+
+    return mainLayout;
 }
 
 void MainWindow::setupMenuBar(void){
-    auto fileMenu = menuBar()->addMenu("&Fichier");
-    setupFileMenu(fileMenu);
+    setupFileMenu(menuBar()->addMenu("&Fichier"));
 }
 
 void MainWindow::updateWindowTitle(void){

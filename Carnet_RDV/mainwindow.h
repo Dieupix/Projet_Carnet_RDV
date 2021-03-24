@@ -22,15 +22,15 @@ private:
 
     bool isSaved = false;
     Manager manager;
-    QHBoxLayout* mainLayout;
+    QBoxLayout* mainLayout;
     QMainWindow* win;
     QProgressBar* loadingBar;
 
     // Méthodes privées
     void setup(void);
-    QVBoxLayout* setupFooterLayout(void);
+    QBoxLayout* setupFooterLayout(void);
     void setupFileMenu(QMenu* fileMenu);
-    void setupMainLayout(void);
+    QBoxLayout* setupMainLayout(void);
     void setupMenuBar(void);
 
     void updateLoadingBar(int i);
