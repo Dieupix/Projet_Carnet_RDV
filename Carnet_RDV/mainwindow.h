@@ -28,8 +28,9 @@ private:
 
     // Méthodes privées
     void setup(void);
-    QBoxLayout* setupFooterLayout(void);
+    void setupEditMenu(QMenu* editMenu);
     void setupFileMenu(QMenu* fileMenu);
+    QBoxLayout* setupFooterLayout(void);
     QBoxLayout* setupMainLayout(void);
     void setupMenuBar(void);
 

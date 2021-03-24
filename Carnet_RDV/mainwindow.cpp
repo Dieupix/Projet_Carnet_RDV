@@ -25,29 +25,26 @@ void MainWindow::setup(void){
 
 }
 
-QBoxLayout* MainWindow::setupFooterLayout(void){
-    auto preFooterLayout = new QVBoxLayout();
+void MainWindow::setupEditMenu(QMenu* editMenu){
+    auto addPersonneAction = new QAction("&Ajouter une Personne");
+    addPersonneAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    addPersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    editMenu->addAction(addPersonneAction);
 
-    auto line = new QFrame();
-    line->setFrameStyle(QFrame::HLine);
-    preFooterLayout->addStretch(0);
-    preFooterLayout->addWidget(line, 0, Qt::AlignBottom);
+    auto addRDVAction = new QAction("&Ajouter une RDV");
+    addRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    addRDVAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    editMenu->addAction(addRDVAction);
 
-    auto footerLayout = new QHBoxLayout();
-    auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
+    auto removePersonneAction = new QAction("&Retirer une Personne");
+    removePersonneAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    removePersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    editMenu->addAction(removePersonneAction);
 
-    auto uhaLabel = new QLabel("Université de Haute Alsace - (<a href='" + uhaURL + "'>UHA</a>)");
-    uhaLabel->setOpenExternalLinks(true);
-    uhaLabel->setToolTip("Accéder au site internet de l'UHA");
-
-    footerLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
-    footerLayout->addStretch(0);
-    footerLayout->addWidget(uhaLabel, 0, Qt::AlignRight);
-
-    preFooterLayout->addLayout(footerLayout);
-    preFooterLayout->setContentsMargins(0, 5, 0, 0);
-
-    return preFooterLayout;
+    auto removeRDVAction = new QAction("&Retirer un RDV");
+    removeRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    removeRDVAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    editMenu->addAction(removeRDVAction);
 }
 
 void MainWindow::setupFileMenu(QMenu *fileMenu){
@@ -80,6 +77,31 @@ void MainWindow::setupFileMenu(QMenu *fileMenu){
     connect(quitAction, &QAction::triggered, this, &MainWindow::onQuit);
 }
 
+QBoxLayout* MainWindow::setupFooterLayout(void){
+    auto preFooterLayout = new QVBoxLayout();
+
+    auto line = new QFrame();
+    line->setFrameStyle(QFrame::HLine);
+    preFooterLayout->addStretch(0);
+    preFooterLayout->addWidget(line, 0, Qt::AlignBottom);
+
+    auto footerLayout = new QHBoxLayout();
+    auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
+
+    auto uhaLabel = new QLabel("Université de Haute Alsace - (<a href='" + uhaURL + "'>UHA</a>)");
+    uhaLabel->setOpenExternalLinks(true);
+    uhaLabel->setToolTip("Accéder au site internet de l'UHA");
+
+    footerLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
+    footerLayout->addStretch(0);
+    footerLayout->addWidget(uhaLabel, 0, Qt::AlignRight);
+
+    preFooterLayout->addLayout(footerLayout);
+    preFooterLayout->setContentsMargins(0, 5, 0, 0);
+
+    return preFooterLayout;
+}
+
 QBoxLayout* MainWindow::setupMainLayout(void){
     mainLayout = new QHBoxLayout();
 
@@ -98,6 +120,7 @@ QBoxLayout* MainWindow::setupMainLayout(void){
 
 void MainWindow::setupMenuBar(void){
     setupFileMenu(menuBar()->addMenu("&Fichier"));
+    setupEditMenu(menuBar()->addMenu("&Edit"));
 }
 
 void MainWindow::updateWindowTitle(void){
