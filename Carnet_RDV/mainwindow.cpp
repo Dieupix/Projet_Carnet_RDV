@@ -11,6 +11,8 @@ MainWindow::MainWindow(QMainWindow *parent)
 
 // ---------- Méthodes privées ----------
 void MainWindow::setup(void){
+    setWindowState(Qt::WindowMaximized);
+
     auto central = new QWidget();
     auto fixedLayout = new QVBoxLayout();
     central->setLayout(fixedLayout);
