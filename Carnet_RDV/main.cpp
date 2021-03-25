@@ -1,9 +1,9 @@
 #include "mainwindow.h"
 
 #include <QApplication>
-#include <QTranslator>
-#include <QLocale>
 #include <QLibraryInfo>
+#include <QLocale>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     QString locale = QLocale::system().name().section('_', 0, 0);
     QTranslator translator;
-    auto t = translator.load(QString("qt_") + locale, QLibraryInfo::path(QLibraryInfo::TranslationsPath));
+    bool t = translator.load(QString("qt_") + locale, QLibraryInfo::path(QLibraryInfo::TranslationsPath));
     if(t) a.installTranslator(&translator);
 
     MainWindow w;

@@ -28,22 +28,30 @@ void MainWindow::setup(void){
 void MainWindow::setupEditMenu(QMenu* editMenu){
     auto addPersonneAction = new QAction("&Ajouter une Personne");
     addPersonneAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
-    addPersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    addPersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_macos_maximiser_black1_100"));
+    addPersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
+    addPersonneAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(addPersonneAction);
 
-    auto addRDVAction = new QAction("&Ajouter une RDV");
+    auto addRDVAction = new QAction("&Ajouter un RDV");
     addRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
-    addRDVAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    addRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_P));
+    addRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(addRDVAction);
+
+    editMenu->addSeparator();
 
     auto removePersonneAction = new QAction("&Retirer une Personne");
     removePersonneAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
-    removePersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    removePersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_macos_minimiser_black1_100"));
+    removePersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
+    removePersonneAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removePersonneAction);
 
     auto removeRDVAction = new QAction("&Retirer un RDV");
     removeRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
-    removeRDVAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
+    removeRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_O));
+    removeRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removeRDVAction);
 }
 
@@ -51,7 +59,7 @@ void MainWindow::setupFileMenu(QMenu *fileMenu){
     auto loadAction = new QAction("&Ouvrir un fichier...");
     loadAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
     loadAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
-    loadAction->setShortcut(QKeySequence(QKeyCombination(Qt::ControlModifier, Qt::Key_O)));
+    loadAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
     loadAction->setShortcutVisibleInContextMenu(true);
     fileMenu->addAction(loadAction);
 
@@ -60,21 +68,29 @@ void MainWindow::setupFileMenu(QMenu *fileMenu){
     auto saveAction = new QAction("Enregi&strer");
     saveAction->setToolTip("Enregistrer le carnet de rendez-vous");
     saveAction->setIcon(QIcon("../Carnet_RDV/icons/icon_sauvegarder_black1_100"));
-    saveAction->setShortcut(QKeySequence(QKeyCombination(Qt::ControlModifier, Qt::Key_S)));
+    saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     saveAction->setShortcutVisibleInContextMenu(true);
     fileMenu->addAction(saveAction);
+
+    auto saveAndQuitAction = new QAction("Enregi&strer et quitter");
+    saveAndQuitAction->setToolTip("Enregistrer le carnet et quitter");
+    saveAndQuitAction->setIcon(QIcon("../Carnet_RDV/icons/icon_enregistrer_et_fermer_black1_100"));
+    saveAndQuitAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Q));
+    saveAndQuitAction->setShortcutVisibleInContextMenu(true);
+    fileMenu->addAction(saveAndQuitAction);
 
     fileMenu->addSeparator();
 
     auto quitAction = new QAction("&Quitter");
     quitAction->setToolTip("Quitter l'application");
     quitAction->setIcon(QIcon("../Carnet_RDV/icons/icon_sortie_black1_100"));
-    quitAction->setShortcut(QKeySequence(QKeyCombination(Qt::ControlModifier, Qt::Key_Q)));
+    quitAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q));
     quitAction->setShortcutVisibleInContextMenu(true);
     fileMenu->addAction(quitAction);
 
-    connect(saveAction, &QAction::triggered, this, &MainWindow::onSave);
     connect(quitAction, &QAction::triggered, this, &MainWindow::onQuit);
+    connect(saveAction, &QAction::triggered, this, &MainWindow::onSave);
+    connect(saveAndQuitAction, &QAction::triggered, this, &MainWindow::onSaveAndQuit);
 }
 
 QBoxLayout* MainWindow::setupFooterLayout(void){
@@ -153,9 +169,16 @@ void MainWindow::onQuit(void){
     }
 }
 
+void MainWindow::onSaveAndQuit(void){
+    onSave();
+    onQuit();
+}
+
 void MainWindow::onSave(void){
-    isSaved = true;
-    updateWindowTitle();
+    if(!isSaved){
+        isSaved = true;
+        updateWindowTitle();
+    }
 }
 
 void MainWindow::onSpinBox(int i){

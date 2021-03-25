@@ -41,8 +41,9 @@ public:
     MainWindow(QMainWindow *parent = nullptr);
 
 private slots:
-    void onSave(void);
     void onQuit(void);
+    void onSave(void);
+    void onSaveAndQuit(void);
     void onSpinBox(int i);
 
 };
