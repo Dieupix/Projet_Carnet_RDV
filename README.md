@@ -11,7 +11,7 @@
 ### Pré-requis
 
 Vous aurez besoin de Qt Creator si vous voulez avoir accès au code source du projet.\
-Vous pourrez le télécharger et l'installer à partir de [qt.io/download-open-source](https://www.qt.io/download-open-source).\
+Vous pourrez le télécharger et l'installer à partir du [site officiel de Qt](https://www.qt.io/download-open-source).\
 Une fois installé, passez à la rubrique suivante.
 
 Si vous souhaitez n'utiliser que l'exécutable, passez à la rubrique suivante.
