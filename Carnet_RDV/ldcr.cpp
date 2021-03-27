@@ -235,7 +235,7 @@ unsigned LDCR::size(void) const {
     return this->Size;
 }
 
-void LDCR::supprimer(RDV* val) {
+bool LDCR::supprimer(RDV* val) {
     if (this->d_t != nullptr) {
         auto crt = this->d_t;
         if (*crt->rdv == *val) {
@@ -261,8 +261,10 @@ void LDCR::supprimer(RDV* val) {
                 delete crt;
                 --this->Size;
             }
+            else return false;
         }
     }
+    return true;
 }
 
 

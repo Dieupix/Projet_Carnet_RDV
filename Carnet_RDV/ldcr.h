@@ -43,7 +43,7 @@ public:
     bool inserer(RDV* rdv);                     // Insertion
     int rechD(RDV* rdv) const;                  // Rech dichotomique
     unsigned size(void) const;                  // Calcul de la taille
-    void supprimer(RDV* rdv);                   // Suppression
+    bool supprimer(RDV* rdv);                   // Suppression
 
 };
 
