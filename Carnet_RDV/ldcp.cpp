@@ -213,22 +213,23 @@ int LDCP::rechD(Personne* val) const
     int m{0};
     while(!b && indD <= indF)
     {
-        m = (indD+indF)/2;
+        m = (indD + indF) / 2;
         if(indCrt < m)
         {
-            for(int i=indCrt;i<m;++i)
-            {crt=crt->d_suiv;}
+            for(int i = indCrt; i < m; ++i)
+                crt = crt->d_suiv;
         }
         else
         {
-            for(int i=indCrt;i>m;--i)
-            {crt=crt->d_prec;}
+            for(int i = indCrt; i > m; --i)
+                crt = crt->d_prec;
         }
-        if(*crt->p == *val){b=true;}
-        else if(*crt->p < *val){indD=m+1;}
-        else indF=m-1;
+        indCrt = m;
+        if(*crt->p == *val) b = true;
+        else if(*crt->p < *val) indD = m + 1;
+        else indF = m - 1;
     }
-    return b?indCrt:-1;
+    return b ? indCrt : -1;
 }
 
 unsigned LDCP::size(void) const {
@@ -236,37 +237,33 @@ unsigned LDCP::size(void) const {
 }
 
 bool LDCP::supprimer(Personne* val) {
-    bool hasBeenRemoved = true;
+    bool hasBeenRemoved = false;
     if (this->d_t != nullptr) {
         auto crt = this->d_t;
         if (*crt->p == *val) {
-            if(crt->p->getRDVList().size() != 0) hasBeenRemoved = false;
+            if (crt->d_suiv == nullptr)
+                this->d_t = nullptr;
             else {
-                if (crt->d_suiv == nullptr)
-                    this->d_t = nullptr;
-                else {
-                    crt->d_suiv->d_prec = nullptr;
-                    this->d_t = crt->d_suiv;
-                }
-                delete crt;
-                --this->Size;
+                crt->d_suiv->d_prec = nullptr;
+                this->d_t = crt->d_suiv;
             }
+            delete crt;
+            --this->Size;
+            hasBeenRemoved = true;
         }
         else {
             while (*crt->p < *val and crt->d_suiv != nullptr)
                 crt = crt->d_suiv;
             if (*crt->p == *val) {
-                if(crt->p->getRDVList().size() != 0) hasBeenRemoved = false;
+                if (crt->d_suiv == nullptr)
+                    crt->d_prec->d_suiv = nullptr;
                 else {
-                    if (crt->d_suiv == nullptr)
-                        crt->d_prec->d_suiv = nullptr;
-                    else {
-                        crt->d_prec->d_suiv = crt->d_suiv;
-                        crt->d_suiv->d_prec = crt->d_prec;
-                    }
-                    delete crt;
-                    --this->Size;
+                    crt->d_prec->d_suiv = crt->d_suiv;
+                    crt->d_suiv->d_prec = crt->d_prec;
                 }
+                delete crt;
+                --this->Size;
+                hasBeenRemoved = true;
             }
         }
     }

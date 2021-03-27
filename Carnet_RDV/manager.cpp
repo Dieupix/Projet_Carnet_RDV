@@ -400,15 +400,15 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
 
 bool Manager::removePersonne(Personne* p)
 {
-    if(p->getRDVList().size() == 0){ return listPersonnes.supprimer(p);}
-    cerr<<" Erreur, la personne choisi est au moins dans un RDV."<<endl;
+    if(p->getRDVList().size() == 0) return listPersonnes.supprimer(p);
+    else cerr << "Erreur, la personne choisi est au moins dans un RDV." << endl;
     return false;
 }
 
 bool Manager::removeRDV(RDV* r)
 {
-    if(r->getMembersList().size() == 0){return listRDV.supprimer(r);}
-    cerr<<"Erreur, le rdv choisi contient au moins une personne."<<endl;
+    if(r->getMembersList().size() == 0) return listRDV.supprimer(r);
+    else cerr << "Erreur, le rdv choisi contient au moins une personne." << endl;
     return false;
 }
 

@@ -213,22 +213,23 @@ int LDCR::rechD(RDV* val) const
     int m{0};
     while(!b && indD <= indF)
     {
-        m = (indD+indF)/2;
+        m = (indD + indF) / 2;
         if(indCrt < m)
         {
-            for(int i=indCrt;i<m;++i)
-            {crt=crt->d_suiv;}
+            for(int i = indCrt; i < m; ++i)
+                crt = crt->d_suiv;
         }
         else
         {
             for(int i=indCrt;i>m;--i)
-            {crt=crt->d_prec;}
+                crt = crt->d_prec;
         }
-        if(*crt->rdv == *val){b=true;}
-        else if(*crt->rdv < *val){indD=m+1;}
-        else indF=m-1;
+        indCrt = m;
+        if(*crt->rdv == *val) b = true;
+        else if(*crt->rdv < *val) indD = m + 1;
+        else indF = m - 1;
     }
-    return b?indCrt:-1;
+    return b ? indCrt : -1;
 }
 
 unsigned LDCR::size(void) const {
@@ -236,6 +237,7 @@ unsigned LDCR::size(void) const {
 }
 
 bool LDCR::supprimer(RDV* val) {
+    bool hasBeenDeleted = false;
     if (this->d_t != nullptr) {
         auto crt = this->d_t;
         if (*crt->rdv == *val) {
@@ -247,6 +249,7 @@ bool LDCR::supprimer(RDV* val) {
             }
             delete crt;
             --this->Size;
+            hasBeenDeleted = true;
         }
         else {
             while (*crt->rdv < *val and crt->d_suiv != nullptr)
@@ -260,11 +263,11 @@ bool LDCR::supprimer(RDV* val) {
                 }
                 delete crt;
                 --this->Size;
+                hasBeenDeleted = true;
             }
-            else return false;
         }
     }
-    return true;
+    return hasBeenDeleted;
 }
 
 

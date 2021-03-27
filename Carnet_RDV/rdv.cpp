@@ -80,16 +80,20 @@ void RDV::afficher(ostream& ost) const{
 // Retourne 1 si r > à this, -1 si r < this, 0 sinon
 int RDV::compareTo(const RDV& r ) const
 {
-   if(name > r.name) return -1;
-   else if(name < r.name) return 1;
-   else return 0;
-   /* if(date > r.date) return -1;
-   else if(date < r.date) return 1;
-   else if(timeStart > r.timeStart) return -1;
-   else if(timeStart < r.timeStart) return 1;
-   else if(timeEnd > r.timeEnd)  return -1;
-   else if(timeEnd < r.timeEnd) return 1;
-   else return 0;*/
+    string thisN = name, rN = r.name;
+    for(unsigned i = 0; i < thisN.length(); ++i) thisN[i] = toupper(thisN[i]);
+    for(unsigned i = 0; i < rN.length(); ++i) rN[i] = toupper(rN[i]);
+
+    if(thisN > rN) return -1;
+    else if(thisN < rN) return 1;
+    else return 0;
+    /* if(date > r.date) return -1;
+    else if(date < r.date) return 1;
+    else if(timeStart > r.timeStart) return -1;
+    else if(timeStart < r.timeStart) return 1;
+    else if(timeEnd > r.timeEnd)  return -1;
+    else if(timeEnd < r.timeEnd) return 1;
+    else return 0;*/
 }
 
 QString RDV::participantsToQString(void){

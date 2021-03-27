@@ -82,8 +82,12 @@ void Personne::afficher(ostream& ost) const{
 
 // Retourn 1 si p > this, -1 si p < this, 0 sinon
 int Personne::compareTo(const Personne& p) const{
-    if(lastName + firstName > p.lastName + p.firstName) return -1;
-    else if(lastName + firstName < p.lastName + p.firstName) return 1;
+    string thisLF = lastName + firstName, pLF = p.lastName + p.firstName;
+    for(unsigned i = 0; i < thisLF.length(); ++i) thisLF[i] = toupper(thisLF[i]);
+    for(unsigned i = 0; i < pLF.length(); ++i) pLF[i] = toupper(pLF[i]);
+
+    if(thisLF > pLF) return -1;
+    else if(thisLF < pLF) return 1;
     else return 0;
 }
 
