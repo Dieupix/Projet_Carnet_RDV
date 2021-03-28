@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QMainWindow *parent)
-    : QMainWindow(parent), win(this)
+    : QMainWindow(parent), window(this)
 {
     setup();
     updateWindowTitle();
@@ -16,11 +16,13 @@ void MainWindow::setup(void){
     auto central = new QWidget();
     auto fixedLayout = new QVBoxLayout();
     central->setLayout(fixedLayout);
-    win->setCentralWidget(central);
+    window->setCentralWidget(central);
 
     setupMenuBar();
 
-    fixedLayout->addLayout(setupMainLayout());
+    fixedLayout->addStretch(1);
+    fixedLayout->addLayout(setupMainLayout(), 10);
+    fixedLayout->addStretch(1);
     fixedLayout->addLayout(setupFooterLayout());
 
 }
@@ -35,7 +37,7 @@ void MainWindow::setupEditMenu(QMenu* editMenu){
 
     auto addRDVAction = new QAction("&Ajouter un RDV");
     addRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
-    addRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_P));
+    addRDVAction->setShortcut(QKeySequence(Qt::CTRL| Qt::Key_R));
     addRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(addRDVAction);
 
@@ -44,13 +46,13 @@ void MainWindow::setupEditMenu(QMenu* editMenu){
     auto removePersonneAction = new QAction("&Retirer une Personne");
     removePersonneAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
     removePersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_macos_minimiser_black1_100"));
-    removePersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
+    removePersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_P));
     removePersonneAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removePersonneAction);
 
     auto removeRDVAction = new QAction("&Retirer un RDV");
     removeRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
-    removeRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_O));
+    removeRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_R));
     removeRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removeRDVAction);
 }
@@ -88,6 +90,7 @@ void MainWindow::setupFileMenu(QMenu *fileMenu){
     quitAction->setShortcutVisibleInContextMenu(true);
     fileMenu->addAction(quitAction);
 
+    connect(loadAction, &QAction::triggered, this, &MainWindow::loadFile);
     connect(quitAction, &QAction::triggered, this, &MainWindow::onQuit);
     connect(saveAction, &QAction::triggered, this, &MainWindow::onSave);
     connect(saveAndQuitAction, &QAction::triggered, this, &MainWindow::onSaveAndQuit);
@@ -103,6 +106,7 @@ QBoxLayout* MainWindow::setupFooterLayout(void){
 
     auto footerLayout = new QHBoxLayout();
     auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
+    teamLabel->setToolTip("L'équipe du projet");
 
     auto uhaLabel = new QLabel("Université de Haute Alsace - (<a href='" + uhaURL + "'>UHA</a>)");
     uhaLabel->setOpenExternalLinks(true);
@@ -121,15 +125,44 @@ QBoxLayout* MainWindow::setupFooterLayout(void){
 QBoxLayout* MainWindow::setupMainLayout(void){
     mainLayout = new QHBoxLayout();
 
-    auto spinBox = new QSpinBox();
-    spinBox->setRange(0, 200);
-    spinBox->setValue(spinBox->minimum());
-    loadingBar = new QProgressBar();
-    loadingBar->setRange(spinBox->minimum(), spinBox->maximum());
-    loadingBar->setValue(spinBox->value());
-    mainLayout->addWidget(spinBox);
-    mainLayout->addWidget(loadingBar);
-    connect(spinBox, &QSpinBox::valueChanged, this, &MainWindow::onSpinBox);
+    auto rdvListLayout = new QVBoxLayout();
+    auto rdvListLabel = new QLabel("Liste de tous les rendez-vous");
+    rdvListLabel->setFont(QFont(rdvListLabel->font().family(), 20));
+    rdvListLayout->addWidget(rdvListLabel, 0, Qt::AlignHCenter);
+
+    auto saRDV = new QScrollArea();
+    auto saRDVWidget = new QWidget();
+    auto saRDVLayout = new QVBoxLayout();
+    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel("Aucun rendez-vous dans la base de données"));
+    else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
+            saRDVLayout->addWidget(new QPushButton(QIcon("../Carnet_RDV/icons/icon_carnet_d'adresses_black1_100"), manager.getListRDV()[i]->toQString()));
+
+    saRDVLayout->addStretch();
+    saRDVWidget->setLayout(saRDVLayout);
+    saRDV->setWidget(saRDVWidget);
+    saRDV->setWidgetResizable(true);
+    rdvListLayout->addWidget(saRDV);
+
+    auto personneListLayout = new QVBoxLayout();
+    auto personneListLabel = new QLabel("Liste de toutes les personnes");
+    personneListLabel->setFont(QFont(personneListLabel->font().family(), 20));
+    personneListLayout->addWidget(personneListLabel, 0, Qt::AlignHCenter);
+
+    auto saPersonne = new QScrollArea();
+    auto saPersonneWidget = new QWidget();
+    auto saPersonneLayout = new QVBoxLayout();
+    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel("Aucune personne dans la base de données"));
+    else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
+            saPersonneLayout->addWidget(new QPushButton(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_black1_100"), manager.getListPersonnes()[i]->toQString()));
+
+    saPersonneLayout->addStretch();
+    saPersonneWidget->setLayout(saPersonneLayout);
+    saPersonne->setWidget(saPersonneWidget);
+    saPersonne->setWidgetResizable(true);
+    personneListLayout->addWidget(saPersonne);
+
+    mainLayout->addLayout(rdvListLayout);
+    mainLayout->addLayout(personneListLayout);
 
     return mainLayout;
 }
@@ -150,7 +183,46 @@ void MainWindow::updateLoadingBar(int i){
 
 
 // ---------- Méthodes publiques ----------
+void MainWindow::loadFile(void){
 
+    auto filePath = QFileDialog::getOpenFileName(this, windowTitle, windowFilePath(), "Fichiers de Personne ou de RDV (*.carnetRDV);; Tous les fichiers (*)");
+
+    if(filePath != ""){
+        if(filePath.endsWith(QFILENAMEPERSONNE)){
+
+            auto loadingDialog = new QDialog();
+            loadingDialog->setWindowTitle(windowTitle);
+            loadingDialog->setModal(true);
+            auto mainLayoutDialog = new QVBoxLayout();
+            auto okButton = new QPushButton("OK");
+            okButton->setDisabled(true);
+
+            mainLayoutDialog->addWidget(new QLabel("Fichier : " + filePath), 0, Qt::AlignTop);
+            auto label = new QLabel("Chargement en cours...");
+            mainLayoutDialog->addWidget(label, 0, Qt::AlignHCenter);
+            auto loadBar = new QProgressBar();
+            mainLayoutDialog->addWidget(loadBar, 0, Qt::AlignTop);
+            loadingDialog->setLayout(mainLayoutDialog);
+
+            mainLayoutDialog->addWidget(okButton, 0, Qt::AlignBottom | Qt::AlignHCenter);
+
+            loadingDialog->show();
+            loadingDialog->setFixedSize(loadingDialog->width(), 2 * loadingDialog->height());
+            manager.loadPersonne(filePath.toStdString(), loadBar);
+            label->setText("Chargement terminé");
+            okButton->setEnabled(true);
+
+
+        }else if(filePath.endsWith(QFILENAMERDV)){
+
+        }else{
+            QString msg = "Fichier invalide.\n\nVeuillez sélectionner un fichier de Personne ou de Rendez-vous.\t\n";
+            int exe = QMessageBox(QMessageBox::Critical, "Erreur de fichier", msg, QMessageBox::Retry | QMessageBox::Cancel).exec();
+
+            if(exe == QMessageBox::Retry) loadFile();
+        }
+    }
+}
 
 
 // ---------- Slots privés ----------

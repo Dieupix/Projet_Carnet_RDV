@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QBoxLayout>
+#include <QFileDialog>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QSpinBox>
 
 #include "manager.h"
@@ -20,11 +22,11 @@ private:
     const QString windowTitle = "Carnet de Rendez-vous";
     const QString uhaURL = "https://www.uha.fr";
 
-    bool isSaved = false;
+    bool isSaved = true;
     Manager manager;
     QBoxLayout* mainLayout;
-    QMainWindow* win;
-    QProgressBar* loadingBar;
+    QMainWindow* window;
+    QProgressBar* loadingBar = new QProgressBar();
 
     // Méthodes privées
     void setup(void);
@@ -39,6 +41,8 @@ private:
 
 public:
     MainWindow(QMainWindow *parent = nullptr);
+
+    void loadFile(void);
 
 private slots:
     void onQuit(void);

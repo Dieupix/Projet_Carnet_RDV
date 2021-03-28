@@ -12,7 +12,7 @@ bool isStringEmpty(const string& s){
 
 Manager::Manager(void){
 
-    loadPersonne();
+    /*loadPersonne();
     cout << endl;
 
     cout << listPersonnes << endl << endl;
@@ -32,7 +32,7 @@ Manager::Manager(void){
 
     cout << listPersonnes[0]->rdvToString() << endl;
 
-    saveRDV();
+    saveRDV();*/
 
 
 }
@@ -53,12 +53,12 @@ bool Manager::addRDV(RDV* rdv){
 }
 
 bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
-    cout << "Chargement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
+    cout << "Chargement du fichier " << filePath << endl;
     bool loaded = false;
-    ifstream ifs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
+    ifstream ifs(filePath);
 
     if(!ifs)
-        cerr << "Impossible d'ouvrir le fichier en lecture" << endl;
+        cerr << "Erreur : impossible d'ouvrir le fichier en lecture" << endl;
     else{
         stringstream buffer;
         buffer << ifs.rdbuf();
@@ -122,7 +122,7 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                     if(!abort){
                         Personne* p = new Personne(firstName, lastName, phone, email);
                         if(!listPersonnes.inserer(p)){
-                            cerr << *p << " : " << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
+                            cerr << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
                             delete p;
                         }
                     }
@@ -189,12 +189,12 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
 
 }
 bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
-    cout << "Chargement du fichier "  << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
+    cout << "Chargement du fichier "  << filePath << endl;
     bool loaded = false;
-    ifstream ifs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);
+    ifstream ifs(filePath);
 
     if(!ifs)
-        cerr << "Impossible d'ouvrir le fichier en lecture" << endl;
+        cerr << "Erreur : impossible d'ouvrir le fichier en lecture" << endl;
     else{
 
         stringstream buffer;
@@ -418,7 +418,7 @@ bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
     ofstream ofs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
 
     if(!ofs)
-        cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
+        cerr << "Erreur : impossible d'ouvrir le fichier en ecriture" << endl;
     else{
         unsigned i = 0;
         if(loadingBar != nullptr){
@@ -470,7 +470,7 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
     ofstream ofs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);
 
     if(!ofs)
-        cerr << "Erreur, impossible d'ouvrir le fichier en ecriture" << endl;
+        cerr << "Erreur : impossible d'ouvrir le fichier en ecriture" << endl;
     else{
         int ind = 0, max = listRDV.size();
         for(unsigned ind = 0; ind < listRDV.size(); ++ind) max += listRDV[ind]->getMembersList().size();
@@ -530,7 +530,13 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
 
 // ---------- Getteurs ----------
+const LDCP& Manager::getListPersonnes(void) const{
+    return this->listPersonnes;
+}
 
+const LDCR& Manager::getListRDV(void) const{
+    return this->listRDV;
+}
 
 
 // ---------- Setteurs ----------
