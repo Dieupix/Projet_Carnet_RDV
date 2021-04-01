@@ -27,7 +27,6 @@ private:
     const QString uhaURL = "https://www.uha.fr";
 
     bool isSaved = true;
-    QBoxLayout* fixedLayout;
     QBoxLayout* listLayout;
     Manager manager;
     QBoxLayout* mainLayout;

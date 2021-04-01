@@ -34,7 +34,7 @@ void MainWindow::setup(void){
     setWindowState(Qt::WindowMaximized);
 
     auto central = new QWidget();
-    fixedLayout = new QVBoxLayout();
+    auto fixedLayout = new QVBoxLayout();
     central->setLayout(fixedLayout);
     window->setCentralWidget(central);
 
@@ -165,7 +165,7 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     auto saRDVLayout = new QVBoxLayout();
     if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel("Aucun rendez-vous dans la base de données"));
     else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
-            saRDVLayout->addWidget(new QPushButton(QIcon("../Carnet_RDV/icons/icon_carnet_d'adresses_black1_100"), manager.getListRDV()[i]->toQString()));
+            saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
     saRDVLayout->addStretch();
     saRDVWidget->setLayout(saRDVLayout);
@@ -183,7 +183,7 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     auto saPersonneLayout = new QVBoxLayout();
     if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel("Aucune personne dans la base de données"));
     else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
-            saPersonneLayout->addWidget(new QPushButton(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_black1_100"), manager.getListPersonnes()[i]->toQString()));
+            saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
 
     saPersonneLayout->addStretch();
     saPersonneWidget->setLayout(saPersonneLayout);
@@ -240,21 +240,60 @@ void MainWindow::setupViewMenu(QMenu* viewMenu){
 
 void MainWindow::showPersonneListLayout(bool b) {
     hideOrShow(personneListLayout, b, listLayout, 1);
-    if(listLayout->count() == 0 and !b) hideOrShow(listLayout, false, fixedLayout, 3, 4);
-    else if(listLayout->count() == 1 and b) hideOrShow(listLayout, true, fixedLayout, 3, 4);
+    auto central = window->centralWidget();
+    auto item = central ? central->layout() : 0;
+    auto fixedLayout = item ? (QVBoxLayout*) item : 0;
+    if(fixedLayout){
+        if(listLayout->count() == 0 and !b) hideOrShow(listLayout, false, fixedLayout, 3, 4);
+        else if(listLayout->count() == 1 and b) hideOrShow(listLayout, true, fixedLayout, 3, 4);
+    }
 }
 
 void MainWindow::showRDVListLayout(bool b) {
     hideOrShow(rdvListLayout, b, listLayout, 0);
-    if(listLayout->count() == 0 and !b) hideOrShow(listLayout, false, fixedLayout, 3, 4);
-    else if(listLayout->count() == 1 and b) hideOrShow(listLayout, true, fixedLayout, 3, 4);
+    auto central = window->centralWidget();
+    auto item = central ? central->layout() : 0;
+    auto fixedLayout = item ? (QVBoxLayout*) item : 0;
+    if(fixedLayout){
+        if(listLayout->count() == 0 and !b) hideOrShow(listLayout, false, fixedLayout, 3, 4);
+        else if(listLayout->count() == 1 and b) hideOrShow(listLayout, true, fixedLayout, 3, 4);
+    }
 }
 
 void MainWindow::updatePersonneListLayout(void){
+    auto saPersonneWidget = new QWidget();
+    auto saPersonneLayout = new QVBoxLayout();
+    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel("Aucune personne dans la base de données"));
+    else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
+            saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
+
+    saPersonneLayout->addStretch();
+    saPersonneWidget->setLayout(saPersonneLayout);
+
+    auto item = personneListLayout->itemAt(1);
+    auto SA = item ? item->widget() : 0;
+    if(SA){
+        auto* qsa = (QScrollArea*) SA;
+        qsa->setWidget(saPersonneWidget);
+    }
 }
 
 void MainWindow::updateRDVListLayout(void){
+    auto saRDVWidget = new QWidget();
+    auto saRDVLayout = new QVBoxLayout();
+    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel("Aucun rendez-vous dans la base de données"));
+    else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
+            saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
+    saRDVLayout->addStretch();
+    saRDVWidget->setLayout(saRDVLayout);
+
+    auto item = rdvListLayout->itemAt(1);
+    auto SA = item ? item->widget() : 0;
+    if(SA){
+        auto qsa = (QScrollArea*) SA;
+        qsa->setWidget(saRDVWidget);
+    }
 }
 
 void MainWindow::updateWindowTitle(void){
@@ -292,6 +331,10 @@ void MainWindow::loadFile(void){
             manager.loadPersonne(filePath.toStdString(), loadBar);
             label->setText("Chargement terminé");
             okButton->setEnabled(true);
+
+            updatePersonneListLayout();
+
+            int exe = loadingDialog->exec();
 
 
         }else if(filePath.endsWith(QFILENAMERDV)){
