@@ -65,7 +65,8 @@ public:
 };
 
 // Fonctions globales
-bool stoHour(const string& s, Hour& h);
+Hour now(void);
 ostream& operator<<(ostream& ost, const Hour& h);
+bool stoHour(const string& s, Hour& h);
 
 #endif // HOUR_H

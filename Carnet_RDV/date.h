@@ -67,7 +67,8 @@ public:
 };
 
 // Fonctions globales
-bool stoDate(const string& s, Date& d);
 ostream& operator<<(ostream&, const Date&);
+bool stoDate(const string& s, Date& d);
+Date today(void);
 
 #endif // DATE_H
