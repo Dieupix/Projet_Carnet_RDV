@@ -14,8 +14,8 @@
 #include "manager.h"
 
 // Fonctions annexes
-void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show);
-void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int ind = -1);
+void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show);
+void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int ind = -1, int stretch = 0);
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +27,7 @@ private:
     const QString uhaURL = "https://www.uha.fr";
 
     bool isSaved = true;
+    QBoxLayout* fixedLayout;
     QBoxLayout* listLayout;
     Manager manager;
     QBoxLayout* mainLayout;

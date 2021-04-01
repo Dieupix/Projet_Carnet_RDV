@@ -1,20 +1,20 @@
 #include "mainwindow.h"
 
 // ---------- FONCTIONS ANNEXES ----------
-void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show){
+void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show){
     for(int i = 0; i < QBoxToHideOrShow->count(); i++){
         auto item = QBoxToHideOrShow->itemAt(i);
         auto w = item ? item->widget() : 0;
         if(w) w->setVisible(show);
         QLayout* l = item ? item->layout() : 0;
-        if(l) hideOrShow((QBoxLayout*) l, show);
+        if(l) preHideOrShow((QBoxLayout*) l, show);
     }
 }
 
-void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int ind){
-    hideOrShow(QBoxToHideOrShow, show);
+void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int ind, int stretch){
+    preHideOrShow(QBoxToHideOrShow, show);
     if(ind == -1 or ind > parent->count()) ind = parent->count();
-    if(show) parent->insertLayout(ind, QBoxToHideOrShow);
+    if(show) parent->insertLayout(ind, QBoxToHideOrShow, stretch);
     else parent->removeItem(QBoxToHideOrShow);
 }
 // ---------- FIN FONCTIONS ANNEXES ----------
@@ -34,7 +34,7 @@ void MainWindow::setup(void){
     setWindowState(Qt::WindowMaximized);
 
     auto central = new QWidget();
-    auto fixedLayout = new QVBoxLayout();
+    fixedLayout = new QVBoxLayout();
     central->setLayout(fixedLayout);
     window->setCentralWidget(central);
 
@@ -201,6 +201,11 @@ QBoxLayout* MainWindow::setupListLayout(void) {
 QBoxLayout* MainWindow::setupMainLayout(void){
     mainLayout = new QHBoxLayout();
 
+    auto sa = new QScrollArea();
+    sa->setWidgetResizable(true);
+
+    mainLayout->addWidget(sa);
+
     return mainLayout;
 }
 
@@ -234,11 +239,15 @@ void MainWindow::setupViewMenu(QMenu* viewMenu){
 }
 
 void MainWindow::showPersonneListLayout(bool b) {
-    preHideOrShow(personneListLayout, b, listLayout, 1);
+    hideOrShow(personneListLayout, b, listLayout, 1);
+    if(listLayout->count() == 0 and !b) hideOrShow(listLayout, false, fixedLayout, 3, 4);
+    else if(listLayout->count() == 1 and b) hideOrShow(listLayout, true, fixedLayout, 3, 4);
 }
 
 void MainWindow::showRDVListLayout(bool b) {
-    preHideOrShow(rdvListLayout, b, listLayout, 0);
+    hideOrShow(rdvListLayout, b, listLayout, 0);
+    if(listLayout->count() == 0 and !b) hideOrShow(listLayout, false, fixedLayout, 3, 4);
+    else if(listLayout->count() == 1 and b) hideOrShow(listLayout, true, fixedLayout, 3, 4);
 }
 
 void MainWindow::updatePersonneListLayout(void){
