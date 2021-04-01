@@ -11,7 +11,7 @@
 #include <fstream>
 #include <sstream>
 
-// Fonction annexe
+// Fonctions annexes
 bool isStringEmpty(const string& s);
 
 const static string FILENAMEPERSONNE = "Personne.carnetRDV";

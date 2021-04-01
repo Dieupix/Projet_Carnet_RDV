@@ -1,16 +1,18 @@
 #include "manager.h"
 
-/*
- * FONCTION ANNEXE
-*/
+// ---------- FONCTIONS ANNEXES ----------
 bool isStringEmpty(const string& s){
     for(char c : s)
         if(c < 0 or (c > 32 and c != 127))
             return false;
     return true;
 }
+// ---------- FIN FONCTIONS ANNEXES ----------
+
 
 Manager::Manager(void){
+    this->listPersonnes = LDCP();
+    this->listRDV = LDCR();
 
     /*loadPersonne();
     cout << endl;

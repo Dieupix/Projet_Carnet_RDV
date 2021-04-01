@@ -1,5 +1,25 @@
 #include "mainwindow.h"
 
+// ---------- FONCTIONS ANNEXES ----------
+void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show){
+    for(int i = 0; i < QBoxToHideOrShow->count(); i++){
+        auto item = QBoxToHideOrShow->itemAt(i);
+        auto w = item ? item->widget() : 0;
+        if(w) w->setVisible(show);
+        QLayout* l = item ? item->layout() : 0;
+        if(l) hideOrShow((QBoxLayout*) l, show);
+    }
+}
+
+void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int ind){
+    hideOrShow(QBoxToHideOrShow, show);
+    if(ind == -1 or ind > parent->count()) ind = parent->count();
+    if(show) parent->insertLayout(ind, QBoxToHideOrShow);
+    else parent->removeItem(QBoxToHideOrShow);
+}
+// ---------- FIN FONCTIONS ANNEXES ----------
+
+
 MainWindow::MainWindow(QMainWindow *parent)
     : QMainWindow(parent), window(this)
 {
@@ -20,11 +40,21 @@ void MainWindow::setup(void){
 
     setupMenuBar();
 
+    fixedLayout->addLayout(setupButtonLayout());
     fixedLayout->addStretch(1);
     fixedLayout->addLayout(setupMainLayout(), 10);
+    fixedLayout->addLayout(setupListLayout(), 4);
     fixedLayout->addStretch(1);
     fixedLayout->addLayout(setupFooterLayout());
 
+}
+
+QBoxLayout* MainWindow::setupButtonLayout(void) {
+    auto buttonLayout = new QHBoxLayout();
+
+    buttonLayout->addWidget(new QPushButton("test"), 0, Qt::AlignCenter);
+
+    return buttonLayout;
 }
 
 void MainWindow::setupEditMenu(QMenu* editMenu){
@@ -122,10 +152,10 @@ QBoxLayout* MainWindow::setupFooterLayout(void){
     return preFooterLayout;
 }
 
-QBoxLayout* MainWindow::setupMainLayout(void){
-    mainLayout = new QHBoxLayout();
+QBoxLayout* MainWindow::setupListLayout(void) {
+    listLayout = new QHBoxLayout();
 
-    auto rdvListLayout = new QVBoxLayout();
+    rdvListLayout = new QVBoxLayout();
     auto rdvListLabel = new QLabel("Liste de tous les rendez-vous");
     rdvListLabel->setFont(QFont(rdvListLabel->font().family(), 20));
     rdvListLayout->addWidget(rdvListLabel, 0, Qt::AlignHCenter);
@@ -143,7 +173,7 @@ QBoxLayout* MainWindow::setupMainLayout(void){
     saRDV->setWidgetResizable(true);
     rdvListLayout->addWidget(saRDV);
 
-    auto personneListLayout = new QVBoxLayout();
+    personneListLayout = new QVBoxLayout();
     auto personneListLabel = new QLabel("Liste de toutes les personnes");
     personneListLabel->setFont(QFont(personneListLabel->font().family(), 20));
     personneListLayout->addWidget(personneListLabel, 0, Qt::AlignHCenter);
@@ -161,8 +191,15 @@ QBoxLayout* MainWindow::setupMainLayout(void){
     saPersonne->setWidgetResizable(true);
     personneListLayout->addWidget(saPersonne);
 
-    mainLayout->addLayout(rdvListLayout);
-    mainLayout->addLayout(personneListLayout);
+    listLayout->addLayout(rdvListLayout);
+    listLayout->addLayout(personneListLayout);
+
+    return listLayout;
+
+}
+
+QBoxLayout* MainWindow::setupMainLayout(void){
+    mainLayout = new QHBoxLayout();
 
     return mainLayout;
 }
@@ -170,14 +207,49 @@ QBoxLayout* MainWindow::setupMainLayout(void){
 void MainWindow::setupMenuBar(void){
     setupFileMenu(menuBar()->addMenu("&Fichier"));
     setupEditMenu(menuBar()->addMenu("&Edit"));
+    setupViewMenu(menuBar()->addMenu("&Afficher"));
+}
+
+void MainWindow::setupViewMenu(QMenu* viewMenu){
+    auto personneListCheckBox = new QAction("Afficher la liste des &Personnes");
+    personneListCheckBox->setToolTip("Affiche la liste de toutes les Personnes");
+    personneListCheckBox->setIcon(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_black1_100"));
+    personneListCheckBox->setShortcut(QKeySequence(Qt::ALT | Qt::Key_P));
+    personneListCheckBox->setShortcutVisibleInContextMenu(true);
+    personneListCheckBox->setCheckable(true);
+    personneListCheckBox->setChecked(true);
+    viewMenu->addAction(personneListCheckBox);
+
+    auto rdvListCheckBox = new QAction("Afficher la liste des &RDV");
+    rdvListCheckBox->setToolTip("Affiche la liste de tous les Rendez-vous");
+    rdvListCheckBox->setIcon(QIcon("../Carnet_RDV/icons/icon_carnet_d'adresses_black1_100"));
+    rdvListCheckBox->setShortcut(QKeySequence(Qt::ALT | Qt::Key_R));
+    rdvListCheckBox->setShortcutVisibleInContextMenu(true);
+    rdvListCheckBox->setCheckable(true);
+    rdvListCheckBox->setChecked(true);
+    viewMenu->addAction(rdvListCheckBox);
+
+    connect(personneListCheckBox, &QAction::toggled, this, &MainWindow::onPersonneListCheckBox);
+    connect(rdvListCheckBox, &QAction::toggled, this, &MainWindow::onRDVListCheckBox);
+}
+
+void MainWindow::showPersonneListLayout(bool b) {
+    preHideOrShow(personneListLayout, b, listLayout, 1);
+}
+
+void MainWindow::showRDVListLayout(bool b) {
+    preHideOrShow(rdvListLayout, b, listLayout, 0);
+}
+
+void MainWindow::updatePersonneListLayout(void){
+}
+
+void MainWindow::updateRDVListLayout(void){
+
 }
 
 void MainWindow::updateWindowTitle(void){
     setWindowTitle(windowTitle + (isSaved ? "" : "*"));
-}
-
-void MainWindow::updateLoadingBar(int i){
-    loadingBar->setValue(i);
 }
 
 
@@ -226,6 +298,10 @@ void MainWindow::loadFile(void){
 
 
 // ---------- Slots privés ----------
+void MainWindow::onPersonneListCheckBox(bool b){
+    showPersonneListLayout(b);
+}
+
 void MainWindow::onQuit(void){
     if(isSaved) close();
     else{
@@ -241,6 +317,10 @@ void MainWindow::onQuit(void){
     }
 }
 
+void MainWindow::onRDVListCheckBox(bool b){
+    showRDVListLayout(b);
+}
+
 void MainWindow::onSaveAndQuit(void){
     onSave();
     onQuit();
@@ -253,6 +333,5 @@ void MainWindow::onSave(void){
     }
 }
 
-void MainWindow::onSpinBox(int i){
-    updateLoadingBar(i);
+void MainWindow::onSpinBox(int) {
 }
