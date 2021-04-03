@@ -11,7 +11,11 @@
 #include <QScrollArea>
 #include <QSpinBox>
 
+#include "loadingdialog.h"
 #include "manager.h"
+
+class Manager;
+class LoadingDialog;
 
 // Fonctions annexes
 void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show);
@@ -21,6 +25,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    friend class LoadingDialog;
 private:
     // Constantes
     const QString windowTitle = "Carnet de Rendez-vous";
@@ -55,6 +60,13 @@ public:
     MainWindow(QMainWindow *parent = nullptr);
 
     void loadFile(void);
+
+    // Getteurs
+    Manager& getManager(void);
+    QString getWindowTitle(void);
+
+    // Setteurs
+    void setSave(bool saved);
 
 private slots:
     void onPersonneListCheckBox(bool);

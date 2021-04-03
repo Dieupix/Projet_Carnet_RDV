@@ -41,7 +41,7 @@ void MainWindow::setup(void){
     setupMenuBar();
 
     fixedLayout->addLayout(setupButtonLayout());
-    fixedLayout->addStretch(1);
+    fixedLayout->addSpacing(5);
     fixedLayout->addLayout(setupMainLayout(), 10);
     fixedLayout->addLayout(setupListLayout(), 4);
     fixedLayout->addStretch(1);
@@ -211,8 +211,8 @@ QBoxLayout* MainWindow::setupMainLayout(void){
 
 void MainWindow::setupMenuBar(void){
     setupFileMenu(menuBar()->addMenu("&Fichier"));
-    setupEditMenu(menuBar()->addMenu("&Edit"));
-    setupViewMenu(menuBar()->addMenu("&Afficher"));
+    setupEditMenu(menuBar()->addMenu("&Éditer"));
+    setupViewMenu(menuBar()->addMenu("&Affichage"));
 }
 
 void MainWindow::setupViewMenu(QMenu* viewMenu){
@@ -305,48 +305,48 @@ void MainWindow::updateWindowTitle(void){
 // ---------- Méthodes publiques ----------
 void MainWindow::loadFile(void){
 
-    auto filePath = QFileDialog::getOpenFileName(this, windowTitle, windowFilePath(), "Fichiers de Personne ou de RDV (*.carnetRDV);; Tous les fichiers (*)");
+    QString filters =   "Fichiers de Personne ou de RDV (*.carnetRDV);;"
+                        "Tous les fichiers (*)";
+
+    auto filePath = QFileDialog::getOpenFileName(this, windowTitle, windowFilePath(), filters);
 
     if(filePath != ""){
-        if(filePath.endsWith(QFILENAMEPERSONNE)){
+        if(filePath.endsWith(QFILENAMEPERSONNE) or filePath.endsWith(QFILENAMERDV)){
 
-            auto loadingDialog = new QDialog();
-            loadingDialog->setWindowTitle(windowTitle);
-            loadingDialog->setModal(true);
-            auto mainLayoutDialog = new QVBoxLayout();
-            auto okButton = new QPushButton("OK");
-            okButton->setDisabled(true);
-
-            mainLayoutDialog->addWidget(new QLabel("Fichier : " + filePath), 0, Qt::AlignTop);
-            auto label = new QLabel("Chargement en cours...");
-            mainLayoutDialog->addWidget(label, 0, Qt::AlignHCenter);
-            auto loadBar = new QProgressBar();
-            mainLayoutDialog->addWidget(loadBar, 0, Qt::AlignTop);
-            loadingDialog->setLayout(mainLayoutDialog);
-
-            mainLayoutDialog->addWidget(okButton, 0, Qt::AlignBottom | Qt::AlignHCenter);
-
-            loadingDialog->show();
-            loadingDialog->setFixedSize(loadingDialog->width(), 2 * loadingDialog->height());
-            manager.loadPersonne(filePath.toStdString(), loadBar);
-            label->setText("Chargement terminé");
-            okButton->setEnabled(true);
-
-            updatePersonneListLayout();
-
-            int exe = loadingDialog->exec();
-
-
-        }else if(filePath.endsWith(QFILENAMERDV)){
+            int exe = LoadingDialog(this, filePath).exec();
+            if(exe == QDialog::Accepted) setSave(false);
 
         }else{
-            QString msg = "Fichier invalide.\n\nVeuillez sélectionner un fichier de Personne ou de Rendez-vous.\t\n";
-            int exe = QMessageBox(QMessageBox::Critical, "Erreur de fichier", msg, QMessageBox::Retry | QMessageBox::Cancel).exec();
+            QString msg =   "Fichier invalide."
+                            "\n\n"
+                            "Veuillez sélectionner un fichier de Personne ou de Rendez-vous."
+                            "\t\n";
 
+            int exe = QMessageBox(QMessageBox::Critical, "Erreur de fichier", msg, QMessageBox::Retry | QMessageBox::Cancel).exec();
             if(exe == QMessageBox::Retry) loadFile();
         }
     }
 }
+
+
+
+// ---------- Getteurs ----------
+Manager& MainWindow::getManager(void){
+    return this->manager;
+}
+
+QString MainWindow::getWindowTitle(void){
+    return this->windowTitle;
+}
+
+
+
+// ---------- Setteurs ----------
+void MainWindow::setSave(bool saved){
+    this->isSaved = saved;
+    updateWindowTitle();
+}
+
 
 
 // ---------- Slots privés ----------
@@ -357,8 +357,10 @@ void MainWindow::onPersonneListCheckBox(bool b){
 void MainWindow::onQuit(void){
     if(isSaved) close();
     else{
-        QString msg = (QString) "Votre Carnet de Rendez-vous n'est pas enregistré" + "\n\n" +
-                "Voulez-vous vraiment quitter sans enregistrer ?";
+        QString msg =   "Votre Carnet de Rendez-vous n'est pas enregistré"
+                        "\n\n"
+                        "Voulez-vous vraiment quitter sans enregistrer ?"
+                        "\t\n";
 
         int exit = QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Save | QMessageBox::Yes | QMessageBox::No).exec();
 
@@ -379,10 +381,7 @@ void MainWindow::onSaveAndQuit(void){
 }
 
 void MainWindow::onSave(void){
-    if(!isSaved){
-        isSaved = true;
-        updateWindowTitle();
-    }
+    if(!isSaved) setSave(true);
 }
 
 void MainWindow::onSpinBox(int) {

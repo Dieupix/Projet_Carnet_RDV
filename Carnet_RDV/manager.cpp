@@ -415,9 +415,9 @@ bool Manager::removeRDV(RDV* r)
 }
 
 bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
-    cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE) << endl;
+    cout << "Enregistrement du fichier " << filePath + FILENAMEPERSONNE << endl;
     bool saved = false;
-    ofstream ofs(filePath == "" ? FILENAMEPERSONNE : filePath + FILENAMEPERSONNE);
+    ofstream ofs(filePath + FILENAMEPERSONNE);
 
     if(!ofs)
         cerr << "Erreur : impossible d'ouvrir le fichier en ecriture" << endl;
@@ -467,9 +467,9 @@ bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
 }
 
 bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
-    cout << "Enregistrement du fichier " << (filePath == "" ? FILENAMERDV : filePath + FILENAMERDV) << endl;
+    cout << "Enregistrement du fichier " << filePath + FILENAMERDV << endl;
     bool saved = false;
-    ofstream ofs(filePath == "" ? FILENAMERDV : filePath + FILENAMERDV);
+    ofstream ofs(filePath + FILENAMERDV);
 
     if(!ofs)
         cerr << "Erreur : impossible d'ouvrir le fichier en ecriture" << endl;
