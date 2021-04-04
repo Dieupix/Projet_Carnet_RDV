@@ -24,7 +24,6 @@ MainWindow::MainWindow(QMainWindow *parent)
     : QMainWindow(parent), window(this)
 {
     setup();
-    updateWindowTitle();
 }
 
 
@@ -47,6 +46,7 @@ void MainWindow::setup(void){
     fixedLayout->addStretch(1);
     fixedLayout->addLayout(setupFooterLayout());
 
+    updateWindowTitle();
 }
 
 QBoxLayout* MainWindow::setupButtonLayout(void) {

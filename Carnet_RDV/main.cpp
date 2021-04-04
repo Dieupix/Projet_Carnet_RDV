@@ -12,13 +12,14 @@ int main(int argc, char *argv[])
     // Redirection des flux de sortie standard et d'erreurs vers un fichier .log
     Date ajd = today();
     Hour mtn = now();
-    string dirName = "logs";
+    string dirName = "logs", extansion = ".log";
     string time =   to_string(ajd.getYear()) + "-" +
                     to_string(ajd.getMonth()) + "-" +
                     to_string(ajd.getDay()) + "_" +
                     to_string(mtn.getHour()) + "-" +
                     to_string(mtn.getMinute()) + "-" +
-                    to_string(mtn.getSecond()) + ".log";
+                    to_string(mtn.getSecond()) +
+                    extansion;
 
     string fileName = dirName + "\\" + time;
     mkdir(dirName.c_str());
