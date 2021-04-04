@@ -55,7 +55,7 @@ bool Manager::addRDV(RDV* rdv){
 }
 
 bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
-    cout << "Chargement du fichier " << filePath << endl;
+    cout << "Chargement du fichier " << filePath << " ..." << endl;
     bool loaded = false;
     ifstream ifs(filePath);
 
@@ -124,7 +124,7 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                     if(!abort){
                         Personne* p = new Personne(firstName, lastName, phone, email);
                         if(!listPersonnes.inserer(p)){
-                            cerr << "Erreur : ligne " << line << " : La Personne est deja dans la base de donnees" << endl;
+                            cerr << "Erreur : ligne " << line << " : La Personne est déjà dans la base de données" << endl;
                             delete p;
                         }
                     }
@@ -149,7 +149,7 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                         email += c;
                         break;
                     default:
-                        cerr << "Erreur : sequence = " << sequence << endl;
+                        cerr << "Erreur : séquence = " << sequence << endl;
                         break;
                     }
                 }
@@ -171,7 +171,7 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
                     email += c;
                     break;
                 default:
-                    cerr << "Erreur : sequence = " << sequence << endl;
+                    cerr << "Erreur : séquence = " << sequence << endl;
                     break;
                 }
             }
@@ -186,12 +186,12 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
         loaded = true;
     }
 
-    cout << "Fichier charge " << (loaded ? "avec" : "sans") << " succes" << endl;
+    cout << "Fichier chargé " << (loaded ? "avec" : "sans") << " succes" << endl;
     return loaded;
 
 }
 bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
-    cout << "Chargement du fichier "  << filePath << endl;
+    cout << "Chargement du fichier "  << filePath << " ..." << endl;
     bool loaded = false;
     ifstream ifs(filePath);
 
@@ -260,7 +260,7 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                         if(stoDate(date, d) and stoHour(timeStart, tS) and stoHour(timeEnd, tE)){
                             RDV* rdv = new RDV(name, d, tS, tE);
                             if(!listRDV.inserer(rdv)){
-                                cerr << "Erreur : ligne " << line << " : le RDV est deja dans la base de donnees" << endl;
+                                cerr << "Erreur : ligne " << line << " : le RDV est déjà dans la base de données" << endl;
                                 delete rdv;
                                 abortP = true;
                             }
@@ -311,14 +311,14 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                             rdv = listRDV[ind];
 
                             if(!rdv->addMember(p)){
-                                cerr << "Erreur : ligne " << line << " : La Personne est deja dans le RDV" << endl;
+                                cerr << "Erreur : ligne " << line << " : La Personne est déjà dans le RDV" << endl;
                                 delete p;
                             }
                         }else{
                             listPersonnes.inserer(p);
 
                             if(!rdv->addMember(p)){
-                                cerr << "Erreur : ligne " << line << " : La Personne est deja dans le RDV" << endl;
+                                cerr << "Erreur : ligne " << line << " : La Personne est déjà dans le RDV" << endl;
                                 delete p;
                             }
                         }
@@ -351,7 +351,7 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                         firstName += c;
                         break;
                     default:
-                        cerr << "Erreur : sequence = " << sequence << endl;
+                        cerr << "Erreur : séquence = " << sequence << endl;
                         break;
                     }
                 }
@@ -379,7 +379,7 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                     firstName += c;
                     break;
                 default:
-                    cerr << "Erreur : sequence = " << sequence << endl;
+                    cerr << "Erreur : séquence = " << sequence << endl;
                     break;
                 }
             }
@@ -395,7 +395,7 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
         loaded = true;
     }
 
-    cout << "Fichier charge " << (loaded ? "avec" : "sans") << " succes" << endl;
+    cout << "Fichier chargé " << (loaded ? "avec" : "sans") << " succes" << endl;
     return loaded;
 
 }
@@ -415,7 +415,7 @@ bool Manager::removeRDV(RDV* r)
 }
 
 bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
-    cout << "Enregistrement du fichier " << filePath + FILENAMEPERSONNE << endl;
+    cout << "Enregistrement du fichier " << filePath + FILENAMEPERSONNE << " ..." << endl;
     bool saved = false;
     ofstream ofs(filePath + FILENAMEPERSONNE);
 
@@ -461,18 +461,18 @@ bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
 
     }
 
-    cout << "Fichier enregistre " << (saved ? "avec" : "sans") << " succes" << endl;
+    cout << "Fichier enregistré " << (saved ? "avec" : "sans") << " succes" << endl;
     return saved;
 
 }
 
 bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
-    cout << "Enregistrement du fichier " << filePath + FILENAMERDV << endl;
+    cout << "Enregistrement du fichier " << filePath + FILENAMERDV << " ..." << endl;
     bool saved = false;
     ofstream ofs(filePath + FILENAMERDV);
 
     if(!ofs)
-        cerr << "Erreur : impossible d'ouvrir le fichier en ecriture" << endl;
+        cerr << "Erreur : impossible d'ouvrir le fichier en écriture" << endl;
     else{
         int ind = 0, max = listRDV.size();
         for(unsigned ind = 0; ind < listRDV.size(); ++ind) max += listRDV[ind]->getMembersList().size();
@@ -524,7 +524,7 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
     }
 
-    cout << "Fichier enregistre " << (saved ? "avec" : "sans") << " succes" << endl;
+    cout << "Fichier enregistré " << (saved ? "avec" : "sans") << " succes" << endl;
     return saved;
 
 }

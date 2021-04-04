@@ -260,6 +260,6 @@ Date today(void)
     tm* now = localtime(&t);
     dt.day = now->tm_mday;
     dt.month = now->tm_mon;
-    dt.year = now->tm_year;
+    dt.year = now->tm_year + 1900;
     return dt;
 }
