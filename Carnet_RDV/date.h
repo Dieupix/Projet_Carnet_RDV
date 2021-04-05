@@ -53,12 +53,12 @@ public:
     QString toQString(void) const;
     string toString(void) const;
 
-    // Getteurs
+    // Getters
     unsigned getDay(void) const;
     unsigned getMonth(void) const;
     unsigned getYear(void) const;
 
-    // Setteurs
+    // Setters
     void setDay(const unsigned& d);
     void setMonth(const unsigned& m);
     void setYear(const unsigned& y);

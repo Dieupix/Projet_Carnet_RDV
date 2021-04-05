@@ -61,11 +61,11 @@ public:
 
     void loadFile(void);
 
-    // Getteurs
+    // Getters
     Manager& getManager(void);
     QString getWindowTitle(void);
 
-    // Setteurs
+    // Setters
     void setSave(bool saved);
 
 private slots:

@@ -220,7 +220,7 @@ string Hour::toString(bool fullDigits) const{
 
 
 
-// ---------- Getteurs ----------
+// ---------- Getters ----------
 unsigned Hour::getSecond(void) const
 {   return second;  }
 
@@ -232,7 +232,7 @@ unsigned Hour::getHour(void) const
 
 
 
-// ---------- Setteurs ----------
+// ---------- Setters ----------
 void Hour::setSecond(const unsigned& s)
 {   second = s;     }
 

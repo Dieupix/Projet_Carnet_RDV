@@ -223,7 +223,7 @@ string Date::toString(void) const{
 
 
 
-// ---------- Getteurs ----------
+// ---------- Getters ----------
 unsigned Date::getDay(void) const
 {   return day;     }
 
@@ -234,7 +234,8 @@ unsigned Date::getYear(void) const
 {   return year;    }
 
 
-// ---------- Setteurs ----------
+
+// ---------- Setters ----------
 void Date::setDay(const unsigned& d)
 {   day = d;        }
 void Date::setMonth(const unsigned& m)

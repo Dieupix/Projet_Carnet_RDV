@@ -58,30 +58,30 @@ QBoxLayout* MainWindow::setupButtonLayout(void) {
 }
 
 void MainWindow::setupEditMenu(QMenu* editMenu){
-    auto addPersonneAction = new QAction(tr("&Ajouter une Personne", "&Add a Personne"));
-    addPersonneAction->setToolTip(tr("Ajouter une Personne à la base de données", "Add a Personne to the data base"));
+    auto addPersonneAction = new QAction(tr("&Ajouter une Personne", "&Add a People"));
+    addPersonneAction->setToolTip(tr("Ajouter une Personne à la base de données", "Add a People to the data base"));
     addPersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_macos_maximiser_black1_100"));
     addPersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
     addPersonneAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(addPersonneAction);
 
-    auto addRDVAction = new QAction(tr("&Ajouter un RDV", "&Add an RDV"));
-    addRDVAction->setToolTip(tr("Ajouter un RDV à la base de données", "Add an RDV to the data base"));
+    auto addRDVAction = new QAction(tr("&Ajouter un RDV", "&Add an appointment"));
+    addRDVAction->setToolTip(tr("Ajouter un RDV à la base de données", "Add an appointment to the data base"));
     addRDVAction->setShortcut(QKeySequence(Qt::CTRL| Qt::Key_R));
     addRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(addRDVAction);
 
     editMenu->addSeparator();
 
-    auto removePersonneAction = new QAction(tr("&Retirer une Personne", "&Remove a Personne"));
-    removePersonneAction->setToolTip(tr("Retirer une Personne de la base de données", "Remove a Personne from the data base"));
+    auto removePersonneAction = new QAction(tr("&Retirer une Personne", "&Remove a People"));
+    removePersonneAction->setToolTip(tr("Retirer une Personne de la base de données", "Remove a People from the data base"));
     removePersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_macos_minimiser_black1_100"));
     removePersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_P));
     removePersonneAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removePersonneAction);
 
-    auto removeRDVAction = new QAction(tr("&Retirer un RDV", "&Remove an RDV"));
-    removeRDVAction->setToolTip(tr("Retirer un RDV de la base de données", "Remove an RDV from the data base"));
+    auto removeRDVAction = new QAction(tr("&Retirer un RDV", "&Remove an appointment"));
+    removeRDVAction->setToolTip(tr("Retirer un RDV de la base de données", "Remove an appointment from the data base"));
     removeRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_R));
     removeRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removeRDVAction);
@@ -89,7 +89,7 @@ void MainWindow::setupEditMenu(QMenu* editMenu){
 
 void MainWindow::setupFileMenu(QMenu *fileMenu){
     auto loadAction = new QAction(tr("&Ouvrir un fichier", "&Open a file") + "...");
-    loadAction->setToolTip(tr("Ouvrir un fichier de personne ou de rendez-vous", "Open a file of Personne or RDV"));
+    loadAction->setToolTip(tr("Ouvrir un fichier de personne ou de rendez-vous", "Open a file of People or appointments"));
     loadAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
     loadAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
     loadAction->setShortcutVisibleInContextMenu(true);
@@ -156,14 +156,14 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     listLayout = new QHBoxLayout();
 
     rdvListLayout = new QVBoxLayout();
-    auto rdvListLabel = new QLabel(tr("Liste de tous les rendez-vous", "List of all RDVs"));
+    auto rdvListLabel = new QLabel(tr("Liste de tous les rendez-vous", "List of all appointments"));
     rdvListLabel->setFont(QFont(rdvListLabel->font().family(), 20));
     rdvListLayout->addWidget(rdvListLabel, 0, Qt::AlignHCenter);
 
     auto saRDV = new QScrollArea();
     auto saRDVWidget = new QWidget();
     auto saRDVLayout = new QVBoxLayout();
-    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any Personne in the data base")));
+    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any People in the data base")));
     else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
             saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
@@ -174,14 +174,14 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     rdvListLayout->addWidget(saRDV);
 
     personneListLayout = new QVBoxLayout();
-    auto personneListLabel = new QLabel(tr("Liste de toutes les personnes", "List of all Personne"));
+    auto personneListLabel = new QLabel(tr("Liste de toutes les personnes", "List of all People"));
     personneListLabel->setFont(QFont(personneListLabel->font().family(), 20));
     personneListLayout->addWidget(personneListLabel, 0, Qt::AlignHCenter);
 
     auto saPersonne = new QScrollArea();
     auto saPersonneWidget = new QWidget();
     auto saPersonneLayout = new QVBoxLayout();
-    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any Rendez-vous in the data base")));
+    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any appointment in the data base")));
     else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
             saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
 
@@ -216,8 +216,8 @@ void MainWindow::setupMenuBar(void){
 }
 
 void MainWindow::setupViewMenu(QMenu* viewMenu){
-    auto personneListCheckBox = new QAction(tr("Afficher la liste des &Personnes", "Show the list of &Personne"));
-    personneListCheckBox->setToolTip(tr("Affiche la liste de toutes les Personnes", "Show the list of all Personne"));
+    auto personneListCheckBox = new QAction(tr("Afficher la liste des &Personnes", "Show the list of &People"));
+    personneListCheckBox->setToolTip(tr("Affiche la liste de toutes les Personnes", "Show the list of all People"));
     personneListCheckBox->setIcon(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_black1_100"));
     personneListCheckBox->setShortcut(QKeySequence(Qt::ALT | Qt::Key_P));
     personneListCheckBox->setShortcutVisibleInContextMenu(true);
@@ -225,8 +225,8 @@ void MainWindow::setupViewMenu(QMenu* viewMenu){
     personneListCheckBox->setChecked(true);
     viewMenu->addAction(personneListCheckBox);
 
-    auto rdvListCheckBox = new QAction(tr("Afficher la liste des &RDV", "Show the list of &RDVs"));
-    rdvListCheckBox->setToolTip(tr("Affiche la liste de tous les Rendez-vous", "Show the list of all RDVs"));
+    auto rdvListCheckBox = new QAction(tr("Afficher la liste des &RDV", "Show the list of &appointments"));
+    rdvListCheckBox->setToolTip(tr("Affiche la liste de tous les Rendez-vous", "Show the list of all appointments"));
     rdvListCheckBox->setIcon(QIcon("../Carnet_RDV/icons/icon_carnet_d'adresses_black1_100"));
     rdvListCheckBox->setShortcut(QKeySequence(Qt::ALT | Qt::Key_R));
     rdvListCheckBox->setShortcutVisibleInContextMenu(true);
@@ -263,7 +263,7 @@ void MainWindow::showRDVListLayout(bool b) {
 void MainWindow::updatePersonneListLayout(void){
     auto saPersonneWidget = new QWidget();
     auto saPersonneLayout = new QVBoxLayout();
-    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any Personne in the data base")));
+    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any People in the data base")));
     else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
             saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
 
@@ -281,7 +281,7 @@ void MainWindow::updatePersonneListLayout(void){
 void MainWindow::updateRDVListLayout(void){
     auto saRDVWidget = new QWidget();
     auto saRDVLayout = new QVBoxLayout();
-    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any Rendez-vous in the data base")));
+    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any appointment in the data base")));
     else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
             saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
@@ -307,7 +307,7 @@ void MainWindow::loadFile(void){
 
     QString filters =   tr("Fichiers de Personne ou de RDV (*.carnetRDV);;"
                         "Tous les fichiers (*)",
-                        "Files of Personne or RDV (*.carnetRDV);;"
+                        "Files of People or appointment (*.carnetRDV);;"
                         "All files (*)");
 
     auto filePath = QFileDialog::getOpenFileName(this, windowTitle, windowFilePath(), filters);
@@ -325,10 +325,10 @@ void MainWindow::loadFile(void){
                             "\t\n",
                             "Invalid File."
                             "\n\n"
-                            "Please select a file of Personne or Rendez-vous"
+                            "Please select a file of People or appointment"
                             "\t\n");
 
-            int exe = QMessageBox(QMessageBox::Critical, tr("Erreur de fichier"), msg, QMessageBox::Retry | QMessageBox::Cancel).exec();
+            int exe = QMessageBox(QMessageBox::Critical, tr("Erreur de fichier", "File error"), msg, QMessageBox::Retry | QMessageBox::Cancel).exec();
             if(exe == QMessageBox::Retry) loadFile();
         }
     }
@@ -336,7 +336,7 @@ void MainWindow::loadFile(void){
 
 
 
-// ---------- Getteurs ----------
+// ---------- Getters ----------
 Manager& MainWindow::getManager(void){
     return this->manager;
 }
@@ -347,7 +347,7 @@ QString MainWindow::getWindowTitle(void){
 
 
 
-// ---------- Setteurs ----------
+// ---------- Setters ----------
 void MainWindow::setSave(bool saved){
     this->isSaved = saved;
     updateWindowTitle();

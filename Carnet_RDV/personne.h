@@ -43,14 +43,14 @@ public:
     QString toQString(void) const;
     string toString(void) const;
 
-    // Getteurs
+    // Getters
     const string& getFirstName(void) const;
     const string& getLastName(void) const;
     const string& getPhone(void) const;
     const string& getEmail(void) const;
     const vector<RDV*>& getRDVList(void) const;
 
-    // Setteurs
+    // Setters
     void setFirstName(const string& firstName);
     void setLastName(const string& lastName);
     void setPhone(const string& phone);

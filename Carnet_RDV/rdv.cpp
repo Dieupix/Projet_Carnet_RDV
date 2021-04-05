@@ -144,7 +144,7 @@ string RDV::toString(void) const{
 
 
 
-// ---------- Getteurs ----------
+// ---------- Getters ----------
 const string& RDV::getName(void) const{
     return this->name;
 }
@@ -163,7 +163,7 @@ const vector<Personne*>& RDV::getMembersList(void) const{
 
 
 
-// ---------- Setteurs ----------
+// ---------- Setters ----------
 void RDV::setName(const string& name){
     this->name = name;
 }

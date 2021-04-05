@@ -41,14 +41,14 @@ public:
     QString toQString(void) const;
     string toString(void) const;
 
-    // Getteurs
+    // Getters
     const string& getName(void) const;
     const Date& getDate(void) const;
     const Hour& getTimeStart(void) const;
     const Hour& getTimeEnd(void) const;
     const vector<Personne*>& getMembersList(void) const;
 
-    // Setteurs
+    // Setters
     void setName(const string& name);
     void setDate(const Date& date);
     void setTimeStart(const Hour& timeStart);

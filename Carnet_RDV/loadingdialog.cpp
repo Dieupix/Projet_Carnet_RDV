@@ -40,7 +40,7 @@ void LoadingDialog::setup(void){
         if(filePath.endsWith(QFILENAMEPERSONNE)) mainwindow->updatePersonneListLayout();
         else if(filePath.endsWith(QFILENAMERDV)) mainwindow->updateRDVListLayout();
 
-        label->setText(tr("Chargement terminé", "Finish loading"));
+        label->setText(tr("Chargement terminé", "Loading completed"));
 
         connect(okButton, &QPushButton::clicked, this, &LoadingDialog::onAccept);
 

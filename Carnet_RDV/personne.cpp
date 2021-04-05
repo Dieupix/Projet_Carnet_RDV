@@ -96,7 +96,7 @@ QString Personne::rdvToQString(void) const{
 }
 
 string Personne::rdvToString(void) const{
-    string s = QString(QObject::tr("Rendez-vous", "Appointment%1", rdvList.size())).toStdString() + " (" + to_string(rdvList.size()) + ") : \n";
+    string s = QString(QObject::tr("Rendez-vous", "Appointment", rdvList.size())).toStdString() + " (" + to_string(rdvList.size()) + ") : \n";
     if (rdvList.size() == 0) s += QString(QObject::tr("Aucun rendez-vous", "Any appointment")).toStdString() + "\n";
     else for(unsigned i = 0; i < rdvList.size(); ++i) s += rdvList[i]->toString() + "\n";
     return s;
@@ -132,7 +132,7 @@ string Personne::toString(void) const{
 
 
 
-// ---------- Getteurs ----------
+// ---------- Getters ----------
 const string& Personne::getFirstName(void) const{
     return this->firstName;
 }
@@ -151,7 +151,7 @@ const vector<RDV*>& Personne::getRDVList(void) const{
 
 
 
-// ---------- Setteurs ----------
+// ---------- Setters ----------
 void Personne::setFirstName(const string& firstName){
     this->firstName = firstName;
 }

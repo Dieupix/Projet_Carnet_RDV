@@ -28,8 +28,6 @@ private:
 public:
     Manager(void);
 
-    // Surcharge des opérateurs
-
     // Méthodes
     bool addPersonne(Personne* p);
     bool addRDV(RDV* rdv);
@@ -40,14 +38,10 @@ public:
     bool savePersonne(const string& filePath = FILENAMEPERSONNE, QProgressBar* loadingBar = nullptr);
     bool saveRDV(const string& filePath = FILENAMERDV, QProgressBar* loadingBar = nullptr);
 
-    // Getteurs
+    // Getters
     const LDCP& getListPersonnes(void) const;
     const LDCR& getListRDV(void) const;
 
-    // Setteurs
-
 };
-
-// Fonctions globales
 
 #endif // MANAGER_H

@@ -51,12 +51,12 @@ public:
     QString toQString(bool fullDigits = false) const;
     string toString(bool fullDigits = false) const;
 
-    // Getteurs
+    // Getters
     unsigned getSecond(void) const;
     unsigned getMinute(void) const;
     unsigned getHour(void) const;
 
-    // Setteurs
+    // Setters
     void setSecond(const unsigned& second);
     void setMinute(const unsigned& minute);
     void setHour(const unsigned& hour);

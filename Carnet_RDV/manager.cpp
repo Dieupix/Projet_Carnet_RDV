@@ -41,10 +41,6 @@ Manager::Manager(void){
 
 
 
-// ---------- Surcharge des opérateurs ----------
-
-
-
 // ---------- Méthodes ----------
 bool Manager::addPersonne(Personne* p){
     return listPersonnes.inserer(p);
@@ -531,7 +527,7 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
 
 
-// ---------- Getteurs ----------
+// ---------- Getters ----------
 const LDCP& Manager::getListPersonnes(void) const{
     return this->listPersonnes;
 }
@@ -540,11 +536,5 @@ const LDCR& Manager::getListRDV(void) const{
     return this->listRDV;
 }
 
-
-// ---------- Setteurs ----------
-
-
-
-// ---------- Fonctions globales ----------
 
 

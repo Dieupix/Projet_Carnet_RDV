@@ -39,10 +39,10 @@ int main(int argc, char *argv[])
 
     a.setWindowIcon(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_white2_100"));
 
-    // Traduction de l'application dans la langue courante du système
-    // Remarque :   seuls les objets pré-faits par Qt seront traduits,
-    //              les nôtres ne pourront être traduits actuellement par manque de temps pour la traduction
-    //              et de connaissances en langues
+    /* Traduction de l'application dans la langue courante du système
+     * Remarque :   seuls les objets pré-faits par Qt seront traduits,
+     *              les nôtres ne pourront être traduits actuellement par manque de temps pour la traduction
+    */
     QString locale = QLocale::system().name().section('_', 0, 0);
     QTranslator* translator = new QTranslator();
     if(translator->load(QString("qt_") + locale, QString("../Carnet_RDV/translations"))) a.installTranslator(translator);
