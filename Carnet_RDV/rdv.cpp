@@ -101,9 +101,9 @@ QString RDV::participantsToQString(void){
 }
 
 string RDV::participantsToString(void){
-    string s = "Participant" + (string) (membersList.size() == 1 ? "" : "s") + " " +
+    string s = QString(QObject::tr("Participant", "Participant", membersList.size())).toStdString() + string(membersList.size() == 1 ? "" : "s") + " " +
             "(" + to_string(membersList.size()) + ") :\n";
-    if (membersList.size() == 0) s += "Aucun participant\n";
+    if (membersList.size() == 0) s += QString(QObject::tr("Aucun participant", "Any participant")).toStdString() + "\n";
     else for(unsigned i = 0; i < membersList.size(); ++i) s += membersList[i]->toString() + "\n";
     return s;
 }

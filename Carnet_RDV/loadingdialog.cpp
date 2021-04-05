@@ -23,7 +23,7 @@ void LoadingDialog::setup(void){
     auto loadBar = new QProgressBar();
     mainLayoutDialog->addWidget(loadBar, 0, Qt::AlignTop);
 
-    auto okButton = new QPushButton("OK");
+    auto okButton = new QPushButton(tr("OK", "OK"));
     mainLayoutDialog->addWidget(okButton, 0, Qt::AlignBottom | Qt::AlignHCenter);
     okButton->setDisabled(true);
 

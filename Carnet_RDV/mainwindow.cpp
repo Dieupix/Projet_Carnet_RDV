@@ -58,38 +58,38 @@ QBoxLayout* MainWindow::setupButtonLayout(void) {
 }
 
 void MainWindow::setupEditMenu(QMenu* editMenu){
-    auto addPersonneAction = new QAction("&Ajouter une Personne");
-    addPersonneAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    auto addPersonneAction = new QAction(tr("&Ajouter une Personne", "&Add a Personne"));
+    addPersonneAction->setToolTip(tr("Ajouter une Personne à la base de données", "Add a Personne to the data base"));
     addPersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_macos_maximiser_black1_100"));
     addPersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_P));
     addPersonneAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(addPersonneAction);
 
-    auto addRDVAction = new QAction("&Ajouter un RDV");
-    addRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    auto addRDVAction = new QAction(tr("&Ajouter un RDV", "&Add an RDV"));
+    addRDVAction->setToolTip(tr("Ajouter un RDV à la base de données", "Add an RDV to the data base"));
     addRDVAction->setShortcut(QKeySequence(Qt::CTRL| Qt::Key_R));
     addRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(addRDVAction);
 
     editMenu->addSeparator();
 
-    auto removePersonneAction = new QAction("&Retirer une Personne");
-    removePersonneAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    auto removePersonneAction = new QAction(tr("&Retirer une Personne", "&Remove a Personne"));
+    removePersonneAction->setToolTip(tr("Retirer une Personne de la base de données", "Remove a Personne from the data base"));
     removePersonneAction->setIcon(QIcon("../Carnet_RDV/icons/icon_macos_minimiser_black1_100"));
     removePersonneAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_P));
     removePersonneAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removePersonneAction);
 
-    auto removeRDVAction = new QAction("&Retirer un RDV");
-    removeRDVAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    auto removeRDVAction = new QAction(tr("&Retirer un RDV", "&Remove an RDV"));
+    removeRDVAction->setToolTip(tr("Retirer un RDV de la base de données", "Remove an RDV from the data base"));
     removeRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_R));
     removeRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removeRDVAction);
 }
 
 void MainWindow::setupFileMenu(QMenu *fileMenu){
-    auto loadAction = new QAction("&Ouvrir un fichier...");
-    loadAction->setToolTip("Ouvrir un fichier de personne ou de rendez-vous");
+    auto loadAction = new QAction(tr("&Ouvrir un fichier", "&Open a file") + "...");
+    loadAction->setToolTip(tr("Ouvrir un fichier de personne ou de rendez-vous", "Open a file of Personne or RDV"));
     loadAction->setIcon(QIcon("../Carnet_RDV/icons/icon_dossier_ouvert_black1_100"));
     loadAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_O));
     loadAction->setShortcutVisibleInContextMenu(true);
@@ -97,15 +97,15 @@ void MainWindow::setupFileMenu(QMenu *fileMenu){
 
     fileMenu->addSeparator();
 
-    auto saveAction = new QAction("Enregi&strer");
-    saveAction->setToolTip("Enregistrer le carnet de rendez-vous");
+    auto saveAction = new QAction(tr("Enregi&strer", "&Save"));
+    saveAction->setToolTip(tr("Enregistrer le carnet de rendez-vous", "Save the appointment book"));
     saveAction->setIcon(QIcon("../Carnet_RDV/icons/icon_sauvegarder_black1_100"));
     saveAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_S));
     saveAction->setShortcutVisibleInContextMenu(true);
     fileMenu->addAction(saveAction);
 
-    auto saveAndQuitAction = new QAction("Enregi&strer et quitter");
-    saveAndQuitAction->setToolTip("Enregistrer le carnet et quitter");
+    auto saveAndQuitAction = new QAction(tr("Enregi&strer et quitter", "&Save and close"));
+    saveAndQuitAction->setToolTip(tr("Enregistrer le carnet et quitter", "Save the appointment book and close"));
     saveAndQuitAction->setIcon(QIcon("../Carnet_RDV/icons/icon_enregistrer_et_fermer_black1_100"));
     saveAndQuitAction->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Q));
     saveAndQuitAction->setShortcutVisibleInContextMenu(true);
@@ -113,8 +113,8 @@ void MainWindow::setupFileMenu(QMenu *fileMenu){
 
     fileMenu->addSeparator();
 
-    auto quitAction = new QAction("&Quitter");
-    quitAction->setToolTip("Quitter l'application");
+    auto quitAction = new QAction(tr("&Quitter", "&Exit"));
+    quitAction->setToolTip(tr("Quitter l'application", "Exit the application"));
     quitAction->setIcon(QIcon("../Carnet_RDV/icons/icon_sortie_black1_100"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Q));
     quitAction->setShortcutVisibleInContextMenu(true);
@@ -136,11 +136,11 @@ QBoxLayout* MainWindow::setupFooterLayout(void){
 
     auto footerLayout = new QHBoxLayout();
     auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
-    teamLabel->setToolTip("L'équipe du projet");
+    teamLabel->setToolTip(tr("L'équipe du projet", "Team of the project"));
 
-    auto uhaLabel = new QLabel("Université de Haute Alsace - (<a href='" + uhaURL + "'>UHA</a>)");
+    auto uhaLabel = new QLabel(tr(string("Université de Haute Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str(), string("University of Hupper Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str()));
     uhaLabel->setOpenExternalLinks(true);
-    uhaLabel->setToolTip("Accéder au site internet de l'UHA");
+    uhaLabel->setToolTip(tr("Accéder au site internet de l'UHA", "Website of the UHA"));
 
     footerLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
     footerLayout->addStretch(0);
@@ -156,14 +156,14 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     listLayout = new QHBoxLayout();
 
     rdvListLayout = new QVBoxLayout();
-    auto rdvListLabel = new QLabel("Liste de tous les rendez-vous");
+    auto rdvListLabel = new QLabel(tr("Liste de tous les rendez-vous", "List of all RDVs"));
     rdvListLabel->setFont(QFont(rdvListLabel->font().family(), 20));
     rdvListLayout->addWidget(rdvListLabel, 0, Qt::AlignHCenter);
 
     auto saRDV = new QScrollArea();
     auto saRDVWidget = new QWidget();
     auto saRDVLayout = new QVBoxLayout();
-    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel("Aucun rendez-vous dans la base de données"));
+    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any Personne in the data base")));
     else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
             saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
@@ -174,14 +174,14 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     rdvListLayout->addWidget(saRDV);
 
     personneListLayout = new QVBoxLayout();
-    auto personneListLabel = new QLabel("Liste de toutes les personnes");
+    auto personneListLabel = new QLabel(tr("Liste de toutes les personnes", "List of all Personne"));
     personneListLabel->setFont(QFont(personneListLabel->font().family(), 20));
     personneListLayout->addWidget(personneListLabel, 0, Qt::AlignHCenter);
 
     auto saPersonne = new QScrollArea();
     auto saPersonneWidget = new QWidget();
     auto saPersonneLayout = new QVBoxLayout();
-    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel("Aucune personne dans la base de données"));
+    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any Rendez-vous in the data base")));
     else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
             saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
 
@@ -210,14 +210,14 @@ QBoxLayout* MainWindow::setupMainLayout(void){
 }
 
 void MainWindow::setupMenuBar(void){
-    setupFileMenu(menuBar()->addMenu("&Fichier"));
-    setupEditMenu(menuBar()->addMenu("&Éditer"));
-    setupViewMenu(menuBar()->addMenu("&Affichage"));
+    setupFileMenu(menuBar()->addMenu(tr("&Fichier", "&File")));
+    setupEditMenu(menuBar()->addMenu(tr("&Éditer", "&Edit")));
+    setupViewMenu(menuBar()->addMenu(tr("&Affichage", "&View")));
 }
 
 void MainWindow::setupViewMenu(QMenu* viewMenu){
-    auto personneListCheckBox = new QAction("Afficher la liste des &Personnes");
-    personneListCheckBox->setToolTip("Affiche la liste de toutes les Personnes");
+    auto personneListCheckBox = new QAction(tr("Afficher la liste des &Personnes", "Show the list of &Personne"));
+    personneListCheckBox->setToolTip(tr("Affiche la liste de toutes les Personnes", "Show the list of all Personne"));
     personneListCheckBox->setIcon(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_black1_100"));
     personneListCheckBox->setShortcut(QKeySequence(Qt::ALT | Qt::Key_P));
     personneListCheckBox->setShortcutVisibleInContextMenu(true);
@@ -225,8 +225,8 @@ void MainWindow::setupViewMenu(QMenu* viewMenu){
     personneListCheckBox->setChecked(true);
     viewMenu->addAction(personneListCheckBox);
 
-    auto rdvListCheckBox = new QAction("Afficher la liste des &RDV");
-    rdvListCheckBox->setToolTip("Affiche la liste de tous les Rendez-vous");
+    auto rdvListCheckBox = new QAction(tr("Afficher la liste des &RDV", "Show the list of &RDVs"));
+    rdvListCheckBox->setToolTip(tr("Affiche la liste de tous les Rendez-vous", "Show the list of all RDVs"));
     rdvListCheckBox->setIcon(QIcon("../Carnet_RDV/icons/icon_carnet_d'adresses_black1_100"));
     rdvListCheckBox->setShortcut(QKeySequence(Qt::ALT | Qt::Key_R));
     rdvListCheckBox->setShortcutVisibleInContextMenu(true);

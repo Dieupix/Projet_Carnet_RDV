@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     cerr.rdbuf(stdStreamToFile.rdbuf());
 
     // Lancement du programme
-    cout << today() << " - " << now() << " : " << QString(QObject::tr("Démarrage du programme")).toStdString() << " " << argv[0] << " ..." << endl << endl;
+    cout << today() << " - " << now() << " : " << QString(QObject::tr("Démarrage du programme", "Starting program")).toStdString() << " " << argv[0] << " ..." << endl << endl;
 
     a.setWindowIcon(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_white2_100"));
 
@@ -55,7 +55,8 @@ int main(int argc, char *argv[])
     int exe = a.exec();
 
     // Fermeture du programme
-    cout << today() << " - " << now() << " : " << QString(QObject::tr("Fermeture du programme")).toStdString() << " " << argv[0] << " avec le code " << exe << endl << endl;
+    cout << today() << " - " << now() << " : " << QString(QObject::tr("Fermeture du programme", "Closing program")).toStdString() << " " << argv[0] << " "
+                                                << QString(QObject::tr("avec le code", "with code")).toStdString() << " " << exe << endl << endl;
 
     cout.rdbuf(backCout);
     cerr.rdbuf(backCerr);

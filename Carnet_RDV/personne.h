@@ -4,6 +4,7 @@
 #include <iostream>
 #include "rdv.h"
 
+#include <QObject>
 #include <QString>
 
 class RDV;

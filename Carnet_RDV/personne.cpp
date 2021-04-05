@@ -96,8 +96,8 @@ QString Personne::rdvToQString(void) const{
 }
 
 string Personne::rdvToString(void) const{
-    string s = "Rendez-vous (" + to_string(rdvList.size()) + ") : \n";
-    if (rdvList.size() == 0) s += "Aucun rendez-vous\n";
+    string s = QString(QObject::tr("Rendez-vous", "Appointment%1", rdvList.size())).toStdString() + " (" + to_string(rdvList.size()) + ") : \n";
+    if (rdvList.size() == 0) s += QString(QObject::tr("Aucun rendez-vous", "Any appointment")).toStdString() + "\n";
     else for(unsigned i = 0; i < rdvList.size(); ++i) s += rdvList[i]->toString() + "\n";
     return s;
 }

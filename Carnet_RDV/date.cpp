@@ -178,7 +178,7 @@ bool Date::isLeap(void) const{
 
 int Date::lengthMonth(void) const
 {
-    if(month==2)
+    if(month == 2)
     {
         if(isLeap())
         {
@@ -186,7 +186,7 @@ int Date::lengthMonth(void) const
         }
         else return 28;
     }
-    if(month==4||month==6||month==9||month==11)
+    if(month == 4 || month == 6 || month == 9 || month == 11)
     {
         return 30;
     }
