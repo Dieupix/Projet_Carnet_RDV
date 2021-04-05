@@ -9,16 +9,19 @@
 
 int main(int argc, char *argv[])
 {
+    // Création de l'application
+    QApplication a(argc, argv);
+
     // Redirection des flux de sortie standard et d'erreurs vers un fichier .log
     Date ajd = today();
     Hour mtn = now();
-    string dirName = "logs", extansion = ".log";
+    string dirName = a.applicationDirPath().toStdString() + "\\" + "logs", extansion = ".log";
     string time =   to_string(ajd.getYear()) + "-" +
-                    to_string(ajd.getMonth()) + "-" +
-                    to_string(ajd.getDay()) + "_" +
-                    to_string(mtn.getHour()) + "-" +
-                    to_string(mtn.getMinute()) + "-" +
-                    to_string(mtn.getSecond()) +
+                    (ajd.getMonth() < 10 ? "0" : "") + to_string(ajd.getMonth()) + "-" +
+                    (ajd.getDay() < 10 ? "0" : "") + to_string(ajd.getDay()) + "_" +
+                    (mtn.getHour() < 10 ? "0" : "") + to_string(mtn.getHour()) + "-" +
+                    (mtn.getMinute() < 10 ? "0" : "") + to_string(mtn.getMinute()) + "-" +
+                    (mtn.getSecond() < 10 ? "0" : "") + to_string(mtn.getSecond()) +
                     extansion;
 
     string fileName = dirName + "\\" + time;
@@ -32,17 +35,18 @@ int main(int argc, char *argv[])
     cerr.rdbuf(stdStreamToFile.rdbuf());
 
     // Lancement du programme
-    cout << today() << " - " << now() << " : Démarrage du programme " << argv[0] << " ..." << endl << endl;
+    cout << today() << " - " << now() << " : " << QString(QObject::tr("Démarrage du programme")).toStdString() << " " << argv[0] << " ..." << endl << endl;
 
-    // Création de l'application
-    QApplication a(argc, argv);
     a.setWindowIcon(QIcon("../Carnet_RDV/icons/icon_carnet_rdv_white2_100"));
 
     // Traduction de l'application dans la langue courante du système
+    // Remarque :   seuls les objets pré-faits par Qt seront traduits,
+    //              les nôtres ne pourront être traduits actuellement par manque de temps pour la traduction
+    //              et de connaissances en langues
     QString locale = QLocale::system().name().section('_', 0, 0);
-    QTranslator translator;
-    bool t = translator.load(QString("qt_") + locale, QLibraryInfo::path(QLibraryInfo::TranslationsPath));
-    if(t) a.installTranslator(&translator);
+    QTranslator* translator = new QTranslator();
+    if(translator->load(QString("qt_") + locale, QString("../Carnet_RDV/translations"))) a.installTranslator(translator);
+    delete translator;
 
     MainWindow w;
     w.show();
@@ -51,7 +55,7 @@ int main(int argc, char *argv[])
     int exe = a.exec();
 
     // Fermeture du programme
-    cout << today() << " - " << now() << " : Fermeture du programme " << argv[0] << " avec le code " << exe << endl << endl;
+    cout << today() << " - " << now() << " : " << QString(QObject::tr("Fermeture du programme")).toStdString() << " " << argv[0] << " avec le code " << exe << endl << endl;
 
     cout.rdbuf(backCout);
     cerr.rdbuf(backCerr);

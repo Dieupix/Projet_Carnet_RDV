@@ -263,7 +263,7 @@ void MainWindow::showRDVListLayout(bool b) {
 void MainWindow::updatePersonneListLayout(void){
     auto saPersonneWidget = new QWidget();
     auto saPersonneLayout = new QVBoxLayout();
-    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel("Aucune personne dans la base de données"));
+    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any Personne in the data base")));
     else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
             saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
 
@@ -281,7 +281,7 @@ void MainWindow::updatePersonneListLayout(void){
 void MainWindow::updateRDVListLayout(void){
     auto saRDVWidget = new QWidget();
     auto saRDVLayout = new QVBoxLayout();
-    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel("Aucun rendez-vous dans la base de données"));
+    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any Rendez-vous in the data base")));
     else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
             saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
@@ -305,8 +305,10 @@ void MainWindow::updateWindowTitle(void){
 // ---------- Méthodes publiques ----------
 void MainWindow::loadFile(void){
 
-    QString filters =   "Fichiers de Personne ou de RDV (*.carnetRDV);;"
-                        "Tous les fichiers (*)";
+    QString filters =   tr("Fichiers de Personne ou de RDV (*.carnetRDV);;"
+                        "Tous les fichiers (*)",
+                        "Files of Personne or RDV (*.carnetRDV);;"
+                        "All files (*)");
 
     auto filePath = QFileDialog::getOpenFileName(this, windowTitle, windowFilePath(), filters);
 
@@ -317,12 +319,16 @@ void MainWindow::loadFile(void){
             if(exe == QDialog::Accepted) setSave(false);
 
         }else{
-            QString msg =   "Fichier invalide."
+            QString msg =   tr("Fichier invalide."
                             "\n\n"
                             "Veuillez sélectionner un fichier de Personne ou de Rendez-vous."
-                            "\t\n";
+                            "\t\n",
+                            "Invalid File."
+                            "\n\n"
+                            "Please select a file of Personne or Rendez-vous"
+                            "\t\n");
 
-            int exe = QMessageBox(QMessageBox::Critical, "Erreur de fichier", msg, QMessageBox::Retry | QMessageBox::Cancel).exec();
+            int exe = QMessageBox(QMessageBox::Critical, tr("Erreur de fichier"), msg, QMessageBox::Retry | QMessageBox::Cancel).exec();
             if(exe == QMessageBox::Retry) loadFile();
         }
     }
@@ -357,12 +363,16 @@ void MainWindow::onPersonneListCheckBox(bool b){
 void MainWindow::onQuit(void){
     if(isSaved) close();
     else{
-        QString msg =   "Votre Carnet de Rendez-vous n'est pas enregistré"
+        QString msg =   tr("Votre Carnet de Rendez-vous n'est pas enregistré"
                         "\n\n"
                         "Voulez-vous vraiment quitter sans enregistrer ?"
-                        "\t\n";
+                        "\t\n",
+                        "Your appointment book is not saved"
+                        "\n\n"
+                        "Would you like to quit without saving?"
+                        "\t\n");
 
-        int exit = QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Save | QMessageBox::Yes | QMessageBox::No).exec();
+        int exit = QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Yes | QMessageBox::Save | QMessageBox::No).exec();
 
         if(exit == QMessageBox::Save){
             onSave();

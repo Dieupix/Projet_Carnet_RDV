@@ -15,9 +15,9 @@ void LoadingDialog::setup(void){
     auto mainLayoutDialog = new QVBoxLayout();
     setLayout(mainLayoutDialog);
 
-    mainLayoutDialog->addWidget(new QLabel("Fichier : " + filePath), 0, Qt::AlignTop);
+    mainLayoutDialog->addWidget(new QLabel(tr("Fichier", "File") + " : " + filePath), 0, Qt::AlignTop);
 
-    auto label = new QLabel("Chargement en cours...");
+    auto label = new QLabel(tr("Chargement en cours", "Loading in progress") + "...");
     mainLayoutDialog->addWidget(label, 0, Qt::AlignHCenter);
 
     auto loadBar = new QProgressBar();
@@ -40,12 +40,12 @@ void LoadingDialog::setup(void){
         if(filePath.endsWith(QFILENAMEPERSONNE)) mainwindow->updatePersonneListLayout();
         else if(filePath.endsWith(QFILENAMERDV)) mainwindow->updateRDVListLayout();
 
-        label->setText("Chargement terminé");
+        label->setText(tr("Chargement terminé", "Finish loading"));
 
         connect(okButton, &QPushButton::clicked, this, &LoadingDialog::onAccept);
 
     }else {
-        label->setText("Erreur lors du chargement");
+        label->setText(tr("Erreur lors du chargement", "Error while loading"));
 
         connect(okButton, &QPushButton::clicked, this, &LoadingDialog::onReject);
 
