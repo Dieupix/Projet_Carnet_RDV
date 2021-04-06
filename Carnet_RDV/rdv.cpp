@@ -94,6 +94,7 @@ int RDV::compareTo(const RDV& r ) const
     else if(timeEnd > r.timeEnd)  return -1;
     else if(timeEnd < r.timeEnd) return 1;
     else return 0;*/
+
 }
 
 QString RDV::participantsToQString(void){

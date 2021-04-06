@@ -42,11 +42,12 @@ int main(int argc, char *argv[])
     /* Traduction de l'application dans la langue courante du système
      * Remarque :   seuls les objets pré-faits par Qt seront traduits,
      *              les nôtres ne pourront être traduits actuellement par manque de temps pour la traduction
+     *              Il pourra être possible, plutard, de changer la langue pendant l'exécution du programe
+     *              ainsi que de sauvegarder les paramètres
     */
     QString locale = QLocale::system().name().section('_', 0, 0);
     QTranslator* translator = new QTranslator();
     if(translator->load(QString("qt_") + locale, QString("../Carnet_RDV/translations"))) a.installTranslator(translator);
-    delete translator;
 
     MainWindow w;
     w.show();

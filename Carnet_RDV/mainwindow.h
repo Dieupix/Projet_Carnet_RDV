@@ -3,7 +3,9 @@
 
 #include <QBoxLayout>
 #include <QFileDialog>
+#include <QFormLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -20,6 +22,7 @@ class LoadingDialog;
 // Fonctions annexes
 void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show);
 void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int ind = -1, int stretch = 0);
+void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QWidget* parent, int ind = -1, int stretch = 0);
 
 class MainWindow : public QMainWindow
 {
@@ -37,6 +40,7 @@ private:
     QBoxLayout* mainLayout;
     QBoxLayout* personneListLayout;
     QBoxLayout* rdvListLayout;
+    QBoxLayout* rechRdvDate;
     QMainWindow* window;
 
     // Méthodes privées
@@ -48,6 +52,7 @@ private:
     QBoxLayout* setupListLayout(void);
     QBoxLayout* setupMainLayout(void);
     void setupMenuBar(void);
+    void setupRechRdvDate(void);
     void setupViewMenu(QMenu* viewMenu);
 
     void showPersonneListLayout(bool);
@@ -60,6 +65,7 @@ public:
     MainWindow(QMainWindow *parent = nullptr);
 
     void loadFile(void);
+    bool saveFile(void);
 
     // Getters
     Manager& getManager(void);
@@ -72,6 +78,7 @@ private slots:
     void onPersonneListCheckBox(bool);
     void onQuit(void);
     void onRDVListCheckBox(bool);
+    void onRechRdvDate(void);
     void onSave(void);
     void onSaveAndQuit(void);
     void onSpinBox(int i);

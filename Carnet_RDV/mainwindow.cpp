@@ -6,8 +6,8 @@ void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show){
         auto item = QBoxToHideOrShow->itemAt(i);
         auto w = item ? item->widget() : 0;
         if(w) w->setVisible(show);
-        QLayout* l = item ? item->layout() : 0;
-        if(l) preHideOrShow((QBoxLayout*) l, show);
+        auto l = item ? (QBoxLayout*) item->layout() : 0;
+        if(l) preHideOrShow(l, show);
     }
 }
 
@@ -17,7 +17,17 @@ void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int
     if(show) parent->insertLayout(ind, QBoxToHideOrShow, stretch);
     else parent->removeItem(QBoxToHideOrShow);
 }
+void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QWidget* parent, int ind, int stretch){
+    preHideOrShow(QBoxToHideOrShow, show);
+    auto crtP = parent ? (QBoxLayout*) parent->layout() : 0;
+    if(crtP){
+        if(ind == -1 or ind > crtP->count()) ind = crtP->count();
+        if(show) crtP->insertLayout(ind, QBoxToHideOrShow, stretch);
+        else crtP->removeItem(QBoxToHideOrShow);
+    }
+}
 // ---------- FIN FONCTIONS ANNEXES ----------
+
 
 
 MainWindow::MainWindow(QMainWindow *parent)
@@ -46,13 +56,23 @@ void MainWindow::setup(void){
     fixedLayout->addStretch(1);
     fixedLayout->addLayout(setupFooterLayout());
 
+    setupRechRdvDate();
+
     updateWindowTitle();
 }
 
 QBoxLayout* MainWindow::setupButtonLayout(void) {
     auto buttonLayout = new QHBoxLayout();
 
-    buttonLayout->addWidget(new QPushButton("test"), 0, Qt::AlignCenter);
+    auto rechRdvDateButton = new QPushButton("Recherche de RDV par date");
+    auto listRdvPersonneButton = new QPushButton("Liste de RDV d'une Personne");
+    auto listPersonneRdvButton = new QPushButton("Liste de Personne d'un RDV");
+
+    buttonLayout->addWidget(rechRdvDateButton, 0, Qt::AlignCenter);
+    buttonLayout->addWidget(listRdvPersonneButton, 0, Qt::AlignCenter);
+    buttonLayout->addWidget(listPersonneRdvButton, 0, Qt::AlignCenter);
+
+    connect(rechRdvDateButton, &QPushButton::clicked, this, &MainWindow::onRechRdvDate);
 
     return buttonLayout;
 }
@@ -135,7 +155,7 @@ QBoxLayout* MainWindow::setupFooterLayout(void){
     preFooterLayout->addWidget(line, 0, Qt::AlignBottom);
 
     auto footerLayout = new QHBoxLayout();
-    auto teamLabel = new QLabel("BARRERE Manuel - JANON Alexandre - POMMIER Logan");
+    auto teamLabel = new QLabel("BARRÈRE Manuel - JANON Alexandre - POMMIER Logan");
     teamLabel->setToolTip(tr("L'équipe du projet", "Team of the project"));
 
     auto uhaLabel = new QLabel(tr(string("Université de Haute Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str(), string("University of Hupper Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str()));
@@ -202,6 +222,10 @@ QBoxLayout* MainWindow::setupMainLayout(void){
     mainLayout = new QHBoxLayout();
 
     auto sa = new QScrollArea();
+    auto saWidget = new QWidget();
+    auto saLayout = new QHBoxLayout();
+    saWidget->setLayout(saLayout);
+    sa->setWidget(saWidget);
     sa->setWidgetResizable(true);
 
     mainLayout->addWidget(sa);
@@ -213,6 +237,20 @@ void MainWindow::setupMenuBar(void){
     setupFileMenu(menuBar()->addMenu(tr("&Fichier", "&File")));
     setupEditMenu(menuBar()->addMenu(tr("&Éditer", "&Edit")));
     setupViewMenu(menuBar()->addMenu(tr("&Affichage", "&View")));
+}
+
+void MainWindow::setupRechRdvDate(void){
+    this->rechRdvDate = new QHBoxLayout();
+    rechRdvDate->setObjectName("rechRdvDateLayout");
+
+    auto date = new QLineEdit();
+    auto formLayout = new QFormLayout();
+    rechRdvDate->addLayout(formLayout);
+    formLayout->addRow("Date", date);
+
+    Date d;
+    stoDate(date->text().toStdString(), d);
+
 }
 
 void MainWindow::setupViewMenu(QMenu* viewMenu){
@@ -310,7 +348,7 @@ void MainWindow::loadFile(void){
                         "Files of People or appointment (*.carnetRDV);;"
                         "All files (*)");
 
-    auto filePath = QFileDialog::getOpenFileName(this, windowTitle, windowFilePath(), filters);
+    auto filePath = QFileDialog::getOpenFileName(nullptr, windowTitle, windowFilePath(), filters);
 
     if(filePath != ""){
         if(filePath.endsWith(QFILENAMEPERSONNE) or filePath.endsWith(QFILENAMERDV)){
@@ -332,6 +370,29 @@ void MainWindow::loadFile(void){
             if(exe == QMessageBox::Retry) loadFile();
         }
     }
+}
+
+bool MainWindow::saveFile(void){
+    QString msg = "", title = tr("Sauvegarde", "Save");
+
+    bool saved = manager.savePersonne() and manager.saveRDV();
+
+    if(saved){
+        msg =   tr("Fichiers sauvegarder"
+                "\t\n",
+                "Files saved"
+                "\t\n");
+    }else{
+        msg =   tr("Erreur lors de la sauvegarde"
+                "\t\n",
+                "Error while saving"
+                "\t\n");
+    }
+
+    QMessageBox((saved ? QMessageBox::Critical : QMessageBox::Information), title, msg).exec();
+
+    return saved;
+
 }
 
 
@@ -385,13 +446,31 @@ void MainWindow::onRDVListCheckBox(bool b){
     showRDVListLayout(b);
 }
 
+void MainWindow::onRechRdvDate(void){
+    // A CORRIGER
+    auto item = mainLayout->itemAt(0);
+    auto SA = item ? (QScrollArea*) item->widget() : 0;
+    auto saWidget = SA ? SA->widget() : 0;
+    if(saWidget){
+        auto layout = (QBoxLayout*) saWidget->layout();
+        auto newWidget = new QWidget();
+        if(!layout or layout->objectName() != rechRdvDate->objectName()) newWidget->setLayout(rechRdvDate);
+        else newWidget->setLayout(new QHBoxLayout());
+        SA->setWidget(newWidget);
+    }
+}
+
 void MainWindow::onSaveAndQuit(void){
     onSave();
     onQuit();
 }
 
 void MainWindow::onSave(void){
-    if(!isSaved) setSave(true);
+    if(!isSaved){
+        if(saveFile()){
+            setSave(true);
+        }
+    }
 }
 
 void MainWindow::onSpinBox(int) {
