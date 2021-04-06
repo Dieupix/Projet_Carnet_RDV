@@ -40,6 +40,12 @@ public:
     bool savePersonne(const string& filePath = FILENAMEPERSONNE, QProgressBar* loadingBar = nullptr);
     bool saveRDV(const string& filePath = FILENAMERDV, QProgressBar* loadingBar = nullptr);
 
+    void changePhone(Personne* p, const string& numeroTel);
+    void changeMail(Personne* p, const string& mail);
+    void changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail);
+    void changeDateRDV(RDV* r, const Date& d);
+    void changeHourRDV(RDV* r, const Hour& hd, const Hour& hf);
+    void changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf);
     // Getteurs
     const LDCP& getListPersonnes(void) const;
     const LDCR& getListRDV(void) const;

@@ -535,6 +535,42 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 
+void Manager::changePhone(Personne* p, const string& numeroTel)
+{
+    p->setPhone(numeroTel);
+}
+void Manager::changeMail(Personne* p, const string& mail)
+{
+    p->setEmail(mail);
+}
+void Manager::changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail)
+{
+    changePhone(p,numeroTel);
+    changeMail(p,mail);
+}
+void Manager::changeDateRDV(RDV* r, const Date& d)
+{
+    r->setDate(d);
+}
+void Manager::changeHourRDV(RDV* r, const Hour& hd, const Hour& hf)
+{
+    if(r->getTimeStart() != hd){r->setTimeStart(hd);}
+    if(r->getTimeEnd() != hf){r->setTimeEnd(hf);}
+}
+void Manager::changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf)
+{
+    changeDateRDV(r,d);
+    changeHourRDV(r,hd,hf);
+}
+
+
+
+
+
+
+
+
+
 
 
 // ---------- Getteurs ----------
