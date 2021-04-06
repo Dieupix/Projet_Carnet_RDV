@@ -31,6 +31,10 @@ public:
     // Méthodes
     bool addPersonne(Personne* p);
     bool addRDV(RDV* rdv);
+    bool changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf);
+    void changeMail(Personne* p, const string& mail);
+    void changePhone(Personne* p, const string& numeroTel);
+    void changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail);
     bool loadPersonne(const string& filePath = FILENAMEPERSONNE, QProgressBar* loadingBar = nullptr);
     bool loadRDV(const string& filePath = FILENAMERDV, QProgressBar* loadingBar = nullptr);
     bool removePersonne(Personne* p);

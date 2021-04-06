@@ -47,6 +47,7 @@ Carnet_RDV
 |   ├── hour.h
 |   ├── ldcp.h
 |   ├── ldcr.h
+|   ├── loadingdialog.h
 |   ├── mainwindow.h
 |   ├── manager.h
 |   ├── personne.h
@@ -56,6 +57,7 @@ Carnet_RDV
     ├── hour.cpp
     ├── ldcp.cpp
     ├── ldcr.cpp
+    ├── loadingdialog.cpp
     ├── main.cpp
     ├── mainwindow.cpp
     ├── manager.cpp

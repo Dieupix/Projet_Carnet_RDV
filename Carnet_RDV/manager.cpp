@@ -13,30 +13,6 @@ bool isStringEmpty(const string& s){
 Manager::Manager(void){
     this->listPersonnes = LDCP();
     this->listRDV = LDCR();
-
-    /*loadPersonne();
-    cout << endl;
-
-    cout << listPersonnes << endl << endl;
-
-    Date date {10, 4, 2021};
-    Hour timeStart (8, 30), timeEnd (10, 0);
-
-    listRDV.inserer(new RDV("Première réunion", date, timeStart, timeEnd));
-    listRDV.inserer(new RDV("Deuxième réunion", date, {10, 0}, {12, 0}));
-    auto rdv = listRDV[1];
-    auto rdv2 = listRDV[0];
-
-    rdv->addMember(listPersonnes[0]);
-    rdv->addMember(listPersonnes[1]);
-    rdv2->addMember(listPersonnes[0]);
-    cout << *rdv << endl << rdv->participantsToString() << endl;
-
-    cout << listPersonnes[0]->rdvToString() << endl;
-
-    saveRDV();*/
-
-
 }
 
 
@@ -48,6 +24,52 @@ bool Manager::addPersonne(Personne* p){
 
 bool Manager::addRDV(RDV* rdv){
     return listRDV.inserer(rdv);
+}
+
+bool Manager::changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf)
+{
+    bool b = true;
+    vector<Personne*> list = r->getMembersList();
+    auto nr = new RDV{r->getName(), d, hd, hf};
+    unsigned i{0};
+    while(i < r->getMembersList().size() && b)
+    {
+        vector<RDV*> listR = list[i]->getRDVList();
+        unsigned j{0};
+        while(j < listR.size() && b)
+        {
+            if(nr->estImbrique(*listR[j]))
+            {
+                b = false;
+            }
+            ++j;
+        }
+        ++i;
+    }
+    delete nr;
+    if(b)
+    {
+        r->setDate(d);
+        r->setTimeStart(hd);
+        r->setTimeEnd(hf);
+    }
+    return b;
+}
+
+void Manager::changeMail(Personne* p, const string& mail)
+{
+    p->setEmail(mail);
+}
+
+void Manager::changePhone(Personne* p, const string& numeroTel)
+{
+    p->setPhone(numeroTel);
+}
+
+void Manager::changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail)
+{
+    changePhone(p,numeroTel);
+    changeMail(p,mail);
 }
 
 bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
@@ -405,9 +427,15 @@ bool Manager::removePersonne(Personne* p)
 
 bool Manager::removeRDV(RDV* r)
 {
-    if(r->getMembersList().size() == 0) return listRDV.supprimer(r);
-    else cerr << "Erreur, le rdv choisi contient au moins une personne." << endl;
-    return false;
+    int i{0};
+    vector<Personne*> list = r->getMembersList();
+    int s = r->getMembersList().size();
+    while(i < s)
+    {
+        list[i]->removeRDV(r);
+        ++i;
+    }
+    return listRDV.supprimer(r);
 }
 
 bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){

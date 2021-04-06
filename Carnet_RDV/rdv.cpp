@@ -143,7 +143,25 @@ string RDV::toString(void) const{
     return s;
 }
 
-
+bool RDV::estImbrique(const RDV& r) const
+{
+    if(date == r.date)
+    {
+        if(timeStart == r.timeStart || timeEnd == r.timeEnd)
+        {
+            return true;
+        }
+        else if(timeStart < r.timeStart && timeEnd > r.timeStart)
+        {
+            return true;
+        }
+        else if(timeStart > r.timeStart && r.timeEnd > timeStart)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 // ---------- Getters ----------
 const string& RDV::getName(void) const{

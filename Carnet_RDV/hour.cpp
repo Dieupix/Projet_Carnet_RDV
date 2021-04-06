@@ -261,6 +261,63 @@ ostream& operator<<(ostream& ost, const Hour& h){
     return ost;
 }
 
-bool stoHour(const string& s, Hour& h){
+bool stoHour(const string& str, Hour& hour){
+    string s = str + 'm';
+    bool isValide = true;
+    int h = -1, m = -1, sec = -1;
+    string tmp = "";
+    for(unsigned i = 0; i < s.length(); ++i){
+        char c = s[i];
+        if(c == 'h' or c == 'm' or c == 's'){
+            if(tmp != ""){
+                if(sec == -1 and m == -1 and h == -1){
+                    try{
+                        h = stoi(tmp);
+                    } catch(...){
+                        isValide = false;
+                        cerr << "Erreur : Ce n'est pas un entier" << endl;
+                    }
+                }else if(h != -1 and m == -1 and sec == -1){
+                    try{
+                        m = stoi(tmp);
+                    } catch(...){
+                        isValide = false;
+                        cerr << "Erreur : Ce n'est pas un entier" << endl;
+                    }
+                }else if(h != -1 and m != -1 and sec == -1){
+                    try{
+                        sec = stoi(tmp);
+                    } catch(...){
+                        isValide = false;
+                        cerr << "Erreur : Ce n'est pas un entier" << endl;
+                    }
+                }
+                tmp = "";
+            }
+        }else tmp += c;
+    }
+
+    if(h < 0 or h > 23){
+        isValide = false;
+        cerr << "Erreur : L'heure est incorrecte" << endl;
+    }
+    if(m < 0 or m > 59){
+        isValide = false;
+        cerr << "Erreur : Les minutes sont incorrectes" << endl;
+    }
+    if(sec != -1){
+        if(sec < 0 or sec > 59){
+            isValide = false;
+            cerr << "Erreur : Les secondes sont incorrectes" << endl;
+        }
+    }else sec = 0;
+
+    if(isValide){
+        hour.setHour(h);
+        hour.setMinute(m);
+        hour.setSecond(sec);
+    }
+
+    return isValide;
 }
 

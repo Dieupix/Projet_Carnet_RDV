@@ -251,7 +251,72 @@ ostream& operator<<(ostream& ost, const Date& d){
     return ost;
 }
 
-bool stoDate(const string& s, Date& d){
+bool stoDate(const string& str, Date& date){
+    string s = str + '/';
+    bool isValide = true;
+    int d = -1, m = -1, y = -1;
+    string tmp = "";
+    for(unsigned i = 0; i < s.length(); ++i){
+        char c = s[i];
+        if(c == '/'){
+            if(tmp != ""){
+                if(d == -1 and m == -1 and y == -1){
+                    try{
+                       d = stoi(tmp);
+                    } catch(...){
+                        isValide = false;
+                        cerr << "Erreur : Ce n'est pas un entier" << endl;
+                    }
+                }else if(d != -1 and m == -1 and y == -1){
+                    try{
+                        m = stoi(tmp);
+                    } catch(...){
+                        isValide = false;
+                        cerr << "Erreur : Ce n'est pas un entier" << endl;
+                    }
+                }else if(d != -1 and m != -1 and y == -1){
+                    try{
+                        y = stoi(tmp);
+                    } catch(...){
+                        isValide = false;
+                        cerr << "Erreur : Ce n'est pas un entier" << endl;
+                    }
+                }
+                tmp = "";
+            }
+        }else tmp += c;
+    }
+
+    if(m < 1 or m > 12){
+        isValide = false;
+        cerr << "Erreur : Le mois est incorrect" << endl;
+    }else if(m == 2){
+        if((y % 4 == 0 and y % 10 != 0) or y % 400 == 0){
+            if(d < 1 or d > 29){
+                isValide = false;
+                cerr << "Erreur : Le jour est incorrect" << endl;
+            }
+        }else if(d < 1 or d > 28){
+            isValide = false;
+            cerr << "Erreur : Le jour est incorrect" << endl;
+        }
+    }else if(m == 4 or m == 6 or m == 9 or m == 11){
+        if(d < 1 or d > 30){
+            isValide = false;
+            cerr << "Erreur : Le jour est incorrect" << endl;
+        }
+    }else if(d < 0 or d > 31){
+        isValide = false;
+        cerr << "Erreur : Le jour est incorrect" << endl;
+    }
+
+    if(isValide){
+        date.setDay(d);
+        date.setMonth(m);
+        date.setYear(y);
+    }
+
+    return isValide;
 }
 
 Date today(void)
