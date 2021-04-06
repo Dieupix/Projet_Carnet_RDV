@@ -409,9 +409,15 @@ bool Manager::removePersonne(Personne* p)
 
 bool Manager::removeRDV(RDV* r)
 {
-    if(r->getMembersList().size() == 0) return listRDV.supprimer(r);
-    else cerr << "Erreur, le rdv choisi contient au moins une personne." << endl;
-    return false;
+    int i{0};
+    vector<Personne*> list = r->getMembersList();
+    int s = r->getMembersList().size();
+    while(i < s)
+    {
+        list[i]->removeRDV(r);
+        ++i;
+    }
+    return listRDV.supprimer(r);
 }
 
 bool Manager::savePersonne(const string& filePath, QProgressBar* loadingBar){
