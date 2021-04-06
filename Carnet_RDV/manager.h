@@ -43,9 +43,7 @@ public:
     void changePhone(Personne* p, const string& numeroTel);
     void changeMail(Personne* p, const string& mail);
     void changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail);
-    void changeDateRDV(RDV* r, const Date& d);
-    void changeHourRDV(RDV* r, const Hour& hd, const Hour& hf);
-    void changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf);
+    bool changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf);
     // Getteurs
     const LDCP& getListPersonnes(void) const;
     const LDCR& getListRDV(void) const;

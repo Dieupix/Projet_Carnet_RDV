@@ -548,19 +548,35 @@ void Manager::changePhoneAndMail(Personne* p, const string& numeroTel, const str
     changePhone(p,numeroTel);
     changeMail(p,mail);
 }
-void Manager::changeDateRDV(RDV* r, const Date& d)
+
+bool Manager::changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf)
 {
-    r->setDate(d);
-}
-void Manager::changeHourRDV(RDV* r, const Hour& hd, const Hour& hf)
-{
-    if(r->getTimeStart() != hd){r->setTimeStart(hd);}
-    if(r->getTimeEnd() != hf){r->setTimeEnd(hf);}
-}
-void Manager::changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf)
-{
-    changeDateRDV(r,d);
-    changeHourRDV(r,hd,hf);
+    bool b=true;
+    vector<Personne*> list = r->getMembersList();
+    auto nr = new RDV{r->getName(),d,hd,hf};
+    unsigned i{0};
+    while(i < r->getMembersList().size() && b)
+    {
+        vector<RDV*> listR = list[i]->getRDVList();
+        unsigned j{0};
+        while(j < listR.size() && b)
+        {
+            if(nr->estImbrique(*listR[j]))
+            {
+                b=false;
+            }
+            ++j;
+        }
+        ++i;
+    }
+    delete nr;
+    if(b)
+    {
+       r->setTimeEnd(hf);
+       r->setTimeStart(hd);
+       r->setDate(d);
+    }
+    return b;
 }
 
 

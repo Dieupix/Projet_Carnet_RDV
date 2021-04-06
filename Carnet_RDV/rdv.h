@@ -40,6 +40,7 @@ public:
     bool removeMember(Personne* p);
     QString toQString(void) const;
     string toString(void) const;
+    bool estImbrique(const RDV& r) const;
 
     // Getteurs
     const string& getName(void) const;
