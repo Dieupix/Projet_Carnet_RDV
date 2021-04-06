@@ -67,10 +67,10 @@ bool RDV::addMember(Personne* p)
                 membersList[j] = membersList[j - 1];
 
             membersList[i] = p;
-            return true;
         }
-    }
-    return false;
+        return true;
+
+    }else return false;
 }
 
 void RDV::afficher(ostream& ost) const{

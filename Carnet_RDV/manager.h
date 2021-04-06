@@ -35,12 +35,12 @@ public:
     void changeMail(Personne* p, const string& mail);
     void changePhone(Personne* p, const string& numeroTel);
     void changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail);
-    bool loadPersonne(const string& filePath = FILENAMEPERSONNE, QProgressBar* loadingBar = nullptr);
-    bool loadRDV(const string& filePath = FILENAMERDV, QProgressBar* loadingBar = nullptr);
+    bool loadPersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    bool loadRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
     bool removePersonne(Personne* p);
     bool removeRDV(RDV* rdv);
-    bool savePersonne(const string& filePath = FILENAMEPERSONNE, QProgressBar* loadingBar = nullptr);
-    bool saveRDV(const string& filePath = FILENAMERDV, QProgressBar* loadingBar = nullptr);
+    bool savePersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    bool saveRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
 
     // Getters
     const LDCP& getListPersonnes(void) const;

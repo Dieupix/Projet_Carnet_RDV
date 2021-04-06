@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
     // Fermeture du programme
     cout << today() << " - " << now() << " : " << QString(QObject::tr("Fermeture du programme", "Closing program")).toStdString() << " " << argv[0] << " "
-                                                << QString(QObject::tr("avec le code", "with code")).toStdString() << " " << exe << endl << endl;
+                                                << QString(QObject::tr("avec le code", "with code")).toStdString() << " " << exe << endl;
 
     cout.rdbuf(backCout);
     cerr.rdbuf(backCerr);

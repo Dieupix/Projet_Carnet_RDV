@@ -29,7 +29,9 @@ void LoadingDialog::setup(void){
 
     show();
     setFixedSize(width(), 2 * height());
-    bool loaded = mainwindow->manager.loadPersonne(filePath.toStdString(), loadBar);
+    bool loaded = false;
+    if(filePath.endsWith(QFILENAMEPERSONNE)) loaded = mainwindow->manager.loadPersonne(filePath.toStdString(), loadBar);
+    else if(filePath.endsWith(QFILENAMERDV)) loaded = mainwindow->manager.loadRDV(filePath.toStdString(), loadBar);
     cout << endl;
 
     okButton->setEnabled(true);
@@ -38,7 +40,10 @@ void LoadingDialog::setup(void){
     if(loaded){
 
         if(filePath.endsWith(QFILENAMEPERSONNE)) mainwindow->updatePersonneListLayout();
-        else if(filePath.endsWith(QFILENAMERDV)) mainwindow->updateRDVListLayout();
+        else if(filePath.endsWith(QFILENAMERDV)){
+            mainwindow->updatePersonneListLayout();
+            mainwindow->updateRDVListLayout();
+        }
 
         label->setText(tr("Chargement terminé", "Loading completed"));
 
@@ -48,9 +53,7 @@ void LoadingDialog::setup(void){
         label->setText(tr("Erreur lors du chargement", "Error while loading"));
 
         connect(okButton, &QPushButton::clicked, this, &LoadingDialog::onReject);
-
     }
-
 }
 
 

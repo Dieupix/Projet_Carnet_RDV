@@ -205,6 +205,7 @@ bool LDCP::inserer(Personne* val) {
 
 int LDCP::rechD(Personne* val) const
 {
+    if(!d_t) return -1;
     int indCrt{0};
     auto crt = d_t;
     bool b{false};
@@ -225,6 +226,7 @@ int LDCP::rechD(Personne* val) const
                 crt = crt->d_prec;
         }
         indCrt = m;
+        if(!crt) return -1;
         if(*crt->p == *val) b = true;
         else if(*crt->p < *val) indD = m + 1;
         else indF = m - 1;

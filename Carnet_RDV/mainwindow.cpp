@@ -17,15 +17,6 @@ void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int
     if(show) parent->insertLayout(ind, QBoxToHideOrShow, stretch);
     else parent->removeItem(QBoxToHideOrShow);
 }
-void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QWidget* parent, int ind, int stretch){
-    preHideOrShow(QBoxToHideOrShow, show);
-    auto crtP = parent ? (QBoxLayout*) parent->layout() : 0;
-    if(crtP){
-        if(ind == -1 or ind > crtP->count()) ind = crtP->count();
-        if(show) crtP->insertLayout(ind, QBoxToHideOrShow, stretch);
-        else crtP->removeItem(QBoxToHideOrShow);
-    }
-}
 // ---------- FIN FONCTIONS ANNEXES ----------
 
 
@@ -248,9 +239,6 @@ void MainWindow::setupRechRdvDate(void){
     rechRdvDate->addLayout(formLayout);
     formLayout->addRow("Date", date);
 
-    Date d;
-    stoDate(date->text().toStdString(), d);
-
 }
 
 void MainWindow::setupViewMenu(QMenu* viewMenu){
@@ -376,12 +364,14 @@ bool MainWindow::saveFile(void){
     QString msg = "", title = tr("Sauvegarde", "Save");
 
     bool saved = manager.savePersonne() and manager.saveRDV();
+    cout << endl;
 
     if(saved){
-        msg =   tr("Fichiers sauvegarder"
+        msg =   tr("Fichiers sauvegardés"
                 "\t\n",
                 "Files saved"
-                "\t\n");
+                "\t\n",
+                2);
     }else{
         msg =   tr("Erreur lors de la sauvegarde"
                 "\t\n",
@@ -389,7 +379,7 @@ bool MainWindow::saveFile(void){
                 "\t\n");
     }
 
-    QMessageBox((saved ? QMessageBox::Critical : QMessageBox::Information), title, msg).exec();
+    QMessageBox((saved ? QMessageBox::Information : QMessageBox::Warning), title, msg).exec();
 
     return saved;
 
@@ -466,10 +456,8 @@ void MainWindow::onSaveAndQuit(void){
 }
 
 void MainWindow::onSave(void){
-    if(!isSaved){
-        if(saveFile()){
-            setSave(true);
-        }
+    if(saveFile()){
+        setSave(true);
     }
 }
 

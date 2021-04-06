@@ -22,7 +22,6 @@ class LoadingDialog;
 // Fonctions annexes
 void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show);
 void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QBoxLayout* parent, int ind = -1, int stretch = 0);
-void hideOrShow(QBoxLayout* QBoxToHideOrShow, bool show, QWidget* parent, int ind = -1, int stretch = 0);
 
 class MainWindow : public QMainWindow
 {
@@ -31,7 +30,7 @@ class MainWindow : public QMainWindow
     friend class LoadingDialog;
 private:
     // Constantes
-    const QString windowTitle = "Carnet de Rendez-vous";
+    const QString windowTitle = tr("Carnet de Rendez-vous", "Appointment Book");
     const QString uhaURL = "https://www.uha.fr";
 
     bool isSaved = true;
