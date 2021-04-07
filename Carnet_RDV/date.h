@@ -27,10 +27,10 @@ public:
     bool operator<(const Date&) const;
     bool operator<=(const Date&) const;
 
-    Date operator+(int) const;
-    Date& operator+=(int);
-    Date operator-(int) const;
-    Date& operator-=(int);
+    Date    operator+(int) const;
+    Date&   operator+=(int);
+    Date    operator-(int) const;
+    Date&   operator-=(int);
 
     Date operator++(int);
     Date operator--(int);
@@ -44,14 +44,14 @@ public:
     operator string(void) const;
 
     // Méthodes
-    Date& add(int nbJours);
-    void afficher(ostream& ost = cout) const;
-    int compareTo(const Date& d) const;
-    bool isLeap(void) const;
-    int lengthMonth(void) const;
-    Date& remove(int nbJours);
+    Date&   add(int nbJours);
+    void    afficher(ostream& ost = cout) const;
+    int     compareTo(const Date& d) const;
+    bool    isLeap(void) const;
+    int     lengthMonth(void) const;
+    Date&   remove(int nbJours);
     QString toQString(void) const;
-    string toString(void) const;
+    string  toString(void) const;
 
     // Getters
     unsigned getDay(void) const;
@@ -67,8 +67,8 @@ public:
 };
 
 // Fonctions globales
-ostream& operator<<(ostream&, const Date&);
-bool stoDate(const string& s, Date& d);
-Date today(void);
+ostream&    operator<<(ostream&, const Date&);
+bool        stoDate(const string& s, Date& d);
+Date        today(void);
 
 #endif // DATE_H

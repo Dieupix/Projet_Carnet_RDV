@@ -27,10 +27,10 @@ public:
     bool operator<(const Hour&) const;
     bool operator<=(const Hour&) const;
 
-    Hour operator+(const Hour&) const;
-    Hour& operator+=(const Hour&);
-    Hour operator-(const Hour&) const;
-    Hour& operator-=(const Hour&);
+    Hour    operator+(const Hour&) const;
+    Hour&   operator+=(const Hour&);
+    Hour    operator-(const Hour&) const;
+    Hour&   operator-=(const Hour&);
 
     Hour operator++(int);
     Hour operator--(int);
@@ -44,12 +44,12 @@ public:
     operator string(void) const;
 
     // Méthodes
-    Hour& add(const Hour& h);
-    void afficher(ostream& ost = cout) const;
-    int compareTo(const Hour& h) const;
-    Hour& remove(const Hour& h);
+    Hour&   add(const Hour& h);
+    void    afficher(ostream& ost = cout) const;
+    int     compareTo(const Hour& h) const;
+    Hour&   remove(const Hour& h);
     QString toQString(bool fullDigits = false) const;
-    string toString(bool fullDigits = false) const;
+    string  toString(bool fullDigits = false) const;
 
     // Getters
     unsigned getSecond(void) const;
@@ -65,8 +65,8 @@ public:
 };
 
 // Fonctions globales
-Hour now(void);
-ostream& operator<<(ostream& ost, const Hour& h);
-bool stoHour(const string& s, Hour& h);
+Hour        now(void);
+ostream&    operator<<(ostream& ost, const Hour& h);
+bool        stoHour(const string& s, Hour& h);
 
 #endif // HOUR_H

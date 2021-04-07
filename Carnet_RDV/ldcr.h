@@ -38,12 +38,12 @@ public:
     RDV* operator[](unsigned) const;
 
     // Méthodes
-    void afficher(ostream& ost = cout) const;   // Afficher
-    bool chercher(RDV* rdv) const;              // Chercher
-    bool inserer(RDV* rdv);                     // Insertion
-    int rechD(RDV* rdv) const;                  // Rech dichotomique
-    unsigned size(void) const;                  // Calcul de la taille
-    bool supprimer(RDV* rdv);                   // Suppression
+    void        afficher(ostream& ost = cout) const;    // Afficher
+    bool        chercher(RDV* rdv) const;               // Chercher
+    bool        inserer(RDV* rdv);                      // Insertion
+    int         rechD(RDV* rdv) const;                  // Rech dichotomique
+    unsigned    size(void) const;                       // Calcul de la taille
+    bool        supprimer(RDV* rdv);                    // Suppression
 
 };
 

@@ -34,25 +34,25 @@ private:
     const QString uhaURL = "https://www.uha.fr";
 
     bool isSaved = true;
-    QBoxLayout* listLayout;
-    Manager manager;
-    QBoxLayout* mainLayout;
-    QBoxLayout* personneListLayout;
-    QBoxLayout* rdvListLayout;
-    QBoxLayout* rechRdvDate;
-    QMainWindow* window;
+    QBoxLayout*     listLayout;
+    Manager         manager;
+    QBoxLayout*     mainLayout;
+    QBoxLayout*     personneListLayout;
+    QBoxLayout*     rdvListLayout;
+    QBoxLayout*     rechRdvDate;
+    QMainWindow*    window;
 
     // Méthodes privées
     void setup(void);
-    QBoxLayout* setupButtonLayout(void);
-    void setupEditMenu(QMenu* editMenu);
-    void setupFileMenu(QMenu* fileMenu);
-    QBoxLayout* setupFooterLayout(void);
-    QBoxLayout* setupListLayout(void);
-    QBoxLayout* setupMainLayout(void);
-    void setupMenuBar(void);
-    void setupRechRdvDate(void);
-    void setupViewMenu(QMenu* viewMenu);
+    QBoxLayout*     setupButtonLayout(void);
+    void            setupEditMenu(QMenu* editMenu);
+    void            setupFileMenu(QMenu* fileMenu);
+    QBoxLayout*     setupFooterLayout(void);
+    QBoxLayout*     setupListLayout(void);
+    QBoxLayout*     setupMainLayout(void);
+    void            setupMenuBar(void);
+    void            setupRechRdvDate(void);
+    void            setupViewMenu(QMenu* viewMenu);
 
     void showPersonneListLayout(bool);
     void showRDVListLayout(bool);
@@ -67,8 +67,8 @@ public:
     bool saveFile(void);
 
     // Getters
-    Manager& getManager(void);
-    QString getWindowTitle(void);
+    Manager&    getManager(void);
+    QString     getWindowTitle(void);
 
     // Setters
     void setSave(bool saved);

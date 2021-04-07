@@ -22,6 +22,19 @@ bool Manager::addPersonne(Personne* p){
     return listPersonnes.inserer(p);
 }
 
+/* Retourne :
+ * RdvNotFound si le rdv n'a pas pu être trouvé
+ * PersonneNotFound si la personne n'a pas pu être trouvée
+ * PersonneAndRdvNotFound si les deux n'ont pas pu être trouvés
+ * PersonneIsAlreadyInsideRdv si la personne est déjà dans le rdv
+ * PersonneHasAnRdv si la personne a déjà un rdv au même moment
+ * PersonneHasNotBeenAdded si la personne n'a pas pu être ajoutée au rdv
+ * PersonneAdded sinon
+*/
+int Manager::addPersonneToRDV(const string& rdvName, const string& pFirstName, const string& pLastName){
+    // oublie pas de supp les pointeurs à la fin
+}
+
 bool Manager::addRDV(RDV* rdv){
     return listRDV.inserer(rdv);
 }
@@ -68,8 +81,8 @@ void Manager::changePhone(Personne* p, const string& numeroTel)
 
 void Manager::changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail)
 {
-    changePhone(p,numeroTel);
-    changeMail(p,mail);
+    changePhone(p, numeroTel);
+    changeMail(p, mail);
 }
 
 bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
@@ -83,7 +96,7 @@ bool Manager::loadPersonne(const string& filePath, QProgressBar* loadingBar){
         stringstream buffer;
         buffer << ifs.rdbuf();
 
-        string lastName= "", firstName = "", phone = "", email = "";
+        string lastName = "", firstName = "", phone = "", email = "";
         short int sequence = 0;
         unsigned i = 0, max = buffer.str().size();
         if(loadingBar != nullptr){
@@ -220,7 +233,7 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
         stringstream buffer;
         buffer << ifs.rdbuf();
 
-        string name = "", date = "", timeStart = "", timeEnd = "", lastName= "", firstName = "", phone = "", email = "";
+        string name = "", date = "", timeStart = "", timeEnd = "", lastName = "", firstName = "", phone = "", email = "";
         short int sequence = 0;
         unsigned i = 0, max = buffer.str().size();
         if(loadingBar != nullptr){
@@ -451,11 +464,26 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 
-bool Manager::removePersonne(Personne* p)
+/* Retourne :
+ * PersonneHasAnRdv si la personne a au moins un rdv
+ * PersonneHasNotBeenRemoved si la personne n'a pas pu être supprimée
+ * PersonneRemoved sinon
+*/
+int Manager::removePersonne(Personne* p)
 {
-    if(p->getRDVList().size() == 0) return listPersonnes.supprimer(p);
-    else cerr << "Erreur, la personne choisi est au moins dans un RDV." << endl;
-    return false;
+    if(p->getRDVList().size() != 0) return PersonneHasAnRdv;
+    else return listPersonnes.supprimer(p) ? PersonneRemoved : PersonneHasNotBeenRemoved;
+}
+
+/* Retourne :
+ * RdvNotFound si le rdv n'a pas pu être trouvé
+ * PersonneNotFound si la personne n'a pas pu être trouvée
+ * PersonneAndRdvNotFound si les deux n'ont pas pu être trouvés
+ * PersonneHasNotBeenRemoved si la personne n'a pas pu être supprimée du rdv
+ * PersonneRemoved sinon
+*/
+int Manager::removePersonneFromRDV(const string& rdvName, const string& pFirstName, const string& pLastName){
+    // Oublie pas de supp les pointeurs à la fin
 }
 
 bool Manager::removeRDV(RDV* r)

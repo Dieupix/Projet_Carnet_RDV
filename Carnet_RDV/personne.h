@@ -15,8 +15,8 @@ class Personne
 {
     friend class RDV;
 private:
-    string firstName, lastName, phone, email;
-    vector<RDV*> rdvList;
+    string          firstName, lastName, phone, email;
+    vector<RDV*>    rdvList;
 
 public:
     Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const vector<RDV*>& rdvList = vector<RDV*>());
@@ -34,21 +34,21 @@ public:
     operator string(void) const;
 
     // Méthodes
-    bool addRDV(RDV* rdv);
-    void afficher(ostream& ost = cout) const;
-    int compareTo(const Personne& p) const;
-    QString rdvToQString(void) const;
-    string rdvToString(void) const;
-    bool removeRDV(RDV* rdv);
-    QString toQString(void) const;
-    string toString(void) const;
+    bool        addRDV(RDV* rdv);
+    void        afficher(ostream& ost = cout) const;
+    int         compareTo(const Personne& p) const;
+    QString     rdvToQString(void) const;
+    string      rdvToString(void) const;
+    bool        removeRDV(RDV* rdv);
+    QString     toQString(void) const;
+    string      toString(void) const;
 
     // Getters
-    const string& getFirstName(void) const;
-    const string& getLastName(void) const;
-    const string& getPhone(void) const;
-    const string& getEmail(void) const;
-    const vector<RDV*>& getRDVList(void) const;
+    const string&           getFirstName(void) const;
+    const string&           getLastName(void) const;
+    const string&           getPhone(void) const;
+    const string&           getEmail(void) const;
+    const vector<RDV*>&     getRDVList(void) const;
 
     // Setters
     void setFirstName(const string& firstName);

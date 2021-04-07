@@ -38,12 +38,12 @@ public:
     Personne* operator[](unsigned) const;
 
     // Méthodes
-    void afficher(ostream& ost = cout) const;   // Afficher
-    bool chercher(Personne* p) const;           // Chercher
-    bool inserer(Personne* p);                  // Insertion
-    int rechD(Personne* p) const;               // Recherche dichotomique
-    unsigned size(void) const;                  // Calcul de la taille
-    bool supprimer(Personne* p);                // Suppression
+    void        afficher(ostream& ost = cout) const;    // Afficher
+    bool        chercher(Personne* p) const;            // Chercher
+    bool        inserer(Personne* p);                   // Insertion
+    int         rechD(Personne* p) const;               // Recherche dichotomique
+    unsigned    size(void) const;                       // Calcul de la taille
+    bool        supprimer(Personne* p);                 // Suppression
 
 };
 
