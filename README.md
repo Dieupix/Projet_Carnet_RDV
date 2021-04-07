@@ -41,6 +41,7 @@ Après avoir installé Qt Creator, ouvrez le dossier ` Carnet_RDV ` puis ouvrez 
 ```
 Carnet_RDV
 ├── icons: icônes pour l'application
+├── translations: fichiers de traductions basiques de qt
 ├── Carnet_RDV.pro: fichier source du projet
 ├── Headers: fichiers d'en-têtes C++
 |   ├── date.h
