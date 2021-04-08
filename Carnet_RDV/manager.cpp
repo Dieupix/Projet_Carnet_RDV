@@ -32,7 +32,49 @@ bool Manager::addPersonne(Personne* p){
  * PersonneAdded sinon
 */
 int Manager::addPersonneToRDV(const string& rdvName, const string& pFirstName, const string& pLastName){
-    // oublie pas de supp les pointeurs à la fin
+    auto personne = new Personne{pFirstName,pLastName,"",""};
+    auto d = new Date{};
+    auto h = new Hour{};
+
+    auto r = new RDV{rdvName,*d,*h,*h};
+
+    if(!listRDV.rechD(r) && !listPersonnes.rechD(personne)) {return PersonneAndRdvNotFound;}
+    if(!listRDV.rechD(r)){return RdvNotFound;}
+    if(!listPersonnes.rechD(personne)){return PersonneNotFound;}
+
+    unsigned j{0};
+    while(listRDV[j]->getName() != rdvName)
+    {
+        ++j;
+    }
+    r = listRDV[j];
+    unsigned k{0};
+    while(listPersonnes[k]->getFirstName() != pFirstName && listPersonnes[k]->getLastName() != pLastName)
+    {
+        ++k;
+    }
+    personne = listPersonnes[k];
+
+    vector<Personne*> lp = r->getMembersList();
+    vector<RDV*> lr = personne->getRDVList();
+
+    for(unsigned i=0 ; i<lp.size();++i){
+        if(lp[i]->getFirstName() == pFirstName && lp[i]->getLastName() == pLastName)
+        {
+            return PersonneIsAlreadyInsideRdv;
+        }
+    }
+    for(unsigned i=0 ; i<lr.size() ;++i)
+    {
+        if(lr[i]->estImbrique(*r)){return PersonneHasAnRdv;}
+    }
+    if(!r->addMember(personne) || !personne->addRDV(r)){return PersonneHasNotBeenAdded;}
+
+    delete personne;
+    delete r;
+    delete d;
+    delete h;
+    return PersonneAdded;
 }
 
 bool Manager::addRDV(RDV* rdv){
@@ -483,7 +525,39 @@ int Manager::removePersonne(Personne* p)
  * PersonneRemoved sinon
 */
 int Manager::removePersonneFromRDV(const string& rdvName, const string& pFirstName, const string& pLastName){
-    // Oublie pas de supp les pointeurs à la fin
+    auto personne = new Personne{pFirstName,pLastName,"",""};
+    auto d = new Date{};
+    auto h = new Hour{};
+
+    auto r = new RDV{rdvName,*d,*h,*h};
+
+    if(!listRDV.rechD(r) && !listPersonnes.rechD(personne)) {return PersonneAndRdvNotFound;}
+    if(!listRDV.rechD(r)){return RdvNotFound;}
+    if(!listPersonnes.rechD(personne)){return PersonneNotFound;}
+
+    unsigned j{0};
+    while(listRDV[j]->getName() != rdvName)
+    {
+        ++j;
+    }
+    r = listRDV[j];
+    unsigned k{0};
+    while(listPersonnes[k]->getFirstName() != pFirstName && listPersonnes[k]->getLastName() != pLastName)
+    {
+        ++k;
+    }
+    personne = listPersonnes[k];
+
+    vector<Personne*> lp = r->getMembersList();
+    vector<RDV*> lr = personne->getRDVList();
+
+    if(!r->removeMember(personne) || !personne->removeRDV(r)){return PersonneHasNotBeenRemoved;}
+
+    delete personne;
+    delete r;
+    delete d;
+    delete h;
+    return PersonneRemoved;
 }
 
 bool Manager::removeRDV(RDV* r)
