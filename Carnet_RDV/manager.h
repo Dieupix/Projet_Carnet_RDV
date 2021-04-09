@@ -26,10 +26,9 @@ private:
     LDCR listRDV;
 
 public:
-    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved,
-                                               RdvNotFound, PersonneNotFound, PersonneAndRdvNotFound,
-                                               PersonneIsAlreadyInsideRdv, PersonneHasAnRdv,
-                                               PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved, };
+    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved, PersonneHasAnRdv, PersonneIsAlreadyInsideRdv, PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved, RdvListIsEmpty,
+                                                   RdvAdded, RdvRemoved, RdvHasNotBeenAdded, RdvHasNotBeenRemoved, MembersListIsEmpty,
+                                                   RdvNotFound, PersonneNotFound, PersonneAndRdvNotFound, };
 
     Manager(void);
 

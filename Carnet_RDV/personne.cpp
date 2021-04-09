@@ -48,7 +48,11 @@ Personne::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-// On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
+/* Retourne :
+ * PersonneHasAnRdv s'il est déjà présent dans un autre RDV au même moment
+ * RdvAdded s'il a pu être ajouté
+ * RdvHasNotBeenAdded sinon
+*/
 int Personne::addRDV(RDV* rdv)
 {
     for(unsigned i = 0; i < rdvList.size(); ++i)
@@ -98,6 +102,11 @@ string Personne::rdvToString(void) const{
     return s;
 }
 
+/* Retourne :
+ * RdvListIsEmpty s'il n'y a pas de RDV à supprimer
+ * RdvRemoved s'il a pu être supprimer
+ * RdvHasNotBeenRemoved sinon
+*/
 int Personne::removeRDV(RDV* rdv)
 {
     unsigned i{0};
