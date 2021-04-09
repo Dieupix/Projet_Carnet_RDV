@@ -49,31 +49,27 @@ Personne::operator string(void) const{
 
 // ---------- Méthodes ----------
 // On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
-bool Personne::addRDV(RDV* rdv)
+int Personne::addRDV(RDV* rdv)
 {
     for(unsigned i = 0; i < rdvList.size(); ++i)
-    {
-        if(rdv->date == rdvList[i]->date)
-        {
-            if(rdvList[i]->timeStart < rdv->timeEnd)
-                if(rdvList[i]->timeStart >= rdv->timeStart || rdvList[i]->timeEnd > rdv->timeStart)
-                    return false;
-        }
-    }
+        if(rdv->estImbrique(*rdvList[i])) return PersonneHasAnRdv;
 
-    unsigned ind{0};
-    while(ind < rdvList.size() && *rdvList[ind] < *rdv) ++ind;
-    if(rdvList.size() == 0)
+    if(rdvList.size() == 0){
         rdvList.push_back(rdv);
-
+        return RdvAdded;
+    }
     else{
+        unsigned ind = 0;
+        while(ind < rdvList.size() and *rdvList[ind] < *rdv) ++ind;
+
         rdvList.push_back(rdvList[rdvList.size() - 1]);
         for(unsigned i = rdvList.size() - 2; i > ind; --i)
             rdvList[i] = rdvList[i - 1];
 
         rdvList[ind] = rdv;
+        return RdvAdded;
     }
-    return true;
+    return RdvHasNotBeenAdded;
 }
 
 void Personne::afficher(ostream& ost) const{
@@ -102,7 +98,7 @@ string Personne::rdvToString(void) const{
     return s;
 }
 
-bool Personne::removeRDV(RDV* rdv)
+int Personne::removeRDV(RDV* rdv)
 {
     unsigned i{0};
     bool found{false};
@@ -111,15 +107,14 @@ bool Personne::removeRDV(RDV* rdv)
         else ++i;
     }
 
-    if(rdvList.size() == 0) return false;
+    if(rdvList.size() == 0) return RdvListIsEmpty;
     else if(found){
         for(unsigned j = i; j < rdvList.size() - 1; ++j)
             rdvList[j] = rdvList[j + 1];
 
         rdvList.pop_back();
-        return true;
-    }
-    return false;
+        return RdvRemoved;
+    }else return RdvHasNotBeenRemoved;
 }
 
 QString Personne::toQString(void) const{

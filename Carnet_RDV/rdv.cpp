@@ -50,14 +50,15 @@ RDV::operator string(void) const{
 // ---------- Méthodes ----------
 // On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
 // Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
-bool RDV::addMember(Personne* p)
+int RDV::addMember(Personne* p)
 {
     unsigned i{0};
     while(i < membersList.size())
         if(*p == *membersList[i++])
-            return false;
+            return PersonneIsAlreadyInsideRdv;
 
-    if(p->addRDV(this)){
+    int addRDVtoP = p->addRDV(this);
+    if(addRDVtoP == RdvAdded){
         if(membersList.size() == 0)
             membersList.push_back(p);
 
@@ -68,9 +69,9 @@ bool RDV::addMember(Personne* p)
 
             membersList[i] = p;
         }
-        return true;
+        return PersonneAdded;
 
-    }else return false;
+    }else return addRDVtoP;
 }
 
 void RDV::afficher(ostream& ost) const{
@@ -97,52 +98,6 @@ int RDV::compareTo(const RDV& r ) const
 
 }
 
-QString RDV::participantsToQString(void){
-    return QString::fromStdString(participantsToString());
-}
-
-string RDV::participantsToString(void){
-    string s = QString(QObject::tr("Participant", "Participant", membersList.size())).toStdString() + string(membersList.size() == 1 ? "" : "s") + " " +
-            "(" + to_string(membersList.size()) + ") :\n";
-    if (membersList.size() == 0) s += QString(QObject::tr("Aucun participant", "Any participant")).toStdString() + "\n";
-    else for(unsigned i = 0; i < membersList.size(); ++i) s += membersList[i]->toString() + "\n";
-    return s;
-}
-
-bool RDV::removeMember(Personne* p)
-{
-    unsigned i{0};
-    bool found = false;
-    while(i < membersList.size() and ! found){
-        if(*p == *membersList[i]) found = true;
-        else ++i;
-    }
-
-    if(p->removeRDV(this))
-    {
-        if(membersList.size() == 0) return false;
-        else if(found){
-            for(unsigned j = i; j < membersList.size() - 1; ++j)
-                membersList[j] = membersList[j + 1];
-            membersList.pop_back();
-            return true;
-        }
-    }
-    return false;
-}
-
-QString RDV::toQString(void) const{
-    return QString::fromStdString(toString());
-}
-
-string RDV::toString(void) const{
-    string s = name +
-            " - Le " + date.toString() +
-            " - De " + timeStart.toString() +
-            " à " + timeEnd.toString();
-    return s;
-}
-
 bool RDV::estImbrique(const RDV& r) const
 {
     if(date == r.date)
@@ -162,6 +117,54 @@ bool RDV::estImbrique(const RDV& r) const
     }
     return false;
 }
+
+QString RDV::participantsToQString(void){
+    return QString::fromStdString(participantsToString());
+}
+
+string RDV::participantsToString(void){
+    string s = QString(QObject::tr("Participant", "Participant", membersList.size())).toStdString() + string(membersList.size() == 1 ? "" : "s") + " " +
+            "(" + to_string(membersList.size()) + ") :\n";
+    if (membersList.size() == 0) s += QString(QObject::tr("Aucun participant", "Any participant")).toStdString() + "\n";
+    else for(unsigned i = 0; i < membersList.size(); ++i) s += membersList[i]->toString() + "\n";
+    return s;
+}
+
+int RDV::removeMember(Personne* p)
+{
+    unsigned i{0};
+    bool found = false;
+    while(i < membersList.size() and ! found){
+        if(*p == *membersList[i]) found = true;
+        else ++i;
+    }
+
+    int removeRDVFromP = p->removeRDV(this);
+    if(removeRDVFromP == RdvRemoved)
+    {
+        if(membersList.size() == 0) return RdvListIsEmpty;
+        else if(found){
+            for(unsigned j = i; j < membersList.size() - 1; ++j)
+                membersList[j] = membersList[j + 1];
+            membersList.pop_back();
+            return PersonneRemoved;
+        }else return PersonneHasNotBeenRemoved;
+    }else return removeRDVFromP;
+}
+
+QString RDV::toQString(void) const{
+    return QString::fromStdString(toString());
+}
+
+string RDV::toString(void) const{
+    string s = name +
+            " - Le " + date.toString() +
+            " - De " + timeStart.toString() +
+            " à " + timeEnd.toString();
+    return s;
+}
+
+
 
 // ---------- Getters ----------
 const string& RDV::getName(void) const{

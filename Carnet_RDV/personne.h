@@ -19,6 +19,9 @@ private:
     vector<RDV*>    rdvList;
 
 public:
+    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved, PersonneHasAnRdv, PersonneIsAlreadyInsideRdv, PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved,
+                                               RdvAdded, RdvRemoved, RdvHasNotBeenAdded, RdvHasNotBeenRemoved, RdvListIsEmpty, };
+
     Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const vector<RDV*>& rdvList = vector<RDV*>());
 
     // Surcharge des opérateurs
@@ -34,12 +37,12 @@ public:
     operator string(void) const;
 
     // Méthodes
-    bool        addRDV(RDV* rdv);
+    int         addRDV(RDV* rdv);
     void        afficher(ostream& ost = cout) const;
     int         compareTo(const Personne& p) const;
     QString     rdvToQString(void) const;
     string      rdvToString(void) const;
-    bool        removeRDV(RDV* rdv);
+    int         removeRDV(RDV* rdv);
     QString     toQString(void) const;
     string      toString(void) const;
 

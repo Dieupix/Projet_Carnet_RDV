@@ -17,6 +17,9 @@ private:
     vector<Personne*>   membersList;
 
 public:
+    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved, PersonneHasAnRdv, PersonneIsAlreadyInsideRdv, PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved,
+                                               RdvAdded, RdvRemoved, RdvHasNotBeenAdded, RdvHasNotBeenRemoved, RdvListIsEmpty, };
+
     RDV(const string& name, const Date& date, const Hour& timeStart, const Hour& timeEnd, const vector<Personne*>& membersList = vector<Personne*>());
 
     // Surcharge des opérateurs
@@ -32,13 +35,13 @@ public:
     operator string(void) const;
 
     // Méthodes
-    bool        addMember(Personne* p);
+    int         addMember(Personne* p);
     void        afficher(ostream& ost = cout) const;
     int         compareTo(const RDV& rdv) const;
     bool        estImbrique(const RDV& r) const;
     QString     participantsToQString(void);
     string      participantsToString(void);
-    bool        removeMember(Personne* p);
+    int         removeMember(Personne* p);
     QString     toQString(void) const;
     string      toString(void) const;
 
