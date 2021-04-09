@@ -12,6 +12,8 @@ LoadingDialog::LoadingDialog(MainWindow* mainwindow, const QString& filePath, QW
 // ---------- Méthodes privées ----------
 void LoadingDialog::setup(void){
     setWindowTitle(mainwindow->getWindowTitle());
+    setModal(true);
+
     auto mainLayoutDialog = new QVBoxLayout();
     setLayout(mainLayoutDialog);
 
