@@ -42,17 +42,20 @@ int Manager::addPersonneToRDV(const string& rdvName, const string& pFirstName, c
     if(!listRDV.rechD(r)){return RdvNotFound;}
     if(!listPersonnes.rechD(personne)){return PersonneNotFound;}
 
-    unsigned j{0};
+    int j{0};
     while(listRDV[j]->getName() != rdvName)
     {
         ++j;
     }
+    delete r;
     r = listRDV[j];
-    unsigned k{0};
+
+    int k{0};
     while(listPersonnes[k]->getFirstName() != pFirstName && listPersonnes[k]->getLastName() != pLastName)
     {
         ++k;
     }
+    delete personne;
     personne = listPersonnes[k];
 
     vector<Personne*> lp = r->getMembersList();
@@ -68,10 +71,10 @@ int Manager::addPersonneToRDV(const string& rdvName, const string& pFirstName, c
     {
         if(lr[i]->estImbrique(*r)){return PersonneHasAnRdv;}
     }
-    if(!r->addMember(personne) || !personne->addRDV(r)){return PersonneHasNotBeenAdded;}
 
-    delete personne;
-    delete r;
+    if(personne->addRDV(r) == PersonneHasAnRdv){return PersonneHasAnRdv;}
+    if(r->addMember(personne) != PersonneAdded || personne->addRDV(r) != RDVAdded){return PersonneHasNotBeenAdded;}
+
     delete d;
     delete h;
     return PersonneAdded;
@@ -535,26 +538,26 @@ int Manager::removePersonneFromRDV(const string& rdvName, const string& pFirstNa
     if(!listRDV.rechD(r)){return RdvNotFound;}
     if(!listPersonnes.rechD(personne)){return PersonneNotFound;}
 
-    unsigned j{0};
+    int j{0};
     while(listRDV[j]->getName() != rdvName)
     {
         ++j;
     }
+    delete r;
     r = listRDV[j];
-    unsigned k{0};
+    int k{0};
     while(listPersonnes[k]->getFirstName() != pFirstName && listPersonnes[k]->getLastName() != pLastName)
     {
         ++k;
     }
+    delete personne;
     personne = listPersonnes[k];
 
     vector<Personne*> lp = r->getMembersList();
     vector<RDV*> lr = personne->getRDVList();
 
-    if(!r->removeMember(personne) || !personne->removeRDV(r)){return PersonneHasNotBeenRemoved;}
+    if(r->removeMember(personne) != PersonneRemoved || personne->removeRDV(r) != RDVRemoved){return PersonneHasNotBeenRemoved;}
 
-    delete personne;
-    delete r;
     delete d;
     delete h;
     return PersonneRemoved;

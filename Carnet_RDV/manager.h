@@ -29,7 +29,7 @@ public:
     enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved,
                                                RdvNotFound, PersonneNotFound, PersonneAndRdvNotFound,
                                                PersonneIsAlreadyInsideRdv, PersonneHasAnRdv,
-                                               PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved, };
+                                               PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved, RDVAdded, RDVRemoved};
 
     Manager(void);
 

@@ -50,14 +50,14 @@ RDV::operator string(void) const{
 // ---------- Méthodes ----------
 // On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
 // Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
-bool RDV::addMember(Personne* p)
+int RDV::addMember(Personne* p)
 {
     unsigned i{0};
     while(i < membersList.size())
         if(*p == *membersList[i++])
-            return false;
+            return PersonneIsAlreadyInsideRdv;
 
-    if(p->addRDV(this)){
+    if(p->addRDV(this) == RDVAdded){
         if(membersList.size() == 0)
             membersList.push_back(p);
 
@@ -68,9 +68,9 @@ bool RDV::addMember(Personne* p)
 
             membersList[i] = p;
         }
-        return true;
+        return PersonneAdded;
 
-    }else return false;
+    }else return PersonneHasNotBeenAdded;
 }
 
 void RDV::afficher(ostream& ost) const{
@@ -109,7 +109,7 @@ string RDV::participantsToString(void){
     return s;
 }
 
-bool RDV::removeMember(Personne* p)
+int RDV::removeMember(Personne* p)
 {
     unsigned i{0};
     bool found = false;
@@ -118,17 +118,17 @@ bool RDV::removeMember(Personne* p)
         else ++i;
     }
 
-    if(p->removeRDV(this))
+    if(p->removeRDV(this) == RDVRemoved)
     {
-        if(membersList.size() == 0) return false;
+        if(membersList.size() == 0) return ListRDVIsEmpty;
         else if(found){
             for(unsigned j = i; j < membersList.size() - 1; ++j)
                 membersList[j] = membersList[j + 1];
             membersList.pop_back();
-            return true;
+            return PersonneRemoved;
         }
     }
-    return false;
+    return PersonneHasNotBeenRemoved;
 }
 
 QString RDV::toQString(void) const{
