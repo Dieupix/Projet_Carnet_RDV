@@ -26,58 +26,28 @@ bool Manager::addPersonne(Personne* p){
  * RdvNotFound si le rdv n'a pas pu être trouvé
  * PersonneNotFound si la personne n'a pas pu être trouvée
  * PersonneAndRdvNotFound si les deux n'ont pas pu être trouvés
- * PersonneIsAlreadyInsideRdv si la personne est déjà dans le rdv
- * PersonneHasAnRdv si la personne a déjà un rdv au même moment
- * PersonneHasNotBeenAdded si la personne n'a pas pu être ajoutée au rdv
- * PersonneAdded sinon
+ * RDV::addMember() sinon
 */
 int Manager::addPersonneToRDV(const string& rdvName, const string& pFirstName, const string& pLastName){
     auto personne = new Personne{pFirstName,pLastName,"",""};
-    auto d = new Date{};
-    auto h = new Hour{};
+    auto d = Date{};
+    auto h = Hour{};
 
-    auto r = new RDV{rdvName,*d,*h,*h};
+    auto r = new RDV{rdvName, d, h, h};
 
-    if(!listRDV.rechD(r) && !listPersonnes.rechD(personne)) {return PersonneAndRdvNotFound;}
-    if(!listRDV.rechD(r)){return RdvNotFound;}
-    if(!listPersonnes.rechD(personne)){return PersonneNotFound;}
+    int rdv = listRDV.rechD(r);
+    int p = listPersonnes.rechD(personne);
+    if(rdv == -1 and p == -1) return PersonneAndRdvNotFound;
+    else if(rdv == -1) return RdvNotFound;
+    else if(p == -1) return PersonneNotFound;
 
-    int j{0};
-    while(listRDV[j]->getName() != rdvName)
-    {
-        ++j;
-    }
     delete r;
-    r = listRDV[j];
+    r = listRDV[rdv];
 
-    int k{0};
-    while(listPersonnes[k]->getFirstName() != pFirstName && listPersonnes[k]->getLastName() != pLastName)
-    {
-        ++k;
-    }
     delete personne;
-    personne = listPersonnes[k];
+    personne = listPersonnes[p];
 
-    vector<Personne*> lp = r->getMembersList();
-    vector<RDV*> lr = personne->getRDVList();
-
-    for(unsigned i=0 ; i<lp.size();++i){
-        if(lp[i]->getFirstName() == pFirstName && lp[i]->getLastName() == pLastName)
-        {
-            return PersonneIsAlreadyInsideRdv;
-        }
-    }
-    for(unsigned i=0 ; i<lr.size() ;++i)
-    {
-        if(lr[i]->estImbrique(*r)){return PersonneHasAnRdv;}
-    }
-
-    if(personne->addRDV(r) == PersonneHasAnRdv){return PersonneHasAnRdv;}
-    if(r->addMember(personne) != PersonneAdded || personne->addRDV(r) != RDVAdded){return PersonneHasNotBeenAdded;}
-
-    delete d;
-    delete h;
-    return PersonneAdded;
+    return r->addMember(personne);
 }
 
 bool Manager::addRDV(RDV* rdv){
@@ -524,43 +494,28 @@ int Manager::removePersonne(Personne* p)
  * RdvNotFound si le rdv n'a pas pu être trouvé
  * PersonneNotFound si la personne n'a pas pu être trouvée
  * PersonneAndRdvNotFound si les deux n'ont pas pu être trouvés
- * PersonneHasNotBeenRemoved si la personne n'a pas pu être supprimée du rdv
- * PersonneRemoved sinon
+ * RDV::removeMember() sinon
 */
 int Manager::removePersonneFromRDV(const string& rdvName, const string& pFirstName, const string& pLastName){
     auto personne = new Personne{pFirstName,pLastName,"",""};
-    auto d = new Date{};
-    auto h = new Hour{};
+    auto d = Date{};
+    auto h = Hour{};
 
-    auto r = new RDV{rdvName,*d,*h,*h};
+    auto r = new RDV{rdvName, d, h, h};
 
-    if(!listRDV.rechD(r) && !listPersonnes.rechD(personne)) {return PersonneAndRdvNotFound;}
-    if(!listRDV.rechD(r)){return RdvNotFound;}
-    if(!listPersonnes.rechD(personne)){return PersonneNotFound;}
+    int rdv = listRDV.rechD(r);
+    int p = listPersonnes.rechD(personne);
+    if(rdv == -1 and p == -1) return PersonneAndRdvNotFound;
+    else if(rdv == -1) return RdvNotFound;
+    else if(p == -1) return PersonneNotFound;
 
-    int j{0};
-    while(listRDV[j]->getName() != rdvName)
-    {
-        ++j;
-    }
     delete r;
-    r = listRDV[j];
-    int k{0};
-    while(listPersonnes[k]->getFirstName() != pFirstName && listPersonnes[k]->getLastName() != pLastName)
-    {
-        ++k;
-    }
+    r = listRDV[rdv];
+
     delete personne;
-    personne = listPersonnes[k];
+    personne = listPersonnes[p];
 
-    vector<Personne*> lp = r->getMembersList();
-    vector<RDV*> lr = personne->getRDVList();
-
-    if(r->removeMember(personne) != PersonneRemoved || personne->removeRDV(r) != RDVRemoved){return PersonneHasNotBeenRemoved;}
-
-    delete d;
-    delete h;
-    return PersonneRemoved;
+    return r->removeMember(personne);
 }
 
 bool Manager::removeRDV(RDV* r)

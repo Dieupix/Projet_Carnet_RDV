@@ -19,9 +19,8 @@ private:
     vector<RDV*>    rdvList;
 
 public:
-    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved, PersonneHasAnRDV,
-                                               RDVHasNotBeenAdded, RDVHasNotBeenRemoved, ListRDVIsEmpty,
-                                               RDVAdded, RDVRemoved };
+    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved, PersonneHasAnRdv, PersonneIsAlreadyInsideRdv, PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved, RdvListIsEmpty,
+                                               RdvAdded, RdvRemoved, RdvHasNotBeenAdded, RdvHasNotBeenRemoved, MembersListIsEmpty, };
 
     Personne(const string& firstName, const string& lastName, const string& phone, const string& email, const vector<RDV*>& rdvList = vector<RDV*>());
 

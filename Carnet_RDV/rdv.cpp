@@ -48,16 +48,14 @@ RDV::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-// On ajoute un participant à un RDV s'il n'y est pas déjà présent, puis ne dois pas être présent à un autre RDV au même moment
-// Si la personne peut être ajoutée, on ajoute le RDV auquel elle est ajoutée dans sa liste de RDV personnelle
 int RDV::addMember(Personne* p)
 {
     unsigned i{0};
     while(i < membersList.size())
         if(*p == *membersList[i++])
             return PersonneIsAlreadyInsideRdv;
-
-    if(p->addRDV(this) == RDVAdded){
+    int addRDVtoP = p->addRDV(this);
+    if(addRDVtoP == RdvAdded){
         if(membersList.size() == 0)
             membersList.push_back(p);
 
@@ -69,8 +67,7 @@ int RDV::addMember(Personne* p)
             membersList[i] = p;
         }
         return PersonneAdded;
-
-    }else return PersonneHasNotBeenAdded;
+    }else return addRDVtoP;
 }
 
 void RDV::afficher(ostream& ost) const{
@@ -97,6 +94,26 @@ int RDV::compareTo(const RDV& r ) const
 
 }
 
+bool RDV::estImbrique(const RDV& r) const
+{
+    if(date == r.date)
+    {
+        if(timeStart == r.timeStart || timeEnd == r.timeEnd)
+        {
+            return true;
+        }
+        else if(timeStart < r.timeStart && timeEnd > r.timeStart)
+        {
+            return true;
+        }
+        else if(timeStart > r.timeStart && r.timeEnd > timeStart)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 QString RDV::participantsToQString(void){
     return QString::fromStdString(participantsToString());
 }
@@ -117,18 +134,17 @@ int RDV::removeMember(Personne* p)
         if(*p == *membersList[i]) found = true;
         else ++i;
     }
-
-    if(p->removeRDV(this) == RDVRemoved)
+    int removeRDVFromP = p->removeRDV(this);
+    if(removeRDVFromP == RdvRemoved)
     {
-        if(membersList.size() == 0) return ListRDVIsEmpty;
+        if(membersList.size() == 0) return MembersListIsEmpty;
         else if(found){
             for(unsigned j = i; j < membersList.size() - 1; ++j)
                 membersList[j] = membersList[j + 1];
             membersList.pop_back();
             return PersonneRemoved;
-        }
-    }
-    return PersonneHasNotBeenRemoved;
+        }else return PersonneHasNotBeenRemoved;
+    }else return removeRDVFromP;
 }
 
 QString RDV::toQString(void) const{
@@ -143,25 +159,7 @@ string RDV::toString(void) const{
     return s;
 }
 
-bool RDV::estImbrique(const RDV& r) const
-{
-    if(date == r.date)
-    {
-        if(timeStart == r.timeStart || timeEnd == r.timeEnd)
-        {
-            return true;
-        }
-        else if(timeStart < r.timeStart && timeEnd > r.timeStart)
-        {
-            return true;
-        }
-        else if(timeStart > r.timeStart && r.timeEnd > timeStart)
-        {
-            return true;
-        }
-    }
-    return false;
-}
+
 
 // ---------- Getters ----------
 const string& RDV::getName(void) const{

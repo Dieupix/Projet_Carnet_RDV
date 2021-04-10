@@ -17,9 +17,8 @@ private:
     vector<Personne*>   membersList;
 
 public:
-    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved, PersonneIsAlreadyInsideRdv,
-                                               PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved,
-                                               ListRDVIsEmpty, RDVAdded, RDVRemoved };
+    enum AddPersonneToOrRemovePersonneFromRdv {PersonneAdded = 1, PersonneRemoved, PersonneHasAnRdv, PersonneIsAlreadyInsideRdv, PersonneHasNotBeenAdded, PersonneHasNotBeenRemoved, RdvListIsEmpty,
+                                               RdvAdded, RdvRemoved, RdvHasNotBeenAdded, RdvHasNotBeenRemoved, MembersListIsEmpty, };
 
     RDV(const string& name, const Date& date, const Hour& timeStart, const Hour& timeEnd, const vector<Personne*>& membersList = vector<Personne*>());
 

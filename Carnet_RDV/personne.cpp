@@ -48,34 +48,32 @@ Personne::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-// On ajoute un RDV à la personne si elle n'est pas présente à un autre RDV au même moment
+/* Retourne :
+ * PersonneHasAnRdv s'il est déjà présent dans un autre RDV au même moment
+ * RdvAdded s'il a pu être ajouté
+ * RdvHasNotBeenAdded sinon
+*/
 int Personne::addRDV(RDV* rdv)
 {
     for(unsigned i = 0; i < rdvList.size(); ++i)
-    {
-        if(rdv->date == rdvList[i]->date)
-        {
-            if(rdvList[i]->timeStart < rdv->timeEnd)
-                if(rdvList[i]->timeStart >= rdv->timeStart || rdvList[i]->timeEnd > rdv->timeStart)
-                    return PersonneHasAnRDV;
-        }
-    }
+        if(rdv->estImbrique(*rdvList[i])) return PersonneHasAnRdv;
 
-    unsigned ind{0};
-    while(ind < rdvList.size() && *rdvList[ind] < *rdv) ++ind;
     if(rdvList.size() == 0){
         rdvList.push_back(rdv);
-        return RDVAdded;
+        return RdvAdded;
     }
     else{
+        unsigned ind = 0;
+        while(ind < rdvList.size() and *rdvList[ind] < *rdv) ++ind;
+
         rdvList.push_back(rdvList[rdvList.size() - 1]);
         for(unsigned i = rdvList.size() - 2; i > ind; --i)
             rdvList[i] = rdvList[i - 1];
 
         rdvList[ind] = rdv;
-        return RDVAdded;
+        return RdvAdded;
     }
-    return RDVHasNotBeenAdded;
+    return RdvHasNotBeenAdded;
 }
 
 void Personne::afficher(ostream& ost) const{
@@ -104,6 +102,11 @@ string Personne::rdvToString(void) const{
     return s;
 }
 
+/* Retourne :
+ * RdvListIsEmpty s'il n'y a pas de RDV à supprimer
+ * RdvRemoved s'il a pu être supprimer
+ * RdvHasNotBeenRemoved sinon
+*/
 int Personne::removeRDV(RDV* rdv)
 {
     unsigned i{0};
@@ -112,16 +115,14 @@ int Personne::removeRDV(RDV* rdv)
         if(*rdvList[i] == *rdv) found = true;
         else ++i;
     }
-
-    if(rdvList.size() == 0) return ListRDVIsEmpty;
+    if(rdvList.size() == 0) return RdvListIsEmpty;
     else if(found){
         for(unsigned j = i; j < rdvList.size() - 1; ++j)
             rdvList[j] = rdvList[j + 1];
 
         rdvList.pop_back();
-        return RDVRemoved;
-    }
-    return RDVHasNotBeenRemoved;
+        return RdvRemoved;
+    }else return RdvHasNotBeenRemoved;
 }
 
 QString Personne::toQString(void) const{

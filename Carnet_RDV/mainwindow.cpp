@@ -437,16 +437,18 @@ void MainWindow::onRDVListCheckBox(bool b){
 }
 
 void MainWindow::onRechRdvDate(void){
-    // A CORRIGER
     auto item = mainLayout->itemAt(0);
     auto SA = item ? (QScrollArea*) item->widget() : 0;
     auto saWidget = SA ? SA->widget() : 0;
     if(saWidget){
         auto layout = (QBoxLayout*) saWidget->layout();
         auto newWidget = new QWidget();
-        if(!layout or layout->objectName() != rechRdvDate->objectName()) newWidget->setLayout(rechRdvDate);
+        if(!layout or layout->objectName() != rechRdvDate->objectName())
+            newWidget->setLayout(rechRdvDate);
         else newWidget->setLayout(new QHBoxLayout());
+
         SA->setWidget(newWidget);
+        if(SA->widget()->objectName() != rechRdvDate->objectName()) setupRechRdvDate();
     }
 }
 
