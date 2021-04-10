@@ -231,13 +231,43 @@ void MainWindow::setupMenuBar(void){
 }
 
 void MainWindow::setupRechRdvDate(void){
-    this->rechRdvDate = new QHBoxLayout();
+    this->rechRdvDate = new QVBoxLayout();
     rechRdvDate->setObjectName("rechRdvDateLayout");
 
-    auto date = new QLineEdit();
+    auto editLayout = new QHBoxLayout();
+
     auto formLayout = new QFormLayout();
-    rechRdvDate->addLayout(formLayout);
-    formLayout->addRow("Date", date);
+    formLayout->addRow(new QLabel(tr("Entrez une date de la forme jj/mm/aaaa", "Insert a date as dd/mm/yyyy")));
+    this->rechRdvDateLineEdit = new QLineEdit();
+    rechRdvDateLineEdit->setToolTip(tr("Format : jj/mm/aaaa", "Format : dd/mm/yyyy"));
+    rechRdvDateLineEdit->setClearButtonEnabled(true);
+    rechRdvDateLineEdit->setInputMask("99/99/9999");
+    rechRdvDateLineEdit->setMaxLength(10);
+    rechRdvDateLineEdit->setDragEnabled(true);
+    formLayout->addRow(tr("Date", "Date"), rechRdvDateLineEdit);
+
+    editLayout->addLayout(formLayout);
+    editLayout->addSpacing(50);
+
+    auto rechButton = new QPushButton(tr("Rechercher", "Find"));
+    editLayout->addWidget(rechButton, 0, Qt::AlignBottom);
+    editLayout->addStretch(1);
+
+    rechRdvDate->addLayout(editLayout);
+
+    rechRdvDateLabel = new QLabel("test");
+    rechRdvDate->addWidget(rechRdvDateLabel, 0, Qt::AlignHCenter);
+
+    auto SA = new QScrollArea();
+    auto saWidget = new QWidget();
+    saWidget->setLayout(new QHBoxLayout());
+    SA->setWidget(saWidget);
+    SA->setWidgetResizable(true);
+    rechRdvDate->addWidget(SA);
+
+    connect(rechRdvDateLineEdit, &QLineEdit::textChanged, this, &MainWindow::onTextChanged);
+    connect(rechRdvDateLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onRechRdvDateButton);
+    connect(rechButton, &QPushButton::clicked, this, &MainWindow::onRechRdvDateButton);
 
 }
 
@@ -445,10 +475,37 @@ void MainWindow::onRechRdvDate(void){
         auto newWidget = new QWidget();
         if(!layout or layout->objectName() != rechRdvDate->objectName())
             newWidget->setLayout(rechRdvDate);
-        else newWidget->setLayout(new QHBoxLayout());
+        else newWidget->setLayout(new QVBoxLayout());
 
         SA->setWidget(newWidget);
         if(SA->widget()->objectName() != rechRdvDate->objectName()) setupRechRdvDate();
+    }
+}
+
+void MainWindow::onRechRdvDateButton(void){
+    // A CORRIGER
+    if(rechRdvDateLineEdit and rechRdvDateLabel){
+        Date d = Date();
+        if(rechRdvDateLineEdit->text() == "//"){
+            QString msg =   tr("Erreur, la date est vide.", "Error, the date is empty.") + "\t";
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+        }else if(!stoDate(rechRdvDateLineEdit->text().toStdString(), d)){
+            cout << endl;
+            QString msg =   tr("Erreur, la date est incorrecte.", "Error, the date is incorrect.") + "\t\n" + rechRdvDateLineEdit->text();
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+        }else{
+            rechRdvDateLabel->setText(tr("Liste de tous les Rendez-vous du", "List of all appointments for the date") + " " + d);
+            auto SA = rechRdvDate->itemAt(2) ? (QScrollArea*) rechRdvDate->itemAt(2)->widget() : 0;
+            if(SA){
+                auto newWidget = new QWidget();
+                auto saLayout = new QVBoxLayout();
+
+                saLayout->addWidget(new QPushButton("CA MAAAAAAAAAAAAAAAAARCHE???"));
+
+                newWidget->setLayout(saLayout);
+                SA->setWidget(newWidget);
+            }
+        }
     }
 }
 
@@ -464,4 +521,10 @@ void MainWindow::onSave(void){
 }
 
 void MainWindow::onSpinBox(int) {
+}
+
+void MainWindow::onTextChanged(const QString& text){
+    QSignalBlocker blocker(rechRdvDateLineEdit);
+    rechRdvDateLineEdit->setText(text);
+    blocker.unblock();
 }

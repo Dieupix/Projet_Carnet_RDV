@@ -40,6 +40,8 @@ private:
     QBoxLayout*     personneListLayout;
     QBoxLayout*     rdvListLayout;
     QBoxLayout*     rechRdvDate;
+    QLineEdit*      rechRdvDateLineEdit;
+    QLabel*         rechRdvDateLabel;
     QMainWindow*    window;
 
     // Méthodes privées
@@ -78,9 +80,11 @@ private slots:
     void onQuit(void);
     void onRDVListCheckBox(bool);
     void onRechRdvDate(void);
+    void onRechRdvDateButton(void);
     void onSave(void);
     void onSaveAndQuit(void);
     void onSpinBox(int i);
+    void onTextChanged(const QString& text);
 
 };
 
