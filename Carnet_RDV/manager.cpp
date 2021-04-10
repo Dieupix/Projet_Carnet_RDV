@@ -649,6 +649,18 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 
+vector<RDV*> Manager::rechRdvDate(const Date& d)
+{
+    vector<RDV*> lr;
+    int i{0};
+    while(listRDV[i]->getDate() < d){ ++i;}
+    while(listRDV[i]->getDate() == d)
+    {
+        lr.push_back(listRDV[i]);
+        ++i;
+    }
+    return lr;
+}
 
 
 // ---------- Getters ----------

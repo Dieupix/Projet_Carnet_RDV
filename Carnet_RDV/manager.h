@@ -47,6 +47,7 @@ public:
     bool    removeRDV(RDV* rdv);
     bool    savePersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
     bool    saveRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    vector<RDV*> rechRdvDate(const Date& d);
 
     // Getters
     const LDCP& getListPersonnes(void) const;
