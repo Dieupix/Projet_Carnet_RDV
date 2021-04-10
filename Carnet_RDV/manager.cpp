@@ -37,7 +37,6 @@ int Manager::addPersonneToRDV(const string& rdvName, const string& pFirstName, c
 
     int rdv = listRDV.rechD(r);
     int p = listPersonnes.rechD(personne);
-
     if(rdv == -1 and p == -1) return PersonneAndRdvNotFound;
     else if(rdv == -1) return RdvNotFound;
     else if(p == -1) return PersonneNotFound;
@@ -506,7 +505,6 @@ int Manager::removePersonneFromRDV(const string& rdvName, const string& pFirstNa
 
     int rdv = listRDV.rechD(r);
     int p = listPersonnes.rechD(personne);
-
     if(rdv == -1 and p == -1) return PersonneAndRdvNotFound;
     else if(rdv == -1) return RdvNotFound;
     else if(p == -1) return PersonneNotFound;
@@ -518,7 +516,6 @@ int Manager::removePersonneFromRDV(const string& rdvName, const string& pFirstNa
     personne = listPersonnes[p];
 
     return r->removeMember(personne);
-
 }
 
 bool Manager::removeRDV(RDV* r)
@@ -652,6 +649,18 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 
+vector<RDV*> Manager::rechRdvDate(const Date& d)
+{
+    vector<RDV*> lr;
+    int i{0};
+    while(listRDV[i]->getDate() < d){ ++i;}
+    while(listRDV[i]->getDate() == d)
+    {
+        lr.push_back(listRDV[i]);
+        ++i;
+    }
+    return lr;
+}
 
 
 // ---------- Getters ----------

@@ -48,18 +48,12 @@ RDV::operator string(void) const{
 
 
 // ---------- Méthodes ----------
-/* Retourne :
- * PersonneIsAlreadyInsideRdv s'il est déjà présent dans le RDV
- * PersonneAdded s'il a pu être ajouté
- * Personne::addRDV() sinon
-*/
 int RDV::addMember(Personne* p)
 {
     unsigned i{0};
     while(i < membersList.size())
         if(*p == *membersList[i++])
             return PersonneIsAlreadyInsideRdv;
-
     int addRDVtoP = p->addRDV(this);
     if(addRDVtoP == RdvAdded){
         if(membersList.size() == 0)
@@ -73,7 +67,6 @@ int RDV::addMember(Personne* p)
             membersList[i] = p;
         }
         return PersonneAdded;
-
     }else return addRDVtoP;
 }
 
@@ -133,12 +126,6 @@ string RDV::participantsToString(void){
     return s;
 }
 
-/* Retourne :
- * MembersListIsEmpty s'il n'y a pas de participants à supprimer
- * PersonneRemoved s'il a pu être supprimé
- * PersonneHasNotBeenRemoved s'il n'a pas pu être supprimé
- * Personne::removeRDV() sinon
-*/
 int RDV::removeMember(Personne* p)
 {
     unsigned i{0};
@@ -147,7 +134,6 @@ int RDV::removeMember(Personne* p)
         if(*p == *membersList[i]) found = true;
         else ++i;
     }
-
     int removeRDVFromP = p->removeRDV(this);
     if(removeRDVFromP == RdvRemoved)
     {

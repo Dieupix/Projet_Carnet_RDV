@@ -115,7 +115,6 @@ int Personne::removeRDV(RDV* rdv)
         if(*rdvList[i] == *rdv) found = true;
         else ++i;
     }
-
     if(rdvList.size() == 0) return RdvListIsEmpty;
     else if(found){
         for(unsigned j = i; j < rdvList.size() - 1; ++j)
