@@ -12,7 +12,7 @@ private:
     void setup(void);
 
     MainWindow* mainwindow;
-    QString filePath;
+    QString     filePath;
 
 public:
     LoadingDialog(MainWindow* mainwindow, const QString& filePath, QWidget *parent = nullptr);

@@ -15,9 +15,11 @@
 
 #include "loadingdialog.h"
 #include "manager.h"
+#include "managingdialog.h"
 
-class Manager;
 class LoadingDialog;
+class Manager;
+class ManagingDialog;
 
 // Fonctions annexes
 void preHideOrShow(QBoxLayout* QBoxToHideOrShow, bool show);
@@ -35,6 +37,14 @@ private:
 
     bool isSaved = true;
     QBoxLayout*     listLayout;
+    QBoxLayout*     listPersonneRdvLayout;
+    QLineEdit*      listPersonneRdvLayoutLineEdit;
+    QLabel*         listPersonneRdvLayoutLabel;
+    QScrollArea*    listPersonneRdvLayoutSA;
+    QBoxLayout*     listRdvPersonneLayout;
+    QLineEdit*      listRdvPersonneLayoutLineEdit;
+    QLabel*         listRdvPersonneLayoutLabel;
+    QScrollArea*    listRdvPersonneLayoutSA;
     Manager         manager;
     QBoxLayout*     mainLayout;
     QBoxLayout*     personneListLayout;
@@ -42,6 +52,7 @@ private:
     QBoxLayout*     rechRdvDate;
     QLineEdit*      rechRdvDateLineEdit;
     QLabel*         rechRdvDateLabel;
+    QScrollArea*    rechRdvDateSA;
     QMainWindow*    window;
 
     // Méthodes privées
@@ -51,6 +62,8 @@ private:
     void            setupFileMenu(QMenu* fileMenu);
     QBoxLayout*     setupFooterLayout(void);
     QBoxLayout*     setupListLayout(void);
+    void            setupListPersonneRdvLayout(void);
+    void            setupListRdvPersonneLayout(void);
     QBoxLayout*     setupMainLayout(void);
     void            setupMenuBar(void);
     void            setupRechRdvDate(void);
@@ -76,6 +89,12 @@ public:
     void setSave(bool saved);
 
 private slots:
+    void onAddPersonne(void);
+    void onAddRdv(void);
+    void onRemovePersonne(void);
+    void onRemoveRdv(void);
+    void onListPersonneRdv(void);
+    void onListPersonneRdvButton(void);
     void onPersonneListCheckBox(bool);
     void onQuit(void);
     void onRDVListCheckBox(bool);
@@ -84,7 +103,8 @@ private slots:
     void onSave(void);
     void onSaveAndQuit(void);
     void onSpinBox(int i);
-    void onTextChanged(const QString& text);
+    void onTextChangedlistPersonneRdvLineEdit(const QString& text);
+    void onTextChangedrechRdvDateLineEdit(const QString& text);
 
 };
 

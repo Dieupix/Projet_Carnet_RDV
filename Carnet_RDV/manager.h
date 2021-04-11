@@ -33,21 +33,21 @@ public:
     Manager(void);
 
     // Méthodes
-    bool    addPersonne(Personne* p);
-    int     addPersonneToRDV(const string& rdvName, const string& pFirstName, const string& pLastName);
-    bool    addRDV(RDV* rdv);
-    bool    changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf);
-    void    changeMail(Personne* p, const string& mail);
-    void    changePhone(Personne* p, const string& numeroTel);
-    void    changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail);
-    bool    loadPersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
-    bool    loadRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
-    int     removePersonne(Personne* p);
-    int     removePersonneFromRDV(const string& rdvName, const string& pFirstName, const string& pLastName);
-    bool    removeRDV(RDV* rdv);
-    bool    savePersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
-    bool    saveRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
-    vector<RDV*> rechRdvDate(const Date& d);
+    bool            addPersonne(Personne* p);
+    int             addPersonneToRDV(const string& rdvName, const string& pFirstName, const string& pLastName);
+    bool            addRDV(RDV* rdv);
+    bool            changeDateAndHour(RDV* r, const Date& d, const Hour& hd, const Hour& hf);
+    void            changeMail(Personne* p, const string& mail);
+    void            changePhone(Personne* p, const string& numeroTel);
+    void            changePhoneAndMail(Personne* p, const string& numeroTel, const string& mail);
+    bool            loadPersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    bool            loadRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    vector<RDV*>    rechRdvDate(const Date& d);
+    int             removePersonne(Personne* p);
+    int             removePersonneFromRDV(const string& rdvName, const string& pFirstName, const string& pLastName);
+    bool            removeRDV(RDV* rdv);
+    bool            savePersonne(const string& filePath = "", QProgressBar* loadingBar = nullptr);
+    bool            saveRDV(const string& filePath = "", QProgressBar* loadingBar = nullptr);
 
     // Getters
     const LDCP& getListPersonnes(void) const;

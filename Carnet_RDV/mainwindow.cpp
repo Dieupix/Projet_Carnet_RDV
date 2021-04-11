@@ -48,6 +48,8 @@ void MainWindow::setup(void){
     fixedLayout->addLayout(setupFooterLayout());
 
     setupRechRdvDate();
+    setupListPersonneRdvLayout();
+    setupListRdvPersonneLayout();
 
     updateWindowTitle();
 }
@@ -55,15 +57,28 @@ void MainWindow::setup(void){
 QBoxLayout* MainWindow::setupButtonLayout(void) {
     auto buttonLayout = new QHBoxLayout();
 
-    auto rechRdvDateButton = new QPushButton("Recherche de RDV par date");
-    auto listRdvPersonneButton = new QPushButton("Liste de RDV d'une Personne");
-    auto listPersonneRdvButton = new QPushButton("Liste de Personne d'un RDV");
+    auto rechRdvDateButton = new QPushButton(tr("Recherche de RDV par date", "Find appointment with a date"));
+    rechRdvDateButton->setMinimumHeight(30);
+    auto listRdvPersonneButton = new QPushButton(tr("Liste de RDV d'une Personne", "List of all appointment of a People"));
+    listRdvPersonneButton->setMinimumHeight(30);
+    auto listPersonneRdvButton = new QPushButton(tr("Liste de Personne d'un RDV", "List of all People of an appointment"));
+    listPersonneRdvButton->setMinimumHeight(30);
+    auto changePersonneButton = new QPushButton(tr("Modifier une Personne", "Edit a People"));
+    changePersonneButton->setMinimumHeight(30);
+    auto changeRdvButton = new QPushButton(tr("Modifier un Rendez-vous", "Edit an appointment"));
+    changeRdvButton->setMinimumHeight(30);
+    auto changeMembersButton = new QPushButton(tr("Modifier les participants d'un Rendez-vous", "Edit participants of an appointment"));
+    changeMembersButton->setMinimumHeight(30);
 
-    buttonLayout->addWidget(rechRdvDateButton, 0, Qt::AlignCenter);
-    buttonLayout->addWidget(listRdvPersonneButton, 0, Qt::AlignCenter);
-    buttonLayout->addWidget(listPersonneRdvButton, 0, Qt::AlignCenter);
+    buttonLayout->addWidget(rechRdvDateButton);
+    buttonLayout->addWidget(listRdvPersonneButton);
+    buttonLayout->addWidget(listPersonneRdvButton);
+    buttonLayout->addWidget(changePersonneButton);
+    buttonLayout->addWidget(changeRdvButton);
+    buttonLayout->addWidget(changeMembersButton);
 
     connect(rechRdvDateButton, &QPushButton::clicked, this, &MainWindow::onRechRdvDate);
+    connect(listPersonneRdvButton, &QPushButton::clicked, this, &MainWindow::onListPersonneRdv);
 
     return buttonLayout;
 }
@@ -96,6 +111,11 @@ void MainWindow::setupEditMenu(QMenu* editMenu){
     removeRDVAction->setShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_R));
     removeRDVAction->setShortcutVisibleInContextMenu(true);
     editMenu->addAction(removeRDVAction);
+
+    connect(addPersonneAction, &QAction::triggered, this, &MainWindow::onAddPersonne);
+    connect(addRDVAction, &QAction::triggered, this, &MainWindow::onAddRdv);
+    connect(removePersonneAction, &QAction::triggered, this, &MainWindow::onRemovePersonne);
+    connect(removeRDVAction, &QAction::triggered, this, &MainWindow::onRemoveRdv);
 }
 
 void MainWindow::setupFileMenu(QMenu *fileMenu){
@@ -209,6 +229,51 @@ QBoxLayout* MainWindow::setupListLayout(void) {
 
 }
 
+void MainWindow::setupListPersonneRdvLayout(void){
+    this->listPersonneRdvLayout = new QVBoxLayout();
+    listPersonneRdvLayout->setObjectName("listPersonneRdvLayout");
+
+    auto editLayout = new QHBoxLayout();
+
+    auto formLayout = new QFormLayout();
+    formLayout->addRow(new QLabel(tr("Entrez le nom du rendez-vous", "Insert the name of the appointment")));
+    this->listPersonneRdvLayoutLineEdit = new QLineEdit();
+    listPersonneRdvLayoutLineEdit->setToolTip(tr("Saisir le nom du rendez-vous", "Put the name of the appointment"));
+    listPersonneRdvLayoutLineEdit->setClearButtonEnabled(true);
+    listPersonneRdvLayoutLineEdit->setDragEnabled(true);
+    formLayout->addRow(tr("Nom", "Name"), listPersonneRdvLayoutLineEdit);
+
+    editLayout->addLayout(formLayout);
+    editLayout->addSpacing(50);
+
+    auto rechButton = new QPushButton(tr("Rechercher", "Find"));
+    editLayout->addWidget(rechButton, 0, Qt::AlignBottom);
+    editLayout->addStretch(1);
+
+    listPersonneRdvLayout->addLayout(editLayout);
+
+    this->listPersonneRdvLayoutLabel = new QLabel();
+    listPersonneRdvLayoutLabel->setFont(QFont(listPersonneRdvLayoutLabel->font().family(), 20));
+    listPersonneRdvLayout->addWidget(listPersonneRdvLayoutLabel, 0, Qt::AlignHCenter);
+
+    this->listPersonneRdvLayoutSA = new QScrollArea();
+    auto saWidget = new QWidget();
+    saWidget->setLayout(new QHBoxLayout());
+    listPersonneRdvLayoutSA->setWidget(saWidget);
+    listPersonneRdvLayoutSA->setWidgetResizable(true);
+    listPersonneRdvLayout->addWidget(listPersonneRdvLayoutSA);
+
+    connect(listPersonneRdvLayoutLineEdit, &QLineEdit::textChanged, this, &MainWindow::onTextChangedlistPersonneRdvLineEdit);
+    connect(listPersonneRdvLayoutLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onListPersonneRdvButton);
+    connect(rechButton, &QPushButton::clicked, this, &MainWindow::onListPersonneRdvButton);
+
+}
+
+void MainWindow::setupListRdvPersonneLayout(void){
+    this->listRdvPersonneLayout = new QVBoxLayout();
+    listRdvPersonneLayout->setObjectName("listRdvPersonneLayout");
+}
+
 QBoxLayout* MainWindow::setupMainLayout(void){
     mainLayout = new QHBoxLayout();
 
@@ -237,7 +302,7 @@ void MainWindow::setupRechRdvDate(void){
     auto editLayout = new QHBoxLayout();
 
     auto formLayout = new QFormLayout();
-    formLayout->addRow(new QLabel(tr("Entrez une date de la forme jj/mm/aaaa", "Insert a date as dd/mm/yyyy")));
+    formLayout->addRow(new QLabel(tr("Entrez une date au format jj/mm/aaaa", "Insert a date as dd/mm/yyyy")));
     this->rechRdvDateLineEdit = new QLineEdit();
     rechRdvDateLineEdit->setToolTip(tr("Format : jj/mm/aaaa", "Format : dd/mm/yyyy"));
     rechRdvDateLineEdit->setClearButtonEnabled(true);
@@ -255,17 +320,18 @@ void MainWindow::setupRechRdvDate(void){
 
     rechRdvDate->addLayout(editLayout);
 
-    rechRdvDateLabel = new QLabel("test");
+    rechRdvDateLabel = new QLabel();
+    rechRdvDateLabel->setFont(QFont(rechRdvDateLabel->font().family(), 20));
     rechRdvDate->addWidget(rechRdvDateLabel, 0, Qt::AlignHCenter);
 
-    auto SA = new QScrollArea();
+    rechRdvDateSA = new QScrollArea();
     auto saWidget = new QWidget();
     saWidget->setLayout(new QHBoxLayout());
-    SA->setWidget(saWidget);
-    SA->setWidgetResizable(true);
-    rechRdvDate->addWidget(SA);
+    rechRdvDateSA->setWidget(saWidget);
+    rechRdvDateSA->setWidgetResizable(true);
+    rechRdvDate->addWidget(rechRdvDateSA);
 
-    connect(rechRdvDateLineEdit, &QLineEdit::textChanged, this, &MainWindow::onTextChanged);
+    connect(rechRdvDateLineEdit, &QLineEdit::textChanged, this, &MainWindow::onTextChangedrechRdvDateLineEdit);
     connect(rechRdvDateLineEdit, &QLineEdit::returnPressed, this, &MainWindow::onRechRdvDateButton);
     connect(rechButton, &QPushButton::clicked, this, &MainWindow::onRechRdvDateButton);
 
@@ -437,6 +503,97 @@ void MainWindow::setSave(bool saved){
 
 
 // ---------- Slots privés ----------
+void MainWindow::onAddPersonne(void){
+    auto md = ManagingDialog(this, ManagingDialog::AddPersonneToDataBase);
+    auto exe = md.exec();
+    if(exe == QDialog::Accepted){
+        bool added = true;
+        for(unsigned i = 0; i < md.getListPersonne().size(); ++i)
+            if(!manager.addPersonne(md.getListPersonne()[i])) added = false;
+
+        if(!added){
+            QString msg = tr("Erreur lors de l'ajout d'une Personne", "Error while adding a People");
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+
+        }else{
+            QString msg = tr("Les Personne ont été ajoutées", "All People have been added");
+            QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Ok).exec();
+        }
+    }
+}
+
+void MainWindow::onAddRdv(void){
+    auto exe = ManagingDialog(this, ManagingDialog::AddRdvToDataBase).exec();
+    if(exe == QDialog::Accepted){
+
+    }
+}
+
+void MainWindow::onRemovePersonne(void){
+    auto exe = ManagingDialog(this, ManagingDialog::RemovePersonneFromDataBase).exec();
+    if(exe == QDialog::Accepted){
+
+    }
+}
+
+void MainWindow::onRemoveRdv(void){
+    auto exe = ManagingDialog(this, ManagingDialog::RemoveRdvFromDataBase).exec();
+    if(exe == QDialog::Accepted){
+
+    }
+}
+
+void MainWindow::onListPersonneRdv(void){
+    auto item = mainLayout->itemAt(0);
+    auto SA = item ? (QScrollArea*) item->widget() : 0;
+    auto saWidget = SA ? SA->widget() : 0;
+    if(!listPersonneRdvLayout) setupListPersonneRdvLayout();
+    if(saWidget){
+        auto layout = (QBoxLayout*) saWidget->layout();
+        auto newWidget = new QWidget();
+        if(!layout or layout->objectName() != listPersonneRdvLayout->objectName())
+            newWidget->setLayout(listPersonneRdvLayout);
+        else newWidget->setLayout(new QVBoxLayout());
+
+        SA->setWidget(newWidget);
+        if(SA->widget()->objectName() != listPersonneRdvLayout->objectName()) setupListPersonneRdvLayout();
+    }
+}
+
+void MainWindow::onListPersonneRdvButton(void){
+    if(listPersonneRdvLayoutLineEdit and listPersonneRdvLayoutLabel){
+        if(listPersonneRdvLayoutLineEdit->text() == ""){
+            QString msg = tr("Erreur, le nom saisie est vide", "Error, the name is empty") + "\t";
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+            return;
+        }
+        auto rdv = RDV(listPersonneRdvLayoutLineEdit->text().toStdString(), {}, {}, {});
+        int ind = manager.getListRDV().rechD(&rdv);
+        if(ind == -1){
+            QString msg = tr("Aucun rendez-vous trouvé à ce nom", "Any appointment found for this name") + "\t\n\n" + listPersonneRdvLayoutLineEdit->text();
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+        }else{
+            QString msg = "Liste des participants au rendez-vous \"" + listPersonneRdvLayoutLineEdit->text() + "\"";
+            QString trad = "List of all participants of the appointment named \"" + listPersonneRdvLayoutLineEdit->text() + "\"";
+            listPersonneRdvLayoutLabel->setText(tr(msg.toStdString().c_str(), trad.toStdString().c_str()));
+            rdv = *manager.getListRDV()[ind];
+            auto newWidget = new QWidget();
+            auto saLayout = new QVBoxLayout();
+
+            if(rdv.getMembersList().size() == 0) saLayout->addWidget(new QLabel(tr("Aucun participant à ce rendez-vous", "Any participant at this appointment")));
+            else for(auto p : rdv.getMembersList()) saLayout->addWidget(new QPushButton(p->toQString()));
+            saLayout->addStretch(0);
+
+            newWidget->setLayout(saLayout);
+            listPersonneRdvLayoutSA->setWidget(newWidget);
+
+            onRechRdvDate();
+            onListPersonneRdv();
+
+        }
+    }
+}
+
 void MainWindow::onPersonneListCheckBox(bool b){
     showPersonneListLayout(b);
 }
@@ -470,6 +627,7 @@ void MainWindow::onRechRdvDate(void){
     auto item = mainLayout->itemAt(0);
     auto SA = item ? (QScrollArea*) item->widget() : 0;
     auto saWidget = SA ? SA->widget() : 0;
+    if(!rechRdvDate) setupRechRdvDate();
     if(saWidget){
         auto layout = (QBoxLayout*) saWidget->layout();
         auto newWidget = new QWidget();
@@ -483,7 +641,6 @@ void MainWindow::onRechRdvDate(void){
 }
 
 void MainWindow::onRechRdvDateButton(void){
-    // A CORRIGER
     if(rechRdvDateLineEdit and rechRdvDateLabel){
         Date d = Date();
         if(rechRdvDateLineEdit->text() == "//"){
@@ -491,20 +648,23 @@ void MainWindow::onRechRdvDateButton(void){
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
         }else if(!stoDate(rechRdvDateLineEdit->text().toStdString(), d)){
             cout << endl;
-            QString msg =   tr("Erreur, la date est incorrecte.", "Error, the date is incorrect.") + "\t\n" + rechRdvDateLineEdit->text();
+            QString msg =   tr("Erreur, la date est incorrecte.", "Error, the date is incorrect.") + "\t\n\n" + rechRdvDateLineEdit->text();
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
         }else{
             rechRdvDateLabel->setText(tr("Liste de tous les Rendez-vous du", "List of all appointments for the date") + " " + d);
-            auto SA = rechRdvDate->itemAt(2) ? (QScrollArea*) rechRdvDate->itemAt(2)->widget() : 0;
-            if(SA){
-                auto newWidget = new QWidget();
-                auto saLayout = new QVBoxLayout();
 
-                saLayout->addWidget(new QPushButton("CA MAAAAAAAAAAAAAAAAARCHE???"));
+            auto newWidget = new QWidget();
+            auto saLayout = new QVBoxLayout();
 
-                newWidget->setLayout(saLayout);
-                SA->setWidget(newWidget);
-            }
+            auto rdvList = manager.rechRdvDate(d);
+            if(rdvList.size() == 0) saLayout->addWidget(new QLabel(tr("Aucun rendez-vous pour cette date", "Any appointment for this date")));
+            else for(auto rdv : rdvList) saLayout->addWidget(new QPushButton(rdv->toQString()));
+            saLayout->addStretch(0);
+
+            newWidget->setLayout(saLayout);
+            rechRdvDateSA->setWidget(newWidget);
+            onListPersonneRdv();
+            onRechRdvDate();
         }
     }
 }
@@ -523,7 +683,13 @@ void MainWindow::onSave(void){
 void MainWindow::onSpinBox(int) {
 }
 
-void MainWindow::onTextChanged(const QString& text){
+void MainWindow::onTextChangedlistPersonneRdvLineEdit(const QString& text){
+    QSignalBlocker blocker(listPersonneRdvLayoutLineEdit);
+    listPersonneRdvLayoutLineEdit->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedrechRdvDateLineEdit(const QString& text){
     QSignalBlocker blocker(rechRdvDateLineEdit);
     rechRdvDateLineEdit->setText(text);
     blocker.unblock();

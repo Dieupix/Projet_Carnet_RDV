@@ -479,6 +479,19 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 
+vector<RDV*> Manager::rechRdvDate(const Date& d)
+{
+    vector<RDV*> lr;
+    unsigned i{0};
+    while(i < listRDV.size() and listRDV[i]->getDate() < d) ++i;
+    while(i < listRDV.size() and listRDV[i]->getDate() == d)
+    {
+        lr.push_back(listRDV[i]);
+        ++i;
+    }
+    return lr;
+}
+
 /* Retourne :
  * PersonneHasAnRdv si la personne a au moins un rdv
  * PersonneHasNotBeenRemoved si la personne n'a pas pu être supprimée
@@ -649,18 +662,6 @@ bool Manager::saveRDV(const string& filePath, QProgressBar* loadingBar){
 
 }
 
-vector<RDV*> Manager::rechRdvDate(const Date& d)
-{
-    vector<RDV*> lr;
-    int i{0};
-    while(listRDV[i]->getDate() < d){ ++i;}
-    while(listRDV[i]->getDate() == d)
-    {
-        lr.push_back(listRDV[i]);
-        ++i;
-    }
-    return lr;
-}
 
 
 // ---------- Getters ----------
