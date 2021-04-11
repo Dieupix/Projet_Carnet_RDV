@@ -248,6 +248,8 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
         stringstream buffer;
         buffer << ifs.rdbuf();
 
+        RDV* rdv;
+        Personne* p;
         string name = "", date = "", timeStart = "", timeEnd = "", lastName = "", firstName = "", phone = "", email = "";
         short int sequence = 0;
         unsigned i = 0, max = buffer.str().size();
@@ -304,7 +306,7 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                         Date d;
                         Hour tS, tE;
                         if(stoDate(date, d) and stoHour(timeStart, tS) and stoHour(timeEnd, tE)){
-                            RDV* rdv = new RDV(name, d, tS, tE);
+                            rdv = new RDV(name, d, tS, tE);
                             if(!listRDV.inserer(rdv)){
                                 cerr << "Erreur : ligne " << line << " : le RDV est déjà dans la base de données" << endl;
                                 delete rdv;
@@ -357,20 +359,16 @@ bool Manager::loadRDV(const string& filePath, QProgressBar* loadingBar){
                     }
 
                     if(!abortP){
-                        Personne* p = new Personne(firstName, lastName, phone, email);
+                        p = new Personne(firstName, lastName, phone, email);
                         Date d;
                         stoDate(date, d);
                         Hour tS, tE;
                         stoHour(timeStart, tS);
                         stoHour(timeEnd, tE);
-                        RDV* rdv = new RDV(name, d, tS, tE);
                         int ind = listPersonnes.rechD(p);
                         if(ind != -1){
                             delete p;
                             p = listPersonnes[ind];
-                            ind = listRDV.rechD(rdv);
-                            delete rdv;
-                            rdv = listRDV[ind];
 
                             if(!rdv->addMember(p)){
                                 cerr << "Erreur : ligne " << line << " : La Personne est déjà dans le RDV" << endl;
