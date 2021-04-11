@@ -42,7 +42,8 @@ private:
     QLabel*         listPersonneRdvLayoutLabel;
     QScrollArea*    listPersonneRdvLayoutSA;
     QBoxLayout*     listRdvPersonneLayout;
-    QLineEdit*      listRdvPersonneLayoutLineEdit;
+    QLineEdit*      listRdvPersonneLayoutLineEditFirstName;
+    QLineEdit*      listRdvPersonneLayoutLineEditLastName;
     QLabel*         listRdvPersonneLayoutLabel;
     QScrollArea*    listRdvPersonneLayoutSA;
     Manager         manager;
@@ -95,6 +96,8 @@ private slots:
     void onRemoveRdv(void);
     void onListPersonneRdv(void);
     void onListPersonneRdvButton(void);
+    void onListRdvPersonne(void);
+    void onListRdvPersonneButton(void);
     void onPersonneListCheckBox(bool);
     void onQuit(void);
     void onRDVListCheckBox(bool);
@@ -104,6 +107,8 @@ private slots:
     void onSaveAndQuit(void);
     void onSpinBox(int i);
     void onTextChangedlistPersonneRdvLineEdit(const QString& text);
+    void onTextChangedlistRdvPersonneLineEditFirstName(const QString& text);
+    void onTextChangedlistRdvPersonneLineEditLastName(const QString& text);
     void onTextChangedrechRdvDateLineEdit(const QString& text);
 
 };
