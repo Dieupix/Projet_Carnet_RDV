@@ -67,10 +67,11 @@ int RDV::addMember(Personne* p)
 
         else{
             membersList.push_back(membersList[membersList.size() - 1]);
-            for(unsigned j = membersList.size() - 2; j > i; --j)
+            unsigned j = 0;
+            for(j = membersList.size() - 2; j > i; --j)
                 membersList[j] = membersList[j - 1];
 
-            membersList[i] = p;
+            membersList[j] = p;
         }
         return PersonneAdded;
     }else return addRDVtoP;

@@ -50,6 +50,8 @@ void MainWindow::setup(void){
     setupRechRdvDate();
     setupListPersonneRdvLayout();
     setupListRdvPersonneLayout();
+    setupModifyPersonneLayout();
+    setupModifyPersonneRdvLayout();
 
     updateWindowTitle();
 }
@@ -80,6 +82,7 @@ QBoxLayout* MainWindow::setupButtonLayout(void) {
     connect(rechRdvDateButton, &QPushButton::clicked, this, &MainWindow::onRechRdvDate);
     connect(listPersonneRdvButton, &QPushButton::clicked, this, &MainWindow::onListPersonneRdv);
     connect(listRdvPersonneButton, &QPushButton::clicked, this, &MainWindow::onListRdvPersonne);
+    connect(changeMembersButton, &QPushButton::clicked, this, &MainWindow::onModifyPersonneRdv);
 
     return buttonLayout;
 }
@@ -169,9 +172,12 @@ QBoxLayout* MainWindow::setupFooterLayout(void){
     auto footerLayout = new QHBoxLayout();
     auto teamLabel = new QLabel("BARRÈRE Manuel - JANON Alexandre - POMMIER Logan");
     teamLabel->setToolTip(tr("L'équipe du projet", "Team of the project"));
+    teamLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
-    auto uhaLabel = new QLabel(tr(string("Université de Haute Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str(), string("University of Hupper Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str()));
+    auto uhaLabel = new QLabel(tr(string("Université de Haute Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str(),
+                                  string("University of Hupper Alsace - (<a href='" + uhaURL.toStdString() + "'>UHA</a>)").c_str()));
     uhaLabel->setOpenExternalLinks(true);
+    uhaLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     uhaLabel->setToolTip(tr("Accéder au site internet de l'UHA", "Website of the UHA"));
 
     footerLayout->addWidget(teamLabel, 0, Qt::AlignLeft);
@@ -190,12 +196,17 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     rdvListLayout = new QVBoxLayout();
     auto rdvListLabel = new QLabel(tr("Liste de tous les rendez-vous", "List of all appointments"));
     rdvListLabel->setFont(QFont(rdvListLabel->font().family(), 20));
+    rdvListLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     rdvListLayout->addWidget(rdvListLabel, 0, Qt::AlignHCenter);
 
     auto saRDV = new QScrollArea();
     auto saRDVWidget = new QWidget();
     auto saRDVLayout = new QVBoxLayout();
-    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any People in the data base")));
+    if(manager.getListRDV().size() == 0){
+        auto label = new QLabel(tr("Aucun rendez-vous dans la base de données", "Any appointment in the data base"));
+        label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        saRDVLayout->addWidget(label);
+    }
     else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
             saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
@@ -208,12 +219,17 @@ QBoxLayout* MainWindow::setupListLayout(void) {
     personneListLayout = new QVBoxLayout();
     auto personneListLabel = new QLabel(tr("Liste de toutes les personnes", "List of all People"));
     personneListLabel->setFont(QFont(personneListLabel->font().family(), 20));
+    personneListLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     personneListLayout->addWidget(personneListLabel, 0, Qt::AlignHCenter);
 
     auto saPersonne = new QScrollArea();
     auto saPersonneWidget = new QWidget();
     auto saPersonneLayout = new QVBoxLayout();
-    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any appointment in the data base")));
+    if(manager.getListPersonnes().size() == 0){
+        auto label = new QLabel(tr("Aucune personne dans la base de données", "Any People in the data base"));
+        label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        saPersonneLayout->addWidget(label);
+    }
     else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
             saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
 
@@ -255,6 +271,7 @@ void MainWindow::setupListPersonneRdvLayout(void){
 
     this->listPersonneRdvLayoutLabel = new QLabel();
     listPersonneRdvLayoutLabel->setFont(QFont(listPersonneRdvLayoutLabel->font().family(), 20));
+    listPersonneRdvLayoutLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     listPersonneRdvLayout->addWidget(listPersonneRdvLayoutLabel, 0, Qt::AlignHCenter);
 
     this->listPersonneRdvLayoutSA = new QScrollArea();
@@ -277,7 +294,7 @@ void MainWindow::setupListRdvPersonneLayout(void){
     auto editLayout = new QHBoxLayout();
 
     auto formLayout = new QFormLayout();
-    formLayout->addRow(new QLabel(tr("Entrez le nom du rendez-vous", "Insert the name of the appointment")));
+    formLayout->addRow(new QLabel(tr("Saisir les informations de la Personne", "Insert the informations of the People")));
     this->listRdvPersonneLayoutLineEditLastName = new QLineEdit();
     listRdvPersonneLayoutLineEditLastName->setToolTip(tr("Saisir le nom de la Personne", "Put the lastname of the People"));
     listRdvPersonneLayoutLineEditLastName->setClearButtonEnabled(true);
@@ -300,6 +317,7 @@ void MainWindow::setupListRdvPersonneLayout(void){
 
     this->listRdvPersonneLayoutLabel = new QLabel();
     listRdvPersonneLayoutLabel->setFont(QFont(listRdvPersonneLayoutLabel->font().family(), 20));
+    listRdvPersonneLayoutLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     listRdvPersonneLayout->addWidget(listRdvPersonneLayoutLabel, 0, Qt::AlignHCenter);
 
     this->listRdvPersonneLayoutSA = new QScrollArea();
@@ -328,6 +346,116 @@ QBoxLayout* MainWindow::setupMainLayout(void){
     mainLayout->addWidget(sa);
 
     return mainLayout;
+}
+
+void MainWindow::setupModifyPersonneLayout(void){
+    this->modifyPersonneRdvLayout = new QVBoxLayout();
+    modifyPersonneLayout->setObjectName("modifyPersonneLayout");
+
+    auto editLayout = new QHBoxLayout();
+
+    auto formLayout = new QFormLayout();
+    formLayout->addRow(new QLabel(tr("Saisir les informations de la Personne (vide pour inchanger)", "Insert the informations of the People (blank to not change)")));
+    this->modifyPersonneLayoutLineEditLastName = new QLineEdit();
+    modifyPersonneLayoutLineEditLastName->setToolTip(tr("Saisir le nom de la Personne", "Put the lastname of the People"));
+    modifyPersonneLayoutLineEditLastName->setClearButtonEnabled(true);
+    modifyPersonneLayoutLineEditLastName->setDragEnabled(true);
+    formLayout->addRow(tr("Nom", "Lastname"), modifyPersonneLayoutLineEditLastName);
+    this->modifyPersonneLayoutLineEditFirstName = new QLineEdit();
+    modifyPersonneLayoutLineEditFirstName->setToolTip(tr("Saisir le prénom de la Personne", "Put the firstname of the People"));
+    modifyPersonneLayoutLineEditFirstName->setClearButtonEnabled(true);
+    modifyPersonneLayoutLineEditFirstName->setDragEnabled(true);
+    formLayout->addRow(tr("Prénom", "Firstname"), modifyPersonneLayoutLineEditFirstName);
+    this->modifyPersonneLayoutLineEditEmail = new QLineEdit();
+    modifyPersonneLayoutLineEditEmail->setToolTip(tr("Saisir la nouvelle adresse email", "Put the new email of the People"));
+    modifyPersonneLayoutLineEditEmail->setClearButtonEnabled(true);
+    modifyPersonneLayoutLineEditEmail->setDragEnabled(true);
+    formLayout->addRow(tr("Adresse mail", "Email"), modifyPersonneLayoutLineEditEmail);
+    this->modifyPersonneLayoutLineEditPhone = new QLineEdit();
+    modifyPersonneLayoutLineEditPhone->setToolTip(tr("Saisir le nouveau numéro de téléphone", "Put the new phone number of the People"));
+    modifyPersonneLayoutLineEditPhone->setClearButtonEnabled(true);
+    modifyPersonneLayoutLineEditPhone->setDragEnabled(true);
+    formLayout->addRow(tr("Téléphone", "Phone number"), modifyPersonneLayoutLineEditPhone);
+
+    editLayout->addLayout(formLayout);
+    editLayout->addSpacing(50);
+
+    auto changeButton = new QPushButton(tr("Modifier", "Change"));
+    editLayout->addWidget(changeButton, 0, Qt::AlignVCenter);
+    editLayout->addStretch(1);
+
+    modifyPersonneLayout->addLayout(editLayout);
+
+    this->modifyPersonneLayoutLabel = new QLabel();
+    modifyPersonneLayoutLabel->setFont(QFont(listRdvPersonneLayoutLabel->font().family(), 20));
+    modifyPersonneLayoutLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    modifyPersonneLayout->addWidget(modifyPersonneLayoutLabel, 0, Qt::AlignHCenter);
+
+    this->modifyPersonneLayoutSA = new QScrollArea();
+    auto saWidget = new QWidget();
+    saWidget->setLayout(new QHBoxLayout());
+    modifyPersonneLayoutSA->setWidget(saWidget);
+    modifyPersonneLayoutSA->setWidgetResizable(true);
+    modifyPersonneLayout->addWidget(modifyPersonneLayoutSA);
+
+    connect(modifyPersonneLayoutLineEditEmail, &QLineEdit::textChanged, this, &MainWindow::onTextChangedmodifyPersonneLineEditEmail);
+    connect(modifyPersonneLayoutLineEditFirstName, &QLineEdit::textChanged, this, &MainWindow::onTextChangedmodifyPersonneLineEditFirstName);
+    connect(modifyPersonneLayoutLineEditLastName, &QLineEdit::textChanged, this, &MainWindow::onTextChangedmodifyPersonneLineEditLastName);
+    connect(changeButton, &QPushButton::clicked, this, &MainWindow::onModifyPersonneRdvAddButton);
+}
+
+void MainWindow::setupModifyPersonneRdvLayout(void){
+    this->modifyPersonneRdvLayout = new QVBoxLayout();
+    modifyPersonneRdvLayout->setObjectName("modifyPersonneRdvLayout");
+
+    auto editLayout = new QHBoxLayout();
+
+    auto formLayout = new QFormLayout();
+    formLayout->addRow(new QLabel(tr("Saisir le nom du Rendez-vous et les informations de la Personne", "Insert the name of the appoitnement and the informations of the People")));
+    this->modifyPersonneRdvLayoutLineEditRdvName = new QLineEdit();
+    modifyPersonneRdvLayoutLineEditRdvName->setToolTip(tr("Saisir le nom du Rendez-vous", "Put the name of the appointment"));
+    modifyPersonneRdvLayoutLineEditRdvName->setClearButtonEnabled(true);
+    modifyPersonneRdvLayoutLineEditRdvName->setDragEnabled(true);
+    formLayout->addRow(tr("Rendez-vous", "Appointment (name)"), modifyPersonneRdvLayoutLineEditRdvName);
+    this->modifyPersonneRdvLayoutLineEditLastName = new QLineEdit();
+    modifyPersonneRdvLayoutLineEditLastName->setToolTip(tr("Saisir le nom de la Personne", "Put the lastname of the People"));
+    modifyPersonneRdvLayoutLineEditLastName->setClearButtonEnabled(true);
+    modifyPersonneRdvLayoutLineEditLastName->setDragEnabled(true);
+    formLayout->addRow(tr("Nom", "Lastname"), modifyPersonneRdvLayoutLineEditLastName);
+    this->modifyPersonneRdvLayoutLineEditFirstName = new QLineEdit();
+    modifyPersonneRdvLayoutLineEditFirstName->setToolTip(tr("Saisir le prénom de la Personne", "Put the firstname of the People"));
+    modifyPersonneRdvLayoutLineEditFirstName->setClearButtonEnabled(true);
+    modifyPersonneRdvLayoutLineEditFirstName->setDragEnabled(true);
+    formLayout->addRow(tr("Prénom", "Firstname"), modifyPersonneRdvLayoutLineEditFirstName);
+
+    editLayout->addLayout(formLayout);
+    editLayout->addSpacing(50);
+
+    auto addButton = new QPushButton(tr("Ajouter", "Add"));
+    editLayout->addWidget(addButton, 0, Qt::AlignVCenter);
+    auto removeButton = new QPushButton(tr("Supprimer", "Remove"));
+    editLayout->addWidget(removeButton, 0, Qt::AlignVCenter);
+    editLayout->addStretch(1);
+
+    modifyPersonneRdvLayout->addLayout(editLayout);
+
+    this->modifyPersonneRdvLayoutLabel = new QLabel();
+    modifyPersonneRdvLayoutLabel->setFont(QFont(listRdvPersonneLayoutLabel->font().family(), 20));
+    modifyPersonneRdvLayoutLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    modifyPersonneRdvLayout->addWidget(modifyPersonneRdvLayoutLabel, 0, Qt::AlignHCenter);
+
+    this->modifyPersonneRdvLayoutSA = new QScrollArea();
+    auto saWidget = new QWidget();
+    saWidget->setLayout(new QHBoxLayout());
+    modifyPersonneRdvLayoutSA->setWidget(saWidget);
+    modifyPersonneRdvLayoutSA->setWidgetResizable(true);
+    modifyPersonneRdvLayout->addWidget(modifyPersonneRdvLayoutSA);
+
+    connect(modifyPersonneRdvLayoutLineEditRdvName, &QLineEdit::textChanged, this, &MainWindow::onTextChangedmodifyPersonneRdvLineEditRdvName);
+    connect(modifyPersonneRdvLayoutLineEditFirstName, &QLineEdit::textChanged, this, &MainWindow::onTextChangedmodifyPersonneRdvLineEditFirstName);
+    connect(modifyPersonneRdvLayoutLineEditLastName, &QLineEdit::textChanged, this, &MainWindow::onTextChangedmodifyPersonneRdvLineEditLastName);
+    connect(addButton, &QPushButton::clicked, this, &MainWindow::onModifyPersonneRdvAddButton);
+    connect(removeButton, &QPushButton::clicked, this, &MainWindow::onModifyPersonneRdvRemoveButton);
 }
 
 void MainWindow::setupMenuBar(void){
@@ -363,6 +491,7 @@ void MainWindow::setupRechRdvDate(void){
 
     rechRdvDateLabel = new QLabel();
     rechRdvDateLabel->setFont(QFont(rechRdvDateLabel->font().family(), 20));
+    rechRdvDateLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     rechRdvDate->addWidget(rechRdvDateLabel, 0, Qt::AlignHCenter);
 
     rechRdvDateSA = new QScrollArea();
@@ -426,7 +555,11 @@ void MainWindow::showRDVListLayout(bool b) {
 void MainWindow::updatePersonneListLayout(void){
     auto saPersonneWidget = new QWidget();
     auto saPersonneLayout = new QVBoxLayout();
-    if(manager.getListPersonnes().size() == 0) saPersonneLayout->addWidget(new QLabel(tr("Aucune personne dans la base de données", "Any People in the data base")));
+    if(manager.getListPersonnes().size() == 0){
+        auto label = new QLabel(tr("Aucune personne dans la base de données", "Any People in the data base"));
+        label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        saPersonneLayout->addWidget(label);
+    }
     else for(unsigned i = 0; i < manager.getListPersonnes().size(); ++i)
             saPersonneLayout->addWidget(new QPushButton(manager.getListPersonnes()[i]->toQString()));
 
@@ -444,7 +577,11 @@ void MainWindow::updatePersonneListLayout(void){
 void MainWindow::updateRDVListLayout(void){
     auto saRDVWidget = new QWidget();
     auto saRDVLayout = new QVBoxLayout();
-    if(manager.getListRDV().size() == 0) saRDVLayout->addWidget(new QLabel(tr("Aucun rendez-vous dans la base de données", "Any appointment in the data base")));
+    if(manager.getListRDV().size() == 0){
+        auto label = new QLabel(tr("Aucun rendez-vous dans la base de données", "Any appointment in the data base"));
+        label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        saRDVLayout->addWidget(label);
+    }
     else for(unsigned i = 0; i < manager.getListRDV().size(); ++i)
             saRDVLayout->addWidget(new QPushButton(manager.getListRDV()[i]->toQString()));
 
@@ -478,8 +615,7 @@ void MainWindow::loadFile(void){
     if(filePath != ""){
         if(filePath.endsWith(QFILENAMEPERSONNE) or filePath.endsWith(QFILENAMERDV)){
 
-            int exe = LoadingDialog(this, filePath).exec();
-            if(exe == QDialog::Accepted) setSave(false);
+            LoadingDialog(this, filePath).exec();
 
         }else{
             QString msg =   tr("Fichier invalide."
@@ -652,32 +788,190 @@ void MainWindow::onListRdvPersonne(void){
 }
 
 void MainWindow::onListRdvPersonneButton(void){
-    //TODO - A CORRIGER
     if(listRdvPersonneLayoutLineEditFirstName and listRdvPersonneLayoutLineEditLastName and listRdvPersonneLayoutLabel){
 
-        auto p = Personne(listRdvPersonneLayoutLineEditFirstName->text().toStdString(),
+        auto p = new Personne(listRdvPersonneLayoutLineEditFirstName->text().toStdString(),
                           listRdvPersonneLayoutLineEditLastName->text().toStdString(),
                           "", "");
 
-        int ind = manager.getListPersonnes().rechD(&p);
+        int ind = manager.getListPersonnes().rechD(p);
         if(ind == -1){
-            QString msg =   tr("Erreur, la Personne n'existe pas", "Error, the People does not exists") + "\t\n" + QString::fromStdString(p.getFirstName() + " " + p.getLastName());
+            QString msg =   tr("Erreur, la Personne n'existe pas", "Error, the People does not exists") + "\t\n" + QString::fromStdString(p->getFirstName() + " " + p->getLastName());
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+            delete p;
         }else{
-            p = *manager.getListPersonnes()[ind];
-            listRdvPersonneLayoutLabel->setText(tr("Liste de tous les Rendez-vous de", "List of all appointments for") + " " + QString::fromStdString(p.getLastName() + " " + p.getFirstName()));
+            delete p;
+            p = manager.getListPersonnes()[ind];
+            listRdvPersonneLayoutLabel->setText(tr("Liste de tous les Rendez-vous de", "List of all appointments for")
+                                                + " " + QString::fromStdString(p->getLastName() + " " + p->getFirstName()));
 
             auto newWidget = new QWidget();
             auto saLayout = new QVBoxLayout();
 
-            if(p.getRDVList().size() == 0) saLayout->addWidget(new QLabel(tr("Cette personne n'a aucun Rendez-vous", "This People has any appointment")));
-            else for(auto rdv : p.getRDVList()) saLayout->addWidget(new QPushButton(rdv->toQString()));
+            if(p->getRDVList().size() == 0) saLayout->addWidget(new QLabel(tr("Cette personne n'a aucun Rendez-vous", "This People has any appointment")));
+            else for(auto rdv : p->getRDVList()) saLayout->addWidget(new QPushButton(rdv->toQString()));
             saLayout->addStretch(0);
 
             newWidget->setLayout(saLayout);
             listRdvPersonneLayoutSA->setWidget(newWidget);
             onListPersonneRdv();
             onListRdvPersonne();
+        }
+    }
+}
+
+void MainWindow::onModifyPersonneRdv(void){
+    auto item = mainLayout->itemAt(0);
+    auto SA = item ? (QScrollArea*) item->widget() : 0;
+    auto saWidget = SA ? SA->widget() : 0;
+    if(!modifyPersonneRdvLayout) setupModifyPersonneRdvLayout();
+    if(saWidget){
+        auto layout = (QBoxLayout*) saWidget->layout();
+        auto newWidget = new QWidget();
+        if(!layout or layout->objectName() != modifyPersonneRdvLayout->objectName())
+            newWidget->setLayout(modifyPersonneRdvLayout);
+        else newWidget->setLayout(new QVBoxLayout());
+
+        SA->setWidget(newWidget);
+        if(SA->widget()->objectName() != modifyPersonneRdvLayout->objectName()) setupModifyPersonneRdvLayout();
+    }
+}
+
+void MainWindow::onModifyPersonneRdvAddButton(void){
+    auto rdv = new RDV(modifyPersonneRdvLayoutLineEditRdvName->text().toStdString(), {}, {}, {});
+    auto p = new Personne(modifyPersonneRdvLayoutLineEditFirstName->text().toStdString(), modifyPersonneRdvLayoutLineEditLastName->text().toStdString(), "", "");
+    int ind = manager.getListRDV().rechD(rdv);
+    if(ind == -1){
+        QString msg = tr("Le Rendez-vous n'existe pas", "The appointment does not exists") + "\t\n" + QString::fromStdString(rdv->getName());
+        QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+        delete rdv;
+        delete p;
+    }else{
+        rdv = manager.getListRDV()[ind];
+
+        modifyPersonneRdvLayoutLabel->setText(tr("Liste des participants au Rendez-vous", "List of the participants at tha appointment") + " " + QString::fromStdString(rdv->getName()));
+
+        auto newWidget = new QWidget();
+        auto saLayout = new QVBoxLayout();
+
+        if(rdv->getMembersList().size() == 0) saLayout->addWidget(new QLabel(tr("Ce Rendez-vous n'a aucun participant", "This appointment as any participant")));
+        else for(auto pt : rdv->getMembersList()) saLayout->addWidget(new QPushButton(pt->toQString()));
+        saLayout->addStretch(0);
+
+        newWidget->setLayout(saLayout);
+        modifyPersonneRdvLayoutSA->setWidget(newWidget);
+        onListPersonneRdv();
+        onModifyPersonneRdv();
+
+        ind = manager.getListPersonnes().rechD(p);
+        if(ind == -1){
+            QString msg = tr("La Personne n'existe pas", "The People does not exists") + "\t\n" + QString::fromStdString(p->getLastName() + " " + p->getLastName());
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+            delete p;
+        }else{
+            p = manager.getListPersonnes()[ind];
+            int exe = rdv->addMember(p);
+
+            if(exe == RDV::PersonneIsAlreadyInsideRdv){
+                QString msg = QString::fromStdString(p->getLastName() + " " + p->getFirstName()) + " " + tr("est déjà dans le Rendez-vous", "is already inside the appointment") + "\t";
+                QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+
+            }else if(exe == Personne::PersonneHasAnRdv){
+                QString msg = QString::fromStdString(p->getLastName() + " " + p->getFirstName()) + " " + tr("est déjà dans un autre Rendez-vous au même moment",
+                                                                                                            "is already inside another appointment at the same time") + "\t";
+                QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+
+            }else if(exe == RDV::PersonneAdded){
+                QString msg = tr("La Personne a été ajoutée au Rendez-vous", "The People has been added to the appointment") + "\t";
+                QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Ok).exec();
+                setSave(false);
+
+                modifyPersonneRdvLayoutLabel->setText(tr("Liste des participants au Rendez-vous", "List of the participants at tha appointment") + " " + QString::fromStdString(rdv->getName()));
+
+                auto newWidget = new QWidget();
+                auto saLayout = new QVBoxLayout();
+
+                if(rdv->getMembersList().size() == 0) saLayout->addWidget(new QLabel(tr("Ce Rendez-vous n'a aucun participant", "This appointment as any participant")));
+                else for(auto pt : rdv->getMembersList()) saLayout->addWidget(new QPushButton(pt->toQString()));
+                saLayout->addStretch(0);
+
+                newWidget->setLayout(saLayout);
+                modifyPersonneRdvLayoutSA->setWidget(newWidget);
+                onListPersonneRdv();
+                onModifyPersonneRdv();
+
+            }else{
+                QString msg = tr("Erreur", "Error") + " : code Personne::AddPersonneToOrRemovePersonneFromRdv{" + QString::number(exe) + "}\t";
+                QMessageBox(QMessageBox::Critical, windowTitle, msg, QMessageBox::Ok).exec();
+            }
+        }
+    }
+}
+
+void MainWindow::onModifyPersonneRdvRemoveButton(void){
+    auto rdv = new RDV(modifyPersonneRdvLayoutLineEditRdvName->text().toStdString(), {}, {}, {});
+    auto p = new Personne(modifyPersonneRdvLayoutLineEditFirstName->text().toStdString(), modifyPersonneRdvLayoutLineEditLastName->text().toStdString(), "", "");
+    int ind = manager.getListRDV().rechD(rdv);
+    if(ind == -1){
+        QString msg = tr("Le Rendez-vous n'existe pas", "The appointment does not exists") + "\t\n" + QString::fromStdString(rdv->getName());
+        QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+        delete rdv;
+        delete p;
+    }else{
+        rdv = manager.getListRDV()[ind];
+
+        modifyPersonneRdvLayoutLabel->setText(tr("Liste des participants au Rendez-vous", "List of the participants at tha appointment") + " " + QString::fromStdString(rdv->getName()));
+
+        auto newWidget = new QWidget();
+        auto saLayout = new QVBoxLayout();
+
+        if(rdv->getMembersList().size() == 0) saLayout->addWidget(new QLabel(tr("Ce Rendez-vous n'a aucun participant", "This appointment as any participant")));
+        else for(auto pt : rdv->getMembersList()) saLayout->addWidget(new QPushButton(pt->toQString()));
+        saLayout->addStretch(0);
+
+        newWidget->setLayout(saLayout);
+        modifyPersonneRdvLayoutSA->setWidget(newWidget);
+        onListPersonneRdv();
+        onModifyPersonneRdv();
+
+        ind = manager.getListPersonnes().rechD(p);
+        if(ind == -1){
+            QString msg = tr("La Personne n'existe pas", "The People does not exists") + "\t\n" + QString::fromStdString(p->getLastName() + " " + p->getLastName());
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+            delete p;
+        }else{
+            p = manager.getListPersonnes()[ind];
+            int exe = rdv->removeMember(p);
+
+            if(exe == RDV::MembersListIsEmpty){
+                QString msg = tr("Le Rendez-vous ne contient aucun participant", "The appointment as any participant") + "\t";
+                QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+            }else if(exe == Personne::RdvListIsEmpty or exe == Personne::RdvHasNotBeenRemoved){
+                QString msg = tr("La Personne n'est pas présente au Rendez-vous", "The People is not in the appointment") + "\t";
+                QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+            }else if(exe == RDV::PersonneRemoved){
+                QString msg = tr("La Personne a été retirée du Rendez-vous", "The People has been removed from the appointment") + "\t";
+                QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Ok).exec();
+                setSave(false);
+
+                modifyPersonneRdvLayoutLabel->setText(tr("Liste des participants au Rendez-vous", "List of the participants at tha appointment") + " " + QString::fromStdString(rdv->getName()));
+
+                auto newWidget = new QWidget();
+                auto saLayout = new QVBoxLayout();
+
+                if(rdv->getMembersList().size() == 0) saLayout->addWidget(new QLabel(tr("Ce Rendez-vous n'a aucun participant", "This appointment as any participant")));
+                else for(auto pt : rdv->getMembersList()) saLayout->addWidget(new QPushButton(pt->toQString()));
+                saLayout->addStretch(0);
+
+                newWidget->setLayout(saLayout);
+                modifyPersonneRdvLayoutSA->setWidget(newWidget);
+                onListPersonneRdv();
+                onModifyPersonneRdv();
+
+            }else{
+                QString msg = tr("Erreur", "Error") + " : code Personne::AddPersonneToOrRemovePersonneFromRdv{" + QString::number(exe) + "}\t";
+                QMessageBox(QMessageBox::Critical, windowTitle, msg, QMessageBox::Ok).exec();
+            }
         }
     }
 }
@@ -768,9 +1062,6 @@ void MainWindow::onSave(void){
     }
 }
 
-void MainWindow::onSpinBox(int) {
-}
-
 void MainWindow::onTextChangedlistPersonneRdvLineEdit(const QString& text){
     QSignalBlocker blocker(listPersonneRdvLayoutLineEdit);
     listPersonneRdvLayoutLineEdit->setText(text);
@@ -786,6 +1077,48 @@ void MainWindow::onTextChangedlistRdvPersonneLineEditFirstName(const QString& te
 void MainWindow::onTextChangedlistRdvPersonneLineEditLastName(const QString& text){
     QSignalBlocker blocker(listRdvPersonneLayoutLineEditLastName);
     listRdvPersonneLayoutLineEditLastName->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedmodifyPersonneLineEditEmail(const QString& text){
+    QSignalBlocker blocker(modifyPersonneLayoutLineEditEmail);
+    modifyPersonneLayoutLineEditEmail->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedmodifyPersonneLineEditFirstName(const QString& text){
+    QSignalBlocker blocker(modifyPersonneLayoutLineEditFirstName);
+    modifyPersonneLayoutLineEditFirstName->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedmodifyPersonneLineEditLastName(const QString& text){
+    QSignalBlocker blocker(modifyPersonneLayoutLineEditLastName);
+    modifyPersonneLayoutLineEditLastName->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedmodifyPersonneLineEditPhone(const QString& text){
+    QSignalBlocker blocker(modifyPersonneLayoutLineEditPhone);
+    modifyPersonneLayoutLineEditPhone->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedmodifyPersonneRdvLineEditFirstName(const QString& text){
+    QSignalBlocker blocker(modifyPersonneRdvLayoutLineEditFirstName);
+    modifyPersonneRdvLayoutLineEditFirstName->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedmodifyPersonneRdvLineEditLastName(const QString& text){
+    QSignalBlocker blocker(modifyPersonneRdvLayoutLineEditLastName);
+    modifyPersonneRdvLayoutLineEditLastName->setText(text);
+    blocker.unblock();
+}
+
+void MainWindow::onTextChangedmodifyPersonneRdvLineEditRdvName(const QString& text){
+    QSignalBlocker blocker(modifyPersonneRdvLayoutLineEditRdvName);
+    modifyPersonneRdvLayoutLineEditRdvName->setText(text);
     blocker.unblock();
 }
 

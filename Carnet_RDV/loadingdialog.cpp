@@ -17,9 +17,12 @@ void LoadingDialog::setup(void){
     auto mainLayoutDialog = new QVBoxLayout();
     setLayout(mainLayoutDialog);
 
-    mainLayoutDialog->addWidget(new QLabel(tr("Fichier", "File") + " : " + filePath), 0, Qt::AlignTop);
+    auto fileLabel = new QLabel(tr("Fichier", "File") + " : " + filePath);
+    fileLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    mainLayoutDialog->addWidget(fileLabel, 0, Qt::AlignTop);
 
     auto label = new QLabel(tr("Chargement en cours", "Loading in progress") + "...");
+    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
     mainLayoutDialog->addWidget(label, 0, Qt::AlignHCenter);
 
     auto loadBar = new QProgressBar();

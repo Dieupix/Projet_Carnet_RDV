@@ -36,6 +36,7 @@ private:
     const QString uhaURL = "https://www.uha.fr";
 
     bool isSaved = true;
+
     QBoxLayout*     listLayout;
     QBoxLayout*     listPersonneRdvLayout;
     QLineEdit*      listPersonneRdvLayoutLineEdit;
@@ -48,6 +49,19 @@ private:
     QScrollArea*    listRdvPersonneLayoutSA;
     Manager         manager;
     QBoxLayout*     mainLayout;
+    QBoxLayout*     modifyPersonneLayout;
+    QLineEdit*      modifyPersonneLayoutLineEditEmail;
+    QLineEdit*      modifyPersonneLayoutLineEditFirstName;
+    QLineEdit*      modifyPersonneLayoutLineEditLastName;
+    QLineEdit*      modifyPersonneLayoutLineEditPhone;
+    QLabel*         modifyPersonneLayoutLabel;
+    QScrollArea*    modifyPersonneLayoutSA;
+    QBoxLayout*     modifyPersonneRdvLayout;
+    QLineEdit*      modifyPersonneRdvLayoutLineEditFirstName;
+    QLineEdit*      modifyPersonneRdvLayoutLineEditLastName;
+    QLineEdit*      modifyPersonneRdvLayoutLineEditRdvName;
+    QLabel*         modifyPersonneRdvLayoutLabel;
+    QScrollArea*    modifyPersonneRdvLayoutSA;
     QBoxLayout*     personneListLayout;
     QBoxLayout*     rdvListLayout;
     QBoxLayout*     rechRdvDate;
@@ -57,7 +71,7 @@ private:
     QMainWindow*    window;
 
     // Méthodes privées
-    void setup(void);
+    void            setup(void);
     QBoxLayout*     setupButtonLayout(void);
     void            setupEditMenu(QMenu* editMenu);
     void            setupFileMenu(QMenu* fileMenu);
@@ -66,6 +80,8 @@ private:
     void            setupListPersonneRdvLayout(void);
     void            setupListRdvPersonneLayout(void);
     QBoxLayout*     setupMainLayout(void);
+    void            setupModifyPersonneLayout(void);
+    void            setupModifyPersonneRdvLayout(void);
     void            setupMenuBar(void);
     void            setupRechRdvDate(void);
     void            setupViewMenu(QMenu* viewMenu);
@@ -79,6 +95,7 @@ private:
 public:
     MainWindow(QMainWindow *parent = nullptr);
 
+    // Méthodes
     void loadFile(void);
     bool saveFile(void);
 
@@ -98,6 +115,11 @@ private slots:
     void onListPersonneRdvButton(void);
     void onListRdvPersonne(void);
     void onListRdvPersonneButton(void);
+    void onModifyPersonne(void);
+    void onModifyPersonneButton(void);
+    void onModifyPersonneRdv(void);
+    void onModifyPersonneRdvAddButton(void);
+    void onModifyPersonneRdvRemoveButton(void);
     void onPersonneListCheckBox(bool);
     void onQuit(void);
     void onRDVListCheckBox(bool);
@@ -105,10 +127,16 @@ private slots:
     void onRechRdvDateButton(void);
     void onSave(void);
     void onSaveAndQuit(void);
-    void onSpinBox(int i);
     void onTextChangedlistPersonneRdvLineEdit(const QString& text);
     void onTextChangedlistRdvPersonneLineEditFirstName(const QString& text);
     void onTextChangedlistRdvPersonneLineEditLastName(const QString& text);
+    void onTextChangedmodifyPersonneLineEditEmail(const QString& text);
+    void onTextChangedmodifyPersonneLineEditFirstName(const QString& text);
+    void onTextChangedmodifyPersonneLineEditLastName(const QString& text);
+    void onTextChangedmodifyPersonneLineEditPhone(const QString& text);
+    void onTextChangedmodifyPersonneRdvLineEditFirstName(const QString& text);
+    void onTextChangedmodifyPersonneRdvLineEditLastName(const QString& text);
+    void onTextChangedmodifyPersonneRdvLineEditRdvName(const QString& text);
     void onTextChangedrechRdvDateLineEdit(const QString& text);
 
 };

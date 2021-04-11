@@ -37,6 +37,7 @@ void ManagingDialog::setupAddPersonneToDataBase(void){
 
     auto label = new QLabel(tr("Ajouter des Personne à la base de données","Add People to the data base"));
     label->setFont(QFont(label->font().family(), 20));
+    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
     fixedLayout->addWidget(label);
     fixedLayout->addSpacing(10);
     auto line = new QFrame();
@@ -106,6 +107,7 @@ void ManagingDialog::setupRemovePersonneFromDataBase(void){
 
     auto label = new QLabel(tr("Supprimer des Personne de la base de données","Remove People from the data base"));
     label->setFont(QFont(label->font().family(), 20));
+    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
     fixedLayout->addWidget(label);
     fixedLayout->addSpacing(10);
     auto line = new QFrame();
@@ -172,6 +174,7 @@ void ManagingDialog::setupAddRdvToDataBase(void){
 
     auto label = new QLabel(tr("Ajouter des Rendez-vous à la base de données","Add appointment to the data base"));
     label->setFont(QFont(label->font().family(), 20));
+    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
     fixedLayout->addWidget(label);
     fixedLayout->addSpacing(10);
     auto line = new QFrame();
@@ -249,6 +252,7 @@ void ManagingDialog::setupRemoveRdvFromDataBase(void){
 
     auto label = new QLabel(tr("Supprimer des Rendez-vous de la base de données","Remove appointment from the data base"));
     label->setFont(QFont(label->font().family(), 20));
+    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
     fixedLayout->addWidget(label);
     fixedLayout->addSpacing(10);
     auto line = new QFrame();
