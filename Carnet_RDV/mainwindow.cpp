@@ -495,30 +495,6 @@ void MainWindow::loadFile(void){
             if(exe == QMessageBox::Retry) loadFile();
         }
     }
-    // CORRECTION
-    auto lp = manager.getListPersonnes();
-    auto lr = manager.getListRDV();
-
-    cout << "Liste des Personne:" << endl;
-    for(unsigned i = 0; i < lp.size(); ++i) cout << *lp[i] << endl;
-    cout << endl << "Liste des RDV:" << endl;
-    for(unsigned i = 0; i < lr.size(); ++i) cout << *lr[i] << endl;
-    cout << endl << endl;
-
-    for(unsigned i = 0; i < lp.size(); ++i){
-        cout << lp[i]->getLastName() << lp[i]->getFirstName() << " : " << endl;
-        for(unsigned j = 0; j < lp[i]->getRDVList().size(); i++)
-            cout << *lp[i]->getRDVList()[j] << endl;
-        cout << endl;
-    }
-
-    for(unsigned i = 0; i < lr.size(); ++i){
-        cout << lr[i]->getName() << " : " << endl;
-        for(unsigned j = 0; j < lr[i]->getMembersList().size(); ++j)
-            cout << *lr[i]->getMembersList()[j] << endl;
-        cout << endl;
-    }
-    cout << endl;
 }
 
 bool MainWindow::saveFile(void){
@@ -638,10 +614,9 @@ void MainWindow::onListPersonneRdvButton(void){
             QString msg = tr("Aucun rendez-vous trouvé à ce nom", "Any appointment found for this name") + "\t\n\n" + listPersonneRdvLayoutLineEdit->text();
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
         }else{
-            QString msg = "Liste des participants au rendez-vous \"" + listPersonneRdvLayoutLineEdit->text() + "\"";
-            QString trad = "List of all participants of the appointment named \"" + listPersonneRdvLayoutLineEdit->text() + "\"";
-            listPersonneRdvLayoutLabel->setText(tr(msg.toStdString().c_str(), trad.toStdString().c_str()));
             rdv = *manager.getListRDV()[ind];
+            QString msg = tr("Liste des participants au rendez-vous", "List of all participants of the appointment named");
+            listPersonneRdvLayoutLabel->setText(msg + " " + QString::fromStdString(rdv.getName()));
             auto newWidget = new QWidget();
             auto saLayout = new QVBoxLayout();
 
@@ -677,6 +652,7 @@ void MainWindow::onListRdvPersonne(void){
 }
 
 void MainWindow::onListRdvPersonneButton(void){
+    //TODO - A CORRIGER
     if(listRdvPersonneLayoutLineEditFirstName and listRdvPersonneLayoutLineEditLastName and listRdvPersonneLayoutLabel){
 
         auto p = Personne(listRdvPersonneLayoutLineEditFirstName->text().toStdString(),
@@ -689,12 +665,12 @@ void MainWindow::onListRdvPersonneButton(void){
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
         }else{
             p = *manager.getListPersonnes()[ind];
-            listRdvPersonneLayoutLabel->setText(tr("Liste de tous les Rendez-vous de", "List of all appointments for") + " " + QString::fromStdString(p.getFirstName() + " " + p.getLastName()));
+            listRdvPersonneLayoutLabel->setText(tr("Liste de tous les Rendez-vous de", "List of all appointments for") + " " + QString::fromStdString(p.getLastName() + " " + p.getFirstName()));
 
             auto newWidget = new QWidget();
             auto saLayout = new QVBoxLayout();
 
-            if(p.getRDVList().size() == 0) saLayout->addWidget(new QLabel(tr("Cette Personne n'a aucun Rendez-vous", "This People has any appointment")));
+            if(p.getRDVList().size() == 0) saLayout->addWidget(new QLabel(tr("Cette personne n'a aucun Rendez-vous", "This People has any appointment")));
             else for(auto rdv : p.getRDVList()) saLayout->addWidget(new QPushButton(rdv->toQString()));
             saLayout->addStretch(0);
 
