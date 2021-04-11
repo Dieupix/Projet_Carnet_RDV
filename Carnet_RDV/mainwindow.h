@@ -62,6 +62,13 @@ private:
     QLineEdit*      modifyPersonneRdvLayoutLineEditRdvName;
     QLabel*         modifyPersonneRdvLayoutLabel;
     QScrollArea*    modifyPersonneRdvLayoutSA;
+    QBoxLayout*     modifyRdvLayout;
+    QLineEdit*      modifyRdvLayoutLineEditName;
+    QLineEdit*      modifyRdvLayoutLineEditDate;
+    QLineEdit*      modifyRdvLayoutLineEditTimeStart;
+    QLineEdit*      modifyRdvLayoutLineEditTimeEnd;
+    QLabel*         modifyRdvLayoutLabel;
+    QScrollArea*    modifyRdvLayoutSA;
     QBoxLayout*     personneListLayout;
     QBoxLayout*     rdvListLayout;
     QBoxLayout*     rechRdvDate;
@@ -80,9 +87,10 @@ private:
     void            setupListPersonneRdvLayout(void);
     void            setupListRdvPersonneLayout(void);
     QBoxLayout*     setupMainLayout(void);
+    void            setupMenuBar(void);
     void            setupModifyPersonneLayout(void);
     void            setupModifyPersonneRdvLayout(void);
-    void            setupMenuBar(void);
+    void            setupModifyRdvLayout(void);
     void            setupRechRdvDate(void);
     void            setupViewMenu(QMenu* viewMenu);
 
@@ -120,6 +128,8 @@ private slots:
     void onModifyPersonneRdv(void);
     void onModifyPersonneRdvAddButton(void);
     void onModifyPersonneRdvRemoveButton(void);
+    void onModifyRdv(void);
+    void onModifyRdvButton(void);
     void onPersonneListCheckBox(bool);
     void onQuit(void);
     void onRDVListCheckBox(bool);
@@ -137,6 +147,10 @@ private slots:
     void onTextChangedmodifyPersonneRdvLineEditFirstName(const QString& text);
     void onTextChangedmodifyPersonneRdvLineEditLastName(const QString& text);
     void onTextChangedmodifyPersonneRdvLineEditRdvName(const QString& text);
+    void onTextChangedmodifyRdvLineEditName(const QString& text);
+    void onTextChangedmodifyRdvLineEditDate(const QString& text);
+    void onTextChangedmodifyRdvLineEditTimeStart(const QString& text);
+    void onTextChangedmodifyRdvLineEditTimeEnd(const QString& text);
     void onTextChangedrechRdvDateLineEdit(const QString& text);
 
 };
