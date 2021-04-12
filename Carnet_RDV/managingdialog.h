@@ -12,22 +12,30 @@ public:
     enum ManagingDialogReason {AddPersonneToDataBase, RemovePersonneFromDataBase,
                               AddRdvToDataBase, RemoveRdvFromDataBase, };
 private:
+    QLineEdit*              lineEditDate;
+    QLineEdit*              lineEditEmail;
+    QLineEdit*              lineEditFirstName;
+    QLineEdit*              lineEditLastName;
+    QLineEdit*              lineEditPhone;
+    QLineEdit*              lineEditName;
+    QLineEdit*              lineEditTimeEnd;
+    QLineEdit*              lineEditTimeStart;
     LDCP                    listPersonne;
+    QBoxLayout*             listPersonneLayout;
     LDCR                    listRDV;
     MainWindow*             mainwindow;
     ManagingDialogReason    reason;
-    QFormLayout*            removePersonneFormLayout;
     QScrollArea*            SA;
 
-public:
-    ManagingDialog(MainWindow* mainwindow, ManagingDialogReason reason, QWidget* parent = nullptr);
-
     // Méthodes
-
     void setupAddPersonneToDataBase(void);
     void setupRemovePersonneFromDataBase(void);
     void setupAddRdvToDataBase(void);
     void setupRemoveRdvFromDataBase(void);
+    void updateSA(void);
+
+public:
+    ManagingDialog(MainWindow* mainwindow, ManagingDialogReason reason, QWidget* parent = nullptr);
 
     // Getters
     const LDCP& getListPersonne(void);
@@ -40,8 +48,14 @@ private slots:
     void onReject(void);
     void onRemovePersonne(void);
     void onRemoveRdv(void);
-    void onTextChangedRemovePersonneFromDataBaseFirstName(const QString& text);
-    void onTextChangedRemovePersonneFromDataBaseLastName(const QString& text);
+    void onTextChangedLineEditDate(const QString& text);
+    void onTextChangedLineEditEmail(const QString& text);
+    void onTextChangedLineEditFirstName(const QString& text);
+    void onTextChangedLineEditLastName(const QString& text);
+    void onTextChangedLineEditPhone(const QString& text);
+    void onTextChangedLineEditName(const QString& text);
+    void onTextChangedLineEditTimeEnd(const QString& text);
+    void onTextChangedLineEditTimeStart(const QString& text);
 };
 
 #endif // MANAGINGDIALOG_H

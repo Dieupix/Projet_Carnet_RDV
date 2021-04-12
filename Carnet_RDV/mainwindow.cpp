@@ -762,29 +762,43 @@ void MainWindow::onAddPersonne(void){
         }else{
             QString msg = tr("Les Personne ont été ajoutées", "All People have been added");
             QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Ok).exec();
+            updatePersonneListLayout();
+            setSave(false);
         }
     }
 }
 
 void MainWindow::onAddRdv(void){
-    auto exe = ManagingDialog(this, ManagingDialog::AddRdvToDataBase).exec();
+    auto md = ManagingDialog(this, ManagingDialog::AddRdvToDataBase);
+    auto exe = md.exec();
     if(exe == QDialog::Accepted){
-
+        for(unsigned i = 0; i < md.getListRDV().size(); ++i)
+            manager.addRDV(md.getListRDV()[i]);
     }
+    updateRDVListLayout();
+    setSave(false);
 }
 
 void MainWindow::onRemovePersonne(void){
-    auto exe = ManagingDialog(this, ManagingDialog::RemovePersonneFromDataBase).exec();
+    auto md = ManagingDialog(this, ManagingDialog::RemovePersonneFromDataBase);
+    auto exe = md.exec();
     if(exe == QDialog::Accepted){
-
+        for(unsigned i = 0; i < md.getListPersonne().size(); ++i)
+            manager.removePersonne(md.getListPersonne()[i]);
     }
+    updatePersonneListLayout();
+    setSave(false);
 }
 
 void MainWindow::onRemoveRdv(void){
-    auto exe = ManagingDialog(this, ManagingDialog::RemoveRdvFromDataBase).exec();
+    auto md = ManagingDialog(this, ManagingDialog::RemoveRdvFromDataBase);
+    auto exe = md.exec();
     if(exe == QDialog::Accepted){
-
+        for(unsigned i = 0; i < md.getListRDV().size(); ++i)
+            manager.removeRDV(md.getListRDV()[i]);
     }
+    updateRDVListLayout();
+    setSave(false);
 }
 
 void MainWindow::onListPersonneRdv(void){
@@ -938,6 +952,8 @@ void MainWindow::onModifyPersonneButton(void){
             QString msg = tr("La Personne n'a pas été modifiée", "The People has not been modified") + "\t\n";
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
         }
+
+        if(email != "" or phone != "") setSave(false);
         updatePersonneListLayout();
     }
 }
@@ -1040,6 +1056,7 @@ void MainWindow::onModifyPersonneRdvRemoveButton(void){
         delete rdv;
         delete p;
     }else{
+        delete rdv;
         rdv = manager.getListRDV()[ind];
 
         modifyPersonneRdvLayoutLabel->setText(tr("Liste des participants au Rendez-vous", "List of the participants at tha appointment") + " " + QString::fromStdString(rdv->getName()));
@@ -1057,10 +1074,11 @@ void MainWindow::onModifyPersonneRdvRemoveButton(void){
         onModifyPersonneRdv();
 
         ind = manager.getListPersonnes().rechD(p);
+        delete p;
         if(ind == -1){
             QString msg = tr("La Personne n'existe pas", "The People does not exists") + "\t\n" + QString::fromStdString(p->getLastName() + " " + p->getLastName());
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
-            delete p;
+
         }else{
             p = manager.getListPersonnes()[ind];
             int exe = rdv->removeMember(p);
@@ -1068,9 +1086,11 @@ void MainWindow::onModifyPersonneRdvRemoveButton(void){
             if(exe == RDV::MembersListIsEmpty){
                 QString msg = tr("Le Rendez-vous ne contient aucun participant", "The appointment as any participant") + "\t";
                 QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+
             }else if(exe == Personne::RdvListIsEmpty or exe == Personne::RdvHasNotBeenRemoved){
                 QString msg = tr("La Personne n'est pas présente au Rendez-vous", "The People is not in the appointment") + "\t";
                 QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+
             }else if(exe == RDV::PersonneRemoved){
                 QString msg = tr("La Personne a été retirée du Rendez-vous", "The People has been removed from the appointment") + "\t";
                 QMessageBox(QMessageBox::Information, windowTitle, msg, QMessageBox::Ok).exec();
@@ -1148,6 +1168,7 @@ void MainWindow::onModifyRdvButton(void){
         int db = date == "//" ? 2 : stoDate(date, d),
                 tsb = timeStart == "hms" ? 2 : stoHour(timeStart, ts),
                 teb = timeEnd == "hms" ? 2 : stoHour(timeEnd, te);
+        if(db != 2 or tsb != 2 or teb != 2 ) cout << endl;
 
         if(!db or !tsb or !teb){
             QString msg = "";
@@ -1158,10 +1179,20 @@ void MainWindow::onModifyRdvButton(void){
 
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
 
+        }else if(ts > te){
+            QString msg = tr("L'heure de début est supérieure à l'heure de fin", "Starting time is greater than the ending time") + "\t\n";
+            QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+
         }else {
 
-            manager.changeDateAndHour(rdv, db == 2 ? rdv->getDate() : d, tsb == 2 ? rdv->getTimeStart() : ts, teb == 2 ? rdv->getTimeEnd() : te);
-            updateRDVListLayout();
+            if(!manager.changeDateAndHour(rdv, db == 2 ? rdv->getDate() : d, tsb == 2 ? rdv->getTimeStart() : ts, teb == 2 ? rdv->getTimeEnd() : te)){
+                QString msg = tr("Une Personne est présente dans un Rendez-vous au même moment", "Someone is in another appointment at the same time") + "\t\n";
+                QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
+
+            }else{
+                setSave(false);
+                updateRDVListLayout();
+            }
 
         }
     }
