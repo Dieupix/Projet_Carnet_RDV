@@ -1179,7 +1179,7 @@ void MainWindow::onModifyRdvButton(void){
 
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
 
-        }else if(ts > te){
+        }else if(tsb and teb and ts > te){
             QString msg = tr("L'heure de début est supérieure à l'heure de fin", "Starting time is greater than the ending time") + "\t\n";
             QMessageBox(QMessageBox::Warning, windowTitle, msg, QMessageBox::Ok).exec();
 
