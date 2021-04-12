@@ -526,7 +526,11 @@ int Manager::removePersonneFromRDV(const string& rdvName, const string& pFirstNa
     delete personne;
     personne = listPersonnes[p];
 
-    return r->removeMember(personne);
+    int rm = r->removeMember(personne);
+    if(rm == MembersListIsEmpty){
+        return removeRDV(r);
+    }
+    else return rm;
 }
 
 bool Manager::removeRDV(RDV* r)

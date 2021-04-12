@@ -150,7 +150,7 @@ int RDV::removeMember(Personne* p)
     int removeRDVFromP = p->removeRDV(this);
     if(removeRDVFromP == RdvRemoved)
     {
-        if(membersList.size() == 0) return MembersListIsEmpty;
+        if(membersList.size() < 2) return MembersListIsEmpty;
         else if(found){
             for(unsigned j = i; j < membersList.size() - 1; ++j)
                 membersList[j] = membersList[j + 1];
