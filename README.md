@@ -51,6 +51,7 @@ Carnet_RDV
 |   ├── loadingdialog.h
 |   ├── mainwindow.h
 |   ├── manager.h
+|   ├── managingdialog.h
 |   ├── personne.h
 |   └── rdv.h
 └── Sources: fichiers sources C++
@@ -62,6 +63,7 @@ Carnet_RDV
     ├── main.cpp
     ├── mainwindow.cpp
     ├── manager.cpp
+    ├── managingdialog.cpp
     ├── personne.cpp
     └── rdv.cpp
 ```
